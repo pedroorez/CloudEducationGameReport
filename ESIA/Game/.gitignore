@@ -1,0 +1,3 @@
+# Ignore Metadata (must reimport all assets)
+Library/metadata
+Temp
