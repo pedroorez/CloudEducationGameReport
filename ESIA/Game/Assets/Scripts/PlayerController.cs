@@ -29,20 +29,16 @@ public class PlayerController : MonoBehaviour {
 		float moveHorizontal = Input.GetAxis("Horizontal");
 		float moveVertical = Input.GetAxis("Vertical");
 
-		Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0.0f);
-		rigidbody.velocity = movement*speed; 
+		Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+		rigidbody2D.velocity = movement*speed; 
 		
-		rigidbody.position = new Vector3
+		rigidbody2D.position = new Vector2
 		(
-			Mathf.Clamp(rigidbody.position.x, boundary.xMin, boundary.xMax),
+			Mathf.Clamp(rigidbody2D.position.x, boundary.xMin, boundary.xMax),
 			
-			Mathf.Clamp(rigidbody.position.y, boundary.yMin, boundary.yMax),
-
-			0.0f
+			Mathf.Clamp(rigidbody2D.position.y, boundary.yMin, boundary.yMax)
 		);
 
-		rigidbody.rotation = Quaternion.Euler(0.0f,0.0f, -rigidbody.velocity.x*tiltfactor );
-	
 	}
 
 }
