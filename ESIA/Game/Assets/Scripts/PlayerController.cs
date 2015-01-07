@@ -17,7 +17,10 @@ public class PlayerController : MonoBehaviour {
     public float nextFire = 1.0f;
 
 	void Update(){
-
+		if(Input.GetButton("Fire1") && Time.time > nextFire){
+			nextFire = Time.time + fireRate;
+			GameObject clone = Instantiate(shot,shotSpawn.position,transform.rotation) as GameObject;
+		}
 	}
 
     // update for rigidbodies
@@ -38,6 +41,7 @@ public class PlayerController : MonoBehaviour {
 			0.0f
 		);
 
+		rigidbody.rotation = Quaternion.Euler(0.0f,0.0f, -rigidbody.velocity.x*tiltfactor );
 	
 	}
 
