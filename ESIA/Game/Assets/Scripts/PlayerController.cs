@@ -6,6 +6,7 @@ public class Boundary {
 	public float xMin, xMax, yMin, yMax = 0.0f;
 }
 
+[RequireComponent(typeof(BoxCollider))]
 public class PlayerController : MonoBehaviour {
 
 	public int speed = 1;
@@ -16,29 +17,48 @@ public class PlayerController : MonoBehaviour {
     public float fireRate = 0.5f;
     public float nextFire = 1.0f;
 
-	void Update(){
-		if(Input.GetButton("Fire1") && Time.time > nextFire){
-			nextFire = Time.time + fireRate;
-			GameObject clone = Instantiate(shot,shotSpawn.position,transform.rotation) as GameObject;
-		}
+	// Drag Calculation variables
+	private Vector3 screenPoint;
+	private Vector3 offset;
+
+	// On Mouse down, get the current offset between the object and the user finger
+	void OnMouseDown() {
+		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
 	}
 
-    // update for rigidbodies
-	void FixedUpdate(){
+	// Calculate the next position of the ship
+	void OnMouseDrag()
+	{	
+		//calculate the current x,y, input position
+		Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
+		Vector3 curposition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
 
-		float moveHorizontal = Input.GetAxis("Horizontal");
-		float moveVertical = Input.GetAxis("Vertical");
-
-		Vector2 movement = new Vector2(moveHorizontal, moveVertical);
-		rigidbody2D.velocity = movement*speed; 
-		
-		rigidbody2D.position = new Vector2
-		(
-			Mathf.Clamp(rigidbody2D.position.x, boundary.xMin, boundary.xMax),
-			
-			Mathf.Clamp(rigidbody2D.position.y, boundary.yMin, boundary.yMax)
+		// Set the position of the ship
+		// The ship must follow the defined boundaries
+		transform.position = new Vector3
+		(	// Clamp is used to define the boundaries
+			Mathf.Clamp(curposition.x, boundary.xMin, boundary.xMax),
+			Mathf.Clamp(curposition.y, boundary.yMin, boundary.yMax),
+			transform.position.z
 		);
+	}
 
+	// Callback buttom function.
+	// Each one generate a bolt with a different variable inside that will make the comparsion check
+	public void onClickButton1(){
+		GameObject clone = Instantiate(shot,shotSpawn.position,transform.rotation) as GameObject;
+		DestroyByTime bolt = clone.GetComponent <DestroyByTime>();
+		bolt.optionValue = 1;
+	}
+	public void onClickButton2(){
+		GameObject clone = Instantiate(shot,shotSpawn.position,transform.rotation) as GameObject;
+		DestroyByTime bolt = clone.GetComponent <DestroyByTime>();
+		bolt.optionValue = 2;
+	}
+	public void onClickButton3(){
+		GameObject clone = Instantiate(shot,shotSpawn.position,transform.rotation) as GameObject;
+		DestroyByTime bolt = clone.GetComponent <DestroyByTime>();
+		bolt.optionValue = 3;
 	}
 
 }
