@@ -34,9 +34,10 @@ public class GameController : MonoBehaviour {
 
 	// Start function, starts coroutine and set the score
 	void Start(){
+//		AssetManager.StartDownload();
 		score = 0;
-//		GameLoader loader = gameObject.GetComponent<GameLoader> ();
-//		loader.LoadAssetsFromFile ();
+		GameLoader loader = gameObject.GetComponent<GameLoader> ();
+		loader.LoadAssetsFromFile ();
 		StartCoroutine("SpawnWaves");
 	}
 

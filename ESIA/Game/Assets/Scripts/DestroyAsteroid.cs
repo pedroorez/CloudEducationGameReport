@@ -13,15 +13,17 @@ public class DestroyAsteroid : MonoBehaviour {
 	{
 		// if the enemy touch the botton boundarie, do nothing
 		if(other.tag == "Boundary") return;
-		// else Destroy the other Object 
-		Destroy(other.gameObject);
+
 
 		// if the asteroid toch the player
 		if (other.tag == "Player") {
 			// Instantiate an explosion for the player ship
 			// Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
 			GameController.Controller.EndOfMatch();
+			Destroy(other.gameObject);
+			Destroy (gameObject);
 		}
+
 //		//Instantiate an explosion for the user
 //		Instantiate(explosion, transform.position, transform.rotation);
 
@@ -30,10 +32,12 @@ public class DestroyAsteroid : MonoBehaviour {
 		if (cheker.optionValue == ansValue) {
 			// If correct add points to the controller and destroy the Enemy
 			GameController.Controller.AddPoints();
-			Destroy (gameObject);		
-				}
+			// else Destroy the other Object 
+			Destroy (gameObject);
+			Destroy(other.gameObject);
+		}
 
-
+		Destroy(other.gameObject);
 	}
 
 }
