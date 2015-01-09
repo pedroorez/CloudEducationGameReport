@@ -1,73 +1,76 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
+
+	// GameController Reference
+	public static GameController Controller;
 
 	public GameObject hazard;
 	public Vector2 spawnValues;
 	public float spawnWait = 1;
 	public float startWait = 1;
 	public int hazardCount = 10;
-	public string url = "http://images.earthcam.com/ec_metros/ourcams/fridays.jpg";
 
-	public SpriteRenderer Background;
+	// Score Display
+	public Text displayText;
+	public int score;
 
-	void Start(){
-		StartCoroutine(AssetDownloader("myTextureName.jpg", "jogo1", url));
-		Debug.Log(Application.persistentDataPath);
-		StartCoroutine(SpawWaves());
+	// End of Game Display
+	public GameObject EndOfMatchPanel;
+
+	// Singleton
+	void Awake() {
+		//If I am the first instance, make me the Singleton
+		if(Controller == null){
+			Controller = this;
+			DontDestroyOnLoad(this);
+		}
+		//If a Singleton already exists and you find another reference in scene, destroy it!
+		else{ if(this != Controller) Destroy(this.gameObject);	}
 	}
 
+	// Start function, starts coroutine and set the score
+	void Start(){
+		score = 0;
+//		GameLoader loader = gameObject.GetComponent<GameLoader> ();
+//		loader.LoadAssetsFromFile ();
+		StartCoroutine("SpawnWaves");
+	}
 
-	IEnumerator SpawWaves(){
+	// Update function, keep the score updated
+	void Update(){ 
+		displayText.text = "Score: " + score.ToString();
+	}
+
+	// Spawn Enemy Waves
+	IEnumerator SpawnWaves(){
 		while (true){
-			yield return new WaitForSeconds(startWait);
+			// Wait time between waves
+			yield return new WaitForSeconds(startWait*5);
 
 			for(int i=0; i< hazardCount; i++)
 			{
 				Vector2 spawnPosition = new Vector2(Random.Range(-spawnValues.x,spawnValues.x),spawnValues.y);
 				Quaternion spawnRotation = Quaternion.identity;
-				Instantiate (hazard, spawnPosition, spawnRotation);
+				GameObject clone = Instantiate (hazard, spawnPosition, spawnRotation) as GameObject;
+				DestroyAsteroid enemy = clone.GetComponent <DestroyAsteroid>();
+				enemy.ansValue=1;
 				yield return new WaitForSeconds(spawnWait);
 			}
-
-			yield return new WaitForSeconds(startWait*5);
 		}
 	}
 
-
-	// Callback function to download a texture from a urlpath into a file mamed filename
-	IEnumerator AssetDownloader(string filename,string foldername, string urlPath) {
-		WWW www = new WWW(urlPath);
-		yield return www;
-		Texture2D download = www.texture;
-
-		SaveTextureToFile(download,"folder" ,filename);	
-		Debug.Log(download);
-		Texture2D fundo = LoadSavedTextureFromFile( "folder" +"\\"+ filename);
-		Background.sprite = Sprite.Create(fundo, new Rect(0, 0, fundo.width, fundo.height), new Vector2(0.5f, 0.5f));
+	public void AddPoints(){ score += 10; }
+	public void EndOfMatch() {
+		StopCoroutine ("SpawnWaves");
+		Debug.Log("Match Ended");
+		EndOfMatchPanel.SetActive(true);
+		// disable butons
+		GameLoader loader = gameObject.GetComponent<GameLoader> ();
+		loader.DisableButtons ();
+		displayText.enabled = false;
 	}
-
-
-
-	void SaveTextureToFile(Texture2D texture, string folder,string fileName)
-
-	{
-		(new FileInfo(Application.persistentDataPath +"\\"+ folder )).Directory.Create();
-		Directory.CreateDirectory(Application.persistentDataPath +"\\"+ folder);
-		File.WriteAllBytes(Application.persistentDataPath +"\\"+ folder +"\\"+ fileName, texture.EncodeToPNG());
-	}
-
-
-	// Load a texture from a folder on the aplication data
-	Texture2D LoadSavedTextureFromFile(string fileName)
-	{	
-		byte[] byteVector = File.ReadAllBytes(Application.persistentDataPath +"\\"+ fileName);
-		Texture2D loadedTexture = new Texture2D(8,8);
-		loadedTexture.LoadImage(byteVector);
-		return loadedTexture;
-	}
-	
-
 }
