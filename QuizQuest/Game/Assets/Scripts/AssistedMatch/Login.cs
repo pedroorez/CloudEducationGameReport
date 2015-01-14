@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Login : MonoBehaviour {
 	// Get String
-	string getURL = "/CloudGameReport/services/login/26/";
+	string getURL = "/CloudGameReport/services/login/7/";
 	// Variables
 	Text LoginText;
 	InputField PasswordText;
@@ -29,7 +29,7 @@ public class Login : MonoBehaviour {
 
 	public void login()
 	{
-		StartCoroutine (LoginService (LoginText.text,PasswordText.value));
+		StartCoroutine (LoginService (LoginText.text,PasswordText.text));
 	}
 
 	//**************************************************************//

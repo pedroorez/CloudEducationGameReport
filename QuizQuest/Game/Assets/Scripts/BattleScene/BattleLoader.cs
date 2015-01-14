@@ -5,7 +5,7 @@ public class BattleLoader : MonoBehaviour {
 
 	// Variables
 	public string BattleID;
-	string getURL = "/QuizQuest/services/questions/getQuestionsByBattleID/";
+	string getURL = "/QuizQuestWeb/services/questions/getQuestionsByBattleID/";
 
 	// Function called by the button
 	public void getQuestion()	{StartCoroutine (getQuestionsByBattleID ()); }

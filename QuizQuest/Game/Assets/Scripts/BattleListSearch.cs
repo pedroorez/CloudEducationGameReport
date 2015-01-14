@@ -7,7 +7,7 @@ using System;
 
 public class BattleListSearch : MonoBehaviour {
 	// Get String
-	string getURL = "/QuizQuest/services/battles/search/";
+	string getURL = "/QuizQuestWeb/services/battles/search/";
 
 	// Variables
 	string lastTypedString;

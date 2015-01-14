@@ -4,9 +4,9 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/QuizQuest</property>
-    <property name="hibernate.connection.username">cgr</property>
-    <property name="hibernate.connection.password">cgr</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/db_quizquest</property>
+    <property name="hibernate.connection.username">edugame</property>
+    <property name="hibernate.connection.password">edugamepwd</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
     <property name="hibernate.show_sql">true</property>
     <mapping class="com.quizquest.model.Question"/>
