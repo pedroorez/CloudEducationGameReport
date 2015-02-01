@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 
 @Entity
@@ -16,11 +17,10 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int userID;
-
+    @JsonIgnore
     private String nickname;
-
+    @JsonIgnore
     private String password;
-    
     private String fullName;
     
     

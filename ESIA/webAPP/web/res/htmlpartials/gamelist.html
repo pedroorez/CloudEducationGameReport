@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-md-12" style="background-color:lavender; height:100%;">
+
+        
+        <div ng-repeat="(key, game) in fullgamelist.List track by $index" class="gamedisplay"> 
+            <h3> Game Name:</h3><br> <h2>{{game.gameName}} </h2> <br>
+            <button class="btn btn-primary" ng-click="loadGame(game.gameID)"> EDIT GAME </button>
+            <button class="btn btn-danger"ng-click="deleteGame(game.gameID, key)"> DELETE GAME </button>
+        </div>
+
+        <div class="gamedisplay">
+            <span ng-click="createNewGame()" class="glyphicon glyphicon-plus" aria-hidden="true" style="font-size:180"/> 
+        </div>
+    
+    </div>
+</div>
+    

@@ -9,5 +9,10 @@
     <property name="hibernate.connection.password">edugamepwd</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
     <mapping class="com.ESIa.model.User"/>
+    <mapping class="com.ESIa.model.Hash"/>
+    <mapping class="com.ESIa.model.Game"/>
+    <mapping class="com.ESIa.model.Asset"/>
+    <mapping class="com.ESIa.model.ImageFile"/>
+
   </session-factory>
 </hibernate-configuration>

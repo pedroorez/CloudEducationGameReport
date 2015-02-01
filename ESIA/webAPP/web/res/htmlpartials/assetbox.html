@@ -1,0 +1,20 @@
+<div class='assetBox'>
+    <input type="file" angular-File asset-type="{{attrs.assetType}}" target-List="{{attrs.targetList}}" style="display:none;"/>
+    <center>
+        <button class="uploadButton btn btn-sm btn-success"> 
+            <span class="glyphicon glyphicon-open"/> UPLOAD </button>
+        <button class="galleryButton btn btn-sm btn-primary"> 
+            <span class="glyphicon glyphicon-picture"/> GALLERY </button>
+        <button class="deleteButton btn btn-sm btn-danger" ng-show="attrs.assetType==='enemy'"> 
+            <span class="glyphicon glyphicon-remove"/> DELETE </button>
+        
+        
+        <select
+                ng-show="attrs.assetType==='enemy'"  
+                ng-model="result.Data.enemyList[attrs.entryNo].answerID"
+                ng-options="ans.assetText for ans in result.Data.answerList">
+        </select>
+        <br>
+        <img  class="imageAssetPreview" ng-src="{{result.Data[attrs.targetList][attrs.entryNo].imageFile.imgurl}}"/>
+    </center>
+</div>

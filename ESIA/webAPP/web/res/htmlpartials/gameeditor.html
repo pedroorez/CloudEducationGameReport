@@ -1,0 +1,58 @@
+<div class="galleryBox">
+    asdasd
+</div>
+
+<div class="row">
+    <div class="col-md-4 leftpanel" style="background-color:lavender; height:100%; ">	
+        <h2> Game Preview </h2>
+
+        <div class="GamePreview" > 
+            <img class="background" ng-src="{{result.Data.backgroundAsset[0].imageFile.imgurl}}" />
+
+            <div class="enemy1 enemy">  <img ng-src="{{result.Data.enemyList[0].imageFile.imgurl}}"  class="imageGamePreview"/> </div>
+            <div class="enemy2 enemy">  <img ng-src="{{result.Data.enemyList[1].imageFile.imgurl}}"  class="imageGamePreview"/> </div>
+            <div class="enemy3 enemy">  <img ng-src="{{result.Data.enemyList[2].imageFile.imgurl}}"  class="imageGamePreview"/> </div>
+
+            <div class="player">        <img ng-src="{{result.Data.playerAsset[0].imageFile.imgurl}}"     class="imageGamePreview"/> </div>
+
+            <div class="left buttom">   <img ng-src="{{result.Data.answerList[0].imageFile.imgurl}}" class="imageGamePreview"/> </div>
+            <div class="center buttom"> <img ng-src="{{result.Data.answerList[1].imageFile.imgurl}}" class="imageGamePreview"/> </div>
+            <div class="right buttom">  <img ng-src="{{result.Data.answerList[2].imageFile.imgurl}}" class="imageGamePreview"/> </div>
+        </div>  
+    </div>
+
+    <div class="col-md-8 rightpanel " style="background-color:lavenderblush; ">
+        <div class="row">
+            <h1>Assets</h1>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-sm-6">
+                <h2>Player</h2>
+                <asset-box entry-No="0" asset-type="player" target-List="playerAsset"> </asset-box>
+            </div>
+
+            <div class="col-sm-6">
+                <h2>Background</h2>
+                <asset-box entry-No="0" asset-type="background" target-List="backgroundAsset"> </asset-box>
+            </div>
+        </div>
+
+        <div class="row text-center" >
+            <div class="col-sm-12">
+                <h2>Enemies</h2>
+                <asset-box ng-repeat="(key,enemy) in result.Data.enemyList track by $index" entry-No="{{key}}" asset-type="enemy" target-List="enemyList"> </asset-box>
+                <div class="assetBox"> 
+                    <a ng-click="addEnemy()"><span class="glyphicon glyphicon-plus" aria-hidden="true" style="font-size:180"></span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-sm-12">
+            <h2>Answers</h2>
+            <asset-box ng-repeat="(key,enemy) in result.Data.answerList track by $index" entry-No="{{key}}" asset-type="answer" target-List="answerList"> </asset-box>
+            </div>
+        </div>
+    </div>
+</div>

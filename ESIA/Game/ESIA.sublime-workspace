@@ -24,25 +24,27 @@
 	"buffers":
 	[
 		{
-			"file": "Assets/Scripts/AssetManager.cs",
+			"file": "/C/Users/Pedro/Desktop/template.html",
 			"settings":
 			{
-				"buffer_size": 2848,
-				"line_ending": "Unix"
+				"buffer_size": 1819,
+				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "ESIA.sublime-project",
+			"contents": "[{\"gameID\":\"1\",\n                            \"background\":{\"imgurl\":\"\"},\n                            \"AnswerList\":[{\n                                \"ans1\":{ \"ansID\":\"1\", \"imgurl\":\"\", \"text\":\"Answer 1\" },\n                                \"ans2\":{ \"ansID\":\"2\", \"imgurl\":\"\", \"text\":\"Answer 2\" },\n                                \"ans3\":{ \"ansID\":\"3\", \"imgurl\":\"\", \"text\":\"Answer 3\" }\n                            }],\n                            \"EnemyList\":[{\n                                \"enemy1\":{ \"enemyID\":\"1\", \"imgurl\":\"\", \"text\":\"Enemy 1\", \"answer\":\"\"},\n                                \"enemy2\":{ \"enemyID\":\"2\", \"imgurl\":\"\", \"text\":\"Enemy 2\", \"answer\":\"\"},\n                                \"enemy3\":{ \"enemyID\":\"3\", \"imgurl\":\"\", \"text\":\"Enemy 3\", \"answer\":\"\"}\n                            }]\n                        }]",
 			"settings":
 			{
-				"buffer_size": 1727,
-				"line_ending": "Unix"
+				"buffer_size": 819,
+				"line_ending": "Windows",
+				"name": "[{'gameID':'1',"
 			}
 		},
 		{
+			"file": "/C/Users/Pedro/Desktop/style.css",
 			"settings":
 			{
-				"buffer_size": 0,
+				"buffer_size": 934,
 				"line_ending": "Windows"
 			}
 		}
@@ -100,6 +102,7 @@
 	"file_history":
 	[
 		"/C/Users/Pedro/Desktop/CloudEducationGameReport/ESIA/Game/ESIA.sublime-project",
+		"/C/Users/Pedro/Desktop/CloudEducationGameReport/ESIA/Game/Assets/Scripts/AssetManager.cs",
 		"/C/Users/Pedro/Desktop/CloudEducationGameReport/ESIA/Game/Assets/Scripts/DestroyByBoundary.cs",
 		"/C/Users/Pedro/Desktop/CloudEducationGameReport/ESIA/Game/Assets/Scripts/Mover.cs"
 	],
@@ -119,6 +122,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"'",
 			"\\",
 			"\\\\",
 			"<path-to-Unity-folder>"
@@ -129,6 +133,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"\""
 		],
 		"reverse": false,
 		"show_context": true,
@@ -139,29 +144,30 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "Assets/Scripts/AssetManager.cs",
+					"file": "/C/Users/Pedro/Desktop/template.html",
 					"settings":
 					{
-						"buffer_size": 2848,
+						"buffer_size": 1819,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								63,
-								63
+								0,
+								1819
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Unity3D/UnityC#.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -171,36 +177,38 @@
 				},
 				{
 					"buffer": 1,
-					"file": "ESIA.sublime-project",
 					"settings":
 					{
-						"buffer_size": 1727,
+						"buffer_size": 819,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1163,
-								1163
+								0,
+								819
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"auto_name": "[{'gameID':'1',",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 172.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
+					"file": "/C/Users/Pedro/Desktop/style.css",
 					"settings":
 					{
-						"buffer_size": 0,
+						"buffer_size": 934,
 						"regions":
 						{
 						},
@@ -213,7 +221,8 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -257,7 +266,7 @@
 	"menu_visible": true,
 	"replace":
 	{
-		"height": 0.0
+		"height": 62.0
 	},
 	"save_all_on_build": true,
 	"select_file":
