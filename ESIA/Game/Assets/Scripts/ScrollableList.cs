@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -9,22 +9,14 @@ public class ScrollableList : MonoBehaviour
 {
 	// Panel Prefab that will be used as a model.
 	public GameObject itemPrefab;
-
-	string JSONString = "[ { \"GameName\":\"Jogo1\",\"GameDescription\":\"Jogo muito legal\", " +
-						"\"FolderName\":\"Jogo1folder\", \"thumbs\":\"www.google.com\"  },    " +
-					  	"{ \"GameName\":\"Jogo2\", \"GameDescription\":\"Jogo não tão legal\"," +
-			  		  	"\"FolderName\":\"Jogo2folder\", \"thumbs\":\"www.yahoo.com\" } ]     " ;
-
-	void Start(){
-		Debug.Log(JSONString);
-		JSONNode N = JSON.Parse(JSONString);
-		DrawOnList(N);
-	}
+	List<GameObject> buttonList = new List<GameObject>();
 
 	public void DrawOnList(JSONNode N)
 	{
+		// vars
 		int itemCount = N.Count;
 		int columnCount = 1;
+
 
 		// Get the prefab transform and the container transform
 		RectTransform rowRectTransform = itemPrefab.GetComponent<RectTransform>();
@@ -45,8 +37,14 @@ public class ScrollableList : MonoBehaviour
 		containerRectTransform.offsetMin = new Vector2(containerRectTransform.offsetMin.x, -scrollHeight / 2);
 		containerRectTransform.offsetMax = new Vector2(containerRectTransform.offsetMax.x, scrollHeight / 2);
 
+		// clean list
+		foreach (GameObject b in buttonList)
+			Destroy(b);
+
 		// filling loop
 		int j = 0;
+		// load downloaded games
+		JSONNode downloadedGames = AssetManager.LoadGamesData();
 		for (int i = 0; i < itemCount; i++)
 		{
 			// if the amount of itens placed are a multiple of columnCount, jump to the nex row
@@ -56,14 +54,28 @@ public class ScrollableList : MonoBehaviour
 			GameObject newItem = Instantiate(itemPrefab) as GameObject;
 			newItem.name = gameObject.name + " item at (" + i + "," + j + ")";
 			newItem.transform.SetParent(gameObject.transform);
+			buttonList.Add(newItem);
 
 			// *******************************
 			// Customized the item before here 
 			// *******************************
+
 			Text[] Textos = newItem.GetComponentsInChildren<Text>();
-			Textos[0].text = N[i]["GameName"].Value;
-			Textos[1].text = N[i]["GameDescription"].Value;
-			
+			Textos[0].text = N[i]["gameID"].Value;
+			Textos[1].text = N[i]["description"].Value;
+			//Textos[2].text = "Download Game ID:"+N[i]["gameID"].Value;
+
+			// set the id to the downloader button
+			DownloadButtonCaller[] button = newItem.GetComponentsInChildren<DownloadButtonCaller>();
+			button[0].gameID = N[i]["gameID"].Value;
+
+			// check if the game was already downloaded
+			if(downloadedGames != null)
+			for(int k = 0; k < downloadedGames.Count; k++ )			
+				if(downloadedGames[k]["gameID"].AsInt == N[i]["gameID"].AsInt){
+					Textos[2].text = "JOGO BAIXADO";
+					button[0].setActive(false);
+				}
 
 			// move and size the new item
 			RectTransform rectTransform = newItem.GetComponent<RectTransform>();

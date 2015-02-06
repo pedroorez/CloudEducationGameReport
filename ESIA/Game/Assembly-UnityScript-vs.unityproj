@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{DDFBC18F-9396-3137-9CFE-DEB2CDB74636}</ProjectGuid>
+	<ProjectGuid>{CFE3DA37-8482-B5E3-F5DB-AC8EBCE34763}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-UnityScript</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,18 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\AssetManager.cs" />
-     <Compile Include="Assets\Scripts\DestroyAsteroid.cs" />
-     <Compile Include="Assets\Scripts\DestroyByBoundary.cs" />
-     <Compile Include="Assets\Scripts\DestroyByTime.cs" />
-     <Compile Include="Assets\Scripts\DownloadButtonCaller.cs" />
-     <Compile Include="Assets\Scripts\GameController.cs" />
-     <Compile Include="Assets\Scripts\GameLoader.cs" />
-     <Compile Include="Assets\Scripts\Libs\SimpleJSON.cs" />
-     <Compile Include="Assets\Scripts\LoaderManager.cs" />
-     <Compile Include="Assets\Scripts\Mover.cs" />
-     <Compile Include="Assets\Scripts\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\ScrollableList.cs" />
+     <Compile Include="Assets\Scripts\NewBehaviourScript.js" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
  </Reference>

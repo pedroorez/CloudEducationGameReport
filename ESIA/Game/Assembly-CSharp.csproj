@@ -50,9 +50,11 @@
      <Compile Include="Assets\Scripts\DestroyAsteroid.cs" />
      <Compile Include="Assets\Scripts\DestroyByBoundary.cs" />
      <Compile Include="Assets\Scripts\DestroyByTime.cs" />
+     <Compile Include="Assets\Scripts\DownloadButtonCaller.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\GameLoader.cs" />
      <Compile Include="Assets\Scripts\Libs\SimpleJSON.cs" />
+     <Compile Include="Assets\Scripts\LoaderManager.cs" />
      <Compile Include="Assets\Scripts\Mover.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\ScrollableList.cs" />
