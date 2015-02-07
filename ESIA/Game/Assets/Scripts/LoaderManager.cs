@@ -46,7 +46,7 @@ public class LoaderManager : MonoBehaviour {
 		WWW www = new WWW(url);
 		yield return www;
 		gamelist = JSON.Parse(www.text);
-		scrollList.DrawOnList(gamelist);
+		scrollList.DrawOnList(gamelist,"fullOnlineList");
 	}
 
 	IEnumerator GetGameData(string gameid) {
@@ -67,6 +67,11 @@ public class LoaderManager : MonoBehaviour {
 
 	public void DownloadGame(string gameID){
 		StartCoroutine(GetGameData(gameID));
+	}
+
+	public void GenerateDownloadedGameList(){
+		JSONNode downloadedGames = AssetManager.LoadGamesData();
+		scrollList.DrawOnList(downloadedGames,"downloadedList");
 	}
 
 

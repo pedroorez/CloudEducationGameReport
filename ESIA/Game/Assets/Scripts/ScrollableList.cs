@@ -8,15 +8,29 @@ using SimpleJSON;
 public class ScrollableList : MonoBehaviour
 {
 	// Panel Prefab that will be used as a model.
-	public GameObject itemPrefab;
+	public GameObject downloadGameButton;
+	public GameObject loadGameButton;
+	// list with buttons
 	List<GameObject> buttonList = new List<GameObject>();
 
-	public void DrawOnList(JSONNode N)
+	public void DrawOnList(JSONNode N, string listType)
 	{
 		// vars
 		int itemCount = N.Count;
 		int columnCount = 1;
+		GameObject itemPrefab = null;
 
+		switch(listType)
+		{
+			// show the full list of game
+			case "fullOnlineList":
+			itemPrefab = downloadGameButton;
+			break;
+			// show the downloaded games list
+			case "downloadedList":
+			itemPrefab = loadGameButton;
+			break;
+		}
 
 		// Get the prefab transform and the container transform
 		RectTransform rowRectTransform = itemPrefab.GetComponent<RectTransform>();
@@ -63,8 +77,9 @@ public class ScrollableList : MonoBehaviour
 			Text[] Textos = newItem.GetComponentsInChildren<Text>();
 			Textos[0].text = N[i]["gameID"].Value;
 			Textos[1].text = N[i]["description"].Value;
-			//Textos[2].text = "Download Game ID:"+N[i]["gameID"].Value;
+			Textos[2].text = "Download Game ID:"+N[i]["gameID"].Value;
 
+			if (listType.Equals("fullOnlineList")){
 			// set the id to the downloader button
 			DownloadButtonCaller[] button = newItem.GetComponentsInChildren<DownloadButtonCaller>();
 			button[0].gameID = N[i]["gameID"].Value;
@@ -76,6 +91,13 @@ public class ScrollableList : MonoBehaviour
 					Textos[2].text = "JOGO BAIXADO";
 					button[0].setActive(false);
 				}
+			}
+			else{
+				LoadGameCaller[] button = newItem.GetComponentsInChildren<LoadGameCaller>();
+				button[0].gameID = N[i]["gameID"].Value;
+				button[0].gamedata = N[i];
+			}
+
 
 			// move and size the new item
 			RectTransform rectTransform = newItem.GetComponent<RectTransform>();

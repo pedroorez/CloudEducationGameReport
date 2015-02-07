@@ -34,10 +34,12 @@ public class GameController : MonoBehaviour {
 
 	// Start function, starts coroutine and set the score
 	void Start(){
-//		AssetManager.StartDownload();
+
+		// get the JSONNODE with the gamedata
+
 		score = 0;
 		GameLoader loader = gameObject.GetComponent<GameLoader> ();
-		loader.LoadAssetsFromFile ();
+		loader.LoadAssetsFromFile();
 		StartCoroutine("SpawnWaves");
 	}
 
