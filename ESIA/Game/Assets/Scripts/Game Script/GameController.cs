@@ -76,8 +76,8 @@ public class GameController : MonoBehaviour {
 				// generate a random number that will define the enemy
 				int id = Random.Range(0,randomRange);
 				// set the assets for that specific spawn
-				sprite.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(gamedata["enemyList"][id]["imageFile"]["filename"],folder));
-				// set the polygon collider
+				sprite.sprite = GameLoader.enemySpriteList[id];
+					// set the polygon collider
 				clone.AddComponent<PolygonCollider2D>();
 				//set the answers
 				enemy.ansValue=gamedata["enemyList"][id]["rightans"].AsInt;

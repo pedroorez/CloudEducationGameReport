@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using SimpleJSON;
 
@@ -23,7 +24,10 @@ public class GameLoader : MonoBehaviour {
 
 	SpriteRenderer playerimg;
 	SpriteRenderer backgroundimg;
-	
+
+	//enemy assetlist
+	public static List<Sprite> enemySpriteList;
+
 	// Use this for initialization
 	public void LoadAssetsFromFile() {
 		// get the blob data
@@ -59,6 +63,14 @@ public class GameLoader : MonoBehaviour {
 		float boundy = backgroundimg.sprite.bounds.size.y;
 		float scale = Mathf.Min(20/boundx,20/boundy);
 		background.transform.localScale = new Vector3(scale, scale, 1F);
+
+		// start list
+		enemySpriteList = new List<Sprite>();
+		// get all sprites from files
+		for(int i = 0; i < N["enemyList"].Count; i++){
+			Sprite newEnemy = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["enemyList"][i]["imageFile"]["filename"],folder));
+			enemySpriteList.Add(newEnemy);
+		}
 
 	}
 
