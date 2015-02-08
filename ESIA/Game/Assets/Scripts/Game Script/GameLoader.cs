@@ -20,7 +20,7 @@ public class GameLoader : MonoBehaviour {
 	Text  button2txt;
 	Text  button3txt;
 
-	Image playerimg;
+	SpriteRenderer playerimg;
 	
 	// Use this for initialization
 	public void LoadAssetsFromFile() {
@@ -44,7 +44,7 @@ public class GameLoader : MonoBehaviour {
 		button3img.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["answerList"][2]["imageFile"]["filename"],folder));
 	
 		//player loader
-		playerimg = player.GetComponent<Image> ();
+		playerimg = player.GetComponent<SpriteRenderer> ();
 
 		playerimg.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["playerAsset"][0]["imageFile"]["filename"],folder));
 		

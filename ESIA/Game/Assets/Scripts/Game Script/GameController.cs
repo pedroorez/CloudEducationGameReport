@@ -2,6 +2,7 @@
 using System.Collections;
 using System.IO;
 using UnityEngine.UI;
+using SimpleJSON;
 
 public class GameController : MonoBehaviour {
 
@@ -21,6 +22,10 @@ public class GameController : MonoBehaviour {
 	// End of Game Display
 	public GameObject EndOfMatchPanel;
 
+	// json gamedata
+	JSONNode gamedata;
+	string folder;
+
 	// Singleton
 	void Awake() {
 		//If I am the first instance, make me the Singleton
@@ -34,8 +39,11 @@ public class GameController : MonoBehaviour {
 
 	// Start function, starts coroutine and set the score
 	void Start(){
-
-		// get the JSONNODE with the gamedata
+		// get the blob data
+		GameObject gobj = GameObject.Find("DataBlob");
+		datablob db = gobj.GetComponent<datablob>();
+		gamedata = db.jsonnode; 
+		folder = "GAME"+gamedata["gameID"];
 
 		score = 0;
 		GameLoader loader = gameObject.GetComponent<GameLoader> ();
@@ -60,7 +68,15 @@ public class GameController : MonoBehaviour {
 				Quaternion spawnRotation = Quaternion.identity;
 				GameObject clone = Instantiate (hazard, spawnPosition, spawnRotation) as GameObject;
 				DestroyAsteroid enemy = clone.GetComponent <DestroyAsteroid>();
-				enemy.ansValue=1;
+
+				// get sprite reference
+				SpriteRenderer sprite = clone.GetComponent<SpriteRenderer>(); 
+				// generate a random number that will define the enemy
+				int id = 0;
+				// set the assets for that specific spawn
+				sprite.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(gamedata["enemyList"][id]["imageFile"]["filename"],folder));
+
+				enemy.ansValue=gamedata["enemyList"][id]["assetID"].AsInt;
 				yield return new WaitForSeconds(spawnWait);
 			}
 		}
