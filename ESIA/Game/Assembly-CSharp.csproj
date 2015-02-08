@@ -58,7 +58,7 @@
      <Compile Include="Assets\Scripts\Libs\SimpleJSON.cs" />
      <Compile Include="Assets\Scripts\LoadGameCaller.cs" />
      <Compile Include="Assets\Scripts\LoaderManager.cs" />
-     <Compile Include="Assets\Scripts\MenuManager.cs" />
+     <Compile Include="Assets\Scripts\LobbyMenuManager.cs" />
      <Compile Include="Assets\Scripts\ScrollableList.cs" />
      <Compile Include="Assets\Scripts\datablob.cs" />
  <Reference Include="UnityEngine.UI">
