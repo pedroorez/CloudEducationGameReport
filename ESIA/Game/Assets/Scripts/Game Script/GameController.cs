@@ -26,6 +26,9 @@ public class GameController : MonoBehaviour {
 	JSONNode gamedata;
 	string folder;
 
+	// stuff
+	Random randomGen;
+	int randomRange;
 	// Singleton
 	void Awake() {
 		//If I am the first instance, make me the Singleton
@@ -44,7 +47,7 @@ public class GameController : MonoBehaviour {
 		datablob db = gobj.GetComponent<datablob>();
 		gamedata = db.jsonnode; 
 		folder = "GAME"+gamedata["gameID"];
-
+		randomRange = gamedata["enemyList"].Count;
 		score = 0;
 		GameLoader loader = gameObject.GetComponent<GameLoader> ();
 		loader.LoadAssetsFromFile();
@@ -68,15 +71,21 @@ public class GameController : MonoBehaviour {
 				Quaternion spawnRotation = Quaternion.identity;
 				GameObject clone = Instantiate (hazard, spawnPosition, spawnRotation) as GameObject;
 				DestroyAsteroid enemy = clone.GetComponent <DestroyAsteroid>();
-
 				// get sprite reference
 				SpriteRenderer sprite = clone.GetComponent<SpriteRenderer>(); 
 				// generate a random number that will define the enemy
-				int id = 0;
+				int id = Random.Range(0,randomRange);
 				// set the assets for that specific spawn
 				sprite.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(gamedata["enemyList"][id]["imageFile"]["filename"],folder));
-
-				enemy.ansValue=gamedata["enemyList"][id]["assetID"].AsInt;
+				// set the polygon collider
+				clone.AddComponent<PolygonCollider2D>();
+				//set the answers
+				enemy.ansValue=gamedata["enemyList"][id]["rightans"].AsInt;
+				//resize the gameobject
+				float boundx = sprite.sprite.bounds.size.x;
+				float boundy = sprite.sprite.bounds.size.y;
+				float scale = Mathf.Min(2/boundx,2/boundy);
+				clone.transform.localScale = new Vector3(scale, scale, 1F);
 				yield return new WaitForSeconds(spawnWait);
 			}
 		}
