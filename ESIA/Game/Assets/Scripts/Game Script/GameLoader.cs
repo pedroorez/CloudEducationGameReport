@@ -33,16 +33,21 @@ public class GameLoader : MonoBehaviour {
 
 		// button loader
 		button1img = button1.GetComponent<Image> ();
-		//button1txt = button1.GetComponentInChildren<Text> ();
+		button1txt = button1.GetComponentInChildren<Text> ();
  		button2img = button2.GetComponent<Image> ();
-//		button2txt = button2.GetComponentInChildren<Text> ();
+		button2txt = button2.GetComponentInChildren<Text> ();
 		button3img = button3.GetComponent<Image> ();
-//		button3txt = button3.GetComponentInChildren<Text> ();
+		button3txt = button3.GetComponentInChildren<Text> ();
 		// load button data
 		button1img.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["answerList"][0]["imageFile"]["filename"],folder));
 		button2img.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["answerList"][1]["imageFile"]["filename"],folder));
 		button3img.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["answerList"][2]["imageFile"]["filename"],folder));
-	
+		button1txt.text = "";
+		button2txt.text = "";
+		button3txt.text = "";
+		// resize buttons
+
+
 		//player loader
 		playerimg = player.GetComponent<SpriteRenderer> ();
 
