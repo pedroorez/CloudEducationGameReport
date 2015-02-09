@@ -6,6 +6,9 @@ using SimpleJSON;
 
 public class GameController : MonoBehaviour {
 
+	// Menus Objects
+	public GameObject PauseMenu;
+
 	// GameController Reference
 	public static GameController Controller;
 
@@ -100,5 +103,21 @@ public class GameController : MonoBehaviour {
 		GameLoader loader = gameObject.GetComponent<GameLoader> ();
 		loader.DisableButtons ();
 		displayText.enabled = false;
+	}
+
+	public void pauseGame(){
+		Time.timeScale = 0.0F;
+		PauseMenu.SetActive(true);
+	}
+
+	public void unPauseGame(){
+		Time.timeScale = 1.0F;
+		PauseMenu.SetActive(false);
+		
+	}
+
+	public void goBackToLobby(){
+		Time.timeScale = 1.0F;
+		Application.LoadLevel ("Lobby"); 
 	}
 }

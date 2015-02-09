@@ -148,7 +148,22 @@ public class AssetManager : MonoBehaviour {
 		Debug.Log("DADOS DO JOGO SALVO");
 		//allokay
 		return true;
-
 	}
-		
+
+	// remove a game from the database by ID
+	static public bool removeGameByID(string gameID){
+		JSONNode gamedata = AssetManager.LoadGamesData();
+		for(int i =0; i < gamedata.Count; i++){
+			if(gamedata[i]["gameID"].Value.Equals(gameID)){
+				gamedata.Remove(i);
+				//save modified data
+				gamedata.SaveToFile(gameListPath);
+				//delete game folder
+				Directory.Delete(Application.persistentDataPath + "\\" + "GAME"+gameID, true);
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
