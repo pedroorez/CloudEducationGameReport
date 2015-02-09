@@ -24,7 +24,7 @@ public class LoaderManager : MonoBehaviour {
 	string password = "123";
 
 	// key holder
-	string key;
+	string key = "6eb14136455d4689579a78ecf9a2c53c6f63e664";
 
 	void Start(){
 		assetmanager = (AssetManager) gameObject.GetComponent("AssetManager");

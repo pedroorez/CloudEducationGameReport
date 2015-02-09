@@ -92,6 +92,16 @@ public class ServicesController {
         return null;
     }
     
+    // get all games list
+    // no need for hash
+    @RequestMapping(value = "/GetAllGamesList/", method = RequestMethod.GET)
+    @ResponseBody List<Game> getfullgamelist() throws Exception {
+        
+        GameDAO GDAO = new GameDAO();
+        return GDAO.getFullGameList();
+
+    }
+    
     // Receive nickname and password and log the user
     // return a HASHKEY to be used on the services.
     @RequestMapping(value = "/GetImageList/{hash}", method = RequestMethod.GET)

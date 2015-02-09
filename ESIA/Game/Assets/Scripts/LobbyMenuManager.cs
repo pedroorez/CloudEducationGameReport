@@ -17,9 +17,28 @@ public class LobbyMenuManager : MonoBehaviour {
 	// show All Games List Canvas
 	public void showAllGameList(){
 		lobbyMenuCanvas.SetActive(false);
-		loadManager.MakeLogin();
 		loadManager.GenerateGameList();
 		gameList.SetActive(true);
+	}
+
+	// show downloaded games
+	public void showDownloadedGames(){
+		lobbyMenuCanvas.SetActive(false);
+		gameList.SetActive(true);
+		loadManager.GenerateDownloadedGameList();
+	}
+
+	public void showLobbyMenu(){
+		lobbyMenuCanvas.SetActive(true);
+		gameList.SetActive(false);
+	}
+
+	public void showLogCGRMenu(){
+		Debug.Log("Showing CGR Menu, lalala");
+	}
+
+	public void goBackToIntro(){
+		Application.LoadLevel ("Intro"); 
 	}
 
 }
