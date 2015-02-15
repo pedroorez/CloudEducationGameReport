@@ -24,7 +24,7 @@ public class LoaderManager : MonoBehaviour {
 	string password = "123";
 
 	// key holder
-	string key = "6eb14136455d4689579a78ecf9a2c53c6f63e664";
+	string key = "7c4b0904033e20f270adc82e943803b2196a9f86";
 
 	void Start(){
 		assetmanager = (AssetManager) gameObject.GetComponent("AssetManager");
@@ -44,6 +44,7 @@ public class LoaderManager : MonoBehaviour {
 	IEnumerator GetGameList() {
 		string url = getgamelistURL + key + "/" + "all";
 		WWW www = new WWW(url);
+		Debug.Log(url);
 		yield return www;
 		gamelist = JSON.Parse(www.text);
 		scrollList.DrawOnList(gamelist,"fullOnlineList");
@@ -52,6 +53,7 @@ public class LoaderManager : MonoBehaviour {
 	IEnumerator GetGameData(string gameid) {
 		string url = getgamedata + key + "/" + gameid;
 		WWW www = new WWW(url);
+		Debug.Log(url);
 		yield return www;
 		JSONNode gamedata = JSON.Parse(www.text);
 		assetmanager.DownloadGame(gamedata);

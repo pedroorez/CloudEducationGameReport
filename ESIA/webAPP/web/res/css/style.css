@@ -47,7 +47,7 @@ hidden { visibility: hidden; }
 .assetBox{
         display: inline-block;
         width: 250px;
-        height: 210px;
+        height: 255px;
 	padding: 5px;
         margin: 5px;
         overflow: auto;
@@ -83,7 +83,7 @@ hidden { visibility: hidden; }
     margin-top: 2.3%;
 }
 
-/* AssetBox CSS */
+/* gamelist CSS */
 .gamedisplay{
         display: inline-block;
         width: 250px;

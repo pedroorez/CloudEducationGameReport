@@ -22,6 +22,19 @@
     </div>
 
     <div class="col-md-8 rightpanel " style="background-color:lavenderblush; ">
+        <div class="row text-center">
+            <h1>Game Information</h1>
+            <label>GameID:</label>
+            <input type="text" ng-model="result.Data.gameID" readonly/>
+            <label>Creator Fullname:</label>
+            <input type="text" ng-model="result.Data.creator.fullname" readonly/>
+            <br>
+            <label>Game Name:</label>
+            <input type="text" ng-model="result.Data.gameName" ng-blur="updateGameInfo()"/>
+            <label>Game Description</label>
+            <input type="text" ng-model="result.Data.description" ng-blur="updateGameInfo()"/>
+        </div>
+        
         <div class="row">
             <h1>Assets</h1>
         </div>

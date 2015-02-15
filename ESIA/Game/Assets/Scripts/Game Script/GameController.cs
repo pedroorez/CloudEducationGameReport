@@ -80,10 +80,10 @@ public class GameController : MonoBehaviour {
 				int id = Random.Range(0,randomRange);
 				// set the assets for that specific spawn
 				sprite.sprite = GameLoader.enemySpriteList[id];
-					// set the polygon collider
+				// set the polygon collider
 				clone.AddComponent<PolygonCollider2D>();
 				//set the answers
-				enemy.ansValue=gamedata["enemyList"][id]["rightans"].AsInt;
+				enemy.ansValue=gamedata["enemyList"][id]["rightans"]["id"].AsInt;
 				//resize the gameobject
 				float boundx = sprite.sprite.bounds.size.x;
 				float boundy = sprite.sprite.bounds.size.y;

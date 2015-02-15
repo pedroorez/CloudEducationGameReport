@@ -131,7 +131,7 @@ public class GameDAO {
         try {
             session.beginTransaction();
 
-            session.save(game);
+            session.saveOrUpdate(game);
 
             session.getTransaction().commit();
             session.flush();

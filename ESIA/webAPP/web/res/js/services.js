@@ -112,6 +112,18 @@ services.factory('services', ['$http', '$q', function ($http, $q) {
                     deferred.resolve(responseData);
                     return deferred.promise;
                 });
+         },
+         //****************************//
+         updateGame: function(hash,gameID,gameName,gameDescription){
+                var deferred = $q.defer();
+                requestPath = '/ESIa/updateGame/'+hash+'/'+gameID+'/'+gameName+'/'+gameDescription
+                console.log(requestPath)
+                return $http.get(requestPath)
+                // if sucessful set data to the model
+                .success(function(responseData){
+                    deferred.resolve(responseData);
+                    return deferred.promise;
+                });
          }
          /// moar?
     }

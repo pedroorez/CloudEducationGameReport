@@ -139,7 +139,7 @@ public class ServicesController {
         
         try { loadedGame.setBackgroundAsset(GDAO.getAssets(GameID, "background")); }
         catch(Exception e){System.out.println("NO BACKGROUND FOUND");}
-
+        System.out.println(loadedGame);
         return loadedGame;
     }
     
@@ -178,6 +178,21 @@ public class ServicesController {
         game.setCreator(GDAO.getHash(hash).getUser());
         return GDAO.saveGame(game);
     }
+
+    // Delete an Asset
+    @RequestMapping(value = "/updateGame/{hash}/{gameID}/{gameName}/{gameDescription}", method = RequestMethod.GET)
+    @ResponseBody Game updateGame(@PathVariable String hash,
+                                  @PathVariable int gameID,
+                                  @PathVariable String gameName,
+                                  @PathVariable String gameDescription) throws Exception {
+        
+        GameDAO GDAO = new GameDAO();
+        Game game = GDAO.getGameDataById(gameID);
+        if(!gameName.equals("-1")) game.setDescription(gameDescription);
+        if(!gameDescription.equals("-1")) game.setGameName(gameName);
+        return GDAO.saveGame(game);
+    }
+
     
     // update Asset service;
     @RequestMapping(value="/updateAsset/{hash}/{gameID}/{assetId}/{assetType}/{assetText}/{answerId}/{imageFileId}", method = RequestMethod.POST)
@@ -204,10 +219,6 @@ public class ServicesController {
         User hashUser = GDAO.getHash(hash).getUser();
         if( editedGame.getCreator().getUserID() != hashUser.getUserID() ) return null;           
 
-        
-        // load updated data
-        editedAsset.setAssetText(assetText);
-        
         // if there is no image from the gallery beeing push
         // and there is a image on the POST request, them save the image form
         // the post request and and set on the editedAsset
@@ -230,7 +241,7 @@ public class ServicesController {
         // if there is a push of a image from the gallery them save it on the editedAssset
         if(imageFileId != -1) editedAsset.getImageFile().setImageFileID(imageFileId); 
         // set the data to the request
-        editedAsset.setAssetText(assetText);
+        if(!assetText.equals("-1")) editedAsset.setAssetText(assetText);
         editedAsset.setGame(editedGame);
         
         // set the answer

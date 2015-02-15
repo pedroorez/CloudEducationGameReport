@@ -44,6 +44,7 @@ public class GameLoader : MonoBehaviour {
 		button2txt = button2.GetComponentInChildren<Text> ();
 		button3img = button3.GetComponent<Image> ();
 		button3txt = button3.GetComponentInChildren<Text> ();
+
 		// load button data
 		button1img.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["answerList"][0]["imageFile"]["filename"],folder));
 		button2img.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["answerList"][1]["imageFile"]["filename"],folder));
@@ -52,6 +53,14 @@ public class GameLoader : MonoBehaviour {
 		button2txt.text = "";
 		button3txt.text = "";
 
+		//get player controller
+		PlayerController playcont = (PlayerController) player.GetComponent<PlayerController>();
+
+		//set button ansers
+		button1.GetComponent<Button>().onClick.AddListener( () => { playcont.onClickButton(N["answerList"][0]["id"].AsInt); } );
+		button2.GetComponent<Button>().onClick.AddListener( () => { playcont.onClickButton(N["answerList"][1]["id"].AsInt); } );
+		button3.GetComponent<Button>().onClick.AddListener( () => { playcont.onClickButton(N["answerList"][2]["id"].AsInt); } );
+		
 		//player loader
 		playerimg = player.GetComponent<SpriteRenderer> ();
 		playerimg.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["playerAsset"][0]["imageFile"]["filename"],folder));

@@ -25,6 +25,7 @@ public class AssetManager : MonoBehaviour {
 	public bool DownloadGame(JSONNode gamedata){
 		string imgurl;
 		string filename;
+		Debug.Log(gamedata);
 		string gameid = gamedata["gameID"].Value;
 		string folder = "GAME"+gameid;
 		bool result = saveToGamesData(gamedata);

@@ -96,6 +96,4 @@ ESIapp.controller('gamelister', function($scope,services,DataManager){
      $scope.createNewGame = function(){
          DataManager.createGame();
      }
-
-    
 });

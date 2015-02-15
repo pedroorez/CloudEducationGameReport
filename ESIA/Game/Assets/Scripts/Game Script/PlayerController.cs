@@ -45,20 +45,11 @@ public class PlayerController : MonoBehaviour {
 
 	// Callback buttom function.
 	// Each one generate a bolt with a different variable inside that will make the comparsion check
-	public void onClickButton1(){
+	public void onClickButton(int answerID){
 		GameObject clone = Instantiate(shot,shotSpawn.position,transform.rotation) as GameObject;
 		DestroyByTime bolt = clone.GetComponent <DestroyByTime>();
-		bolt.optionValue = 1;
+		bolt.optionValue = answerID;
 	}
-	public void onClickButton2(){
-		GameObject clone = Instantiate(shot,shotSpawn.position,transform.rotation) as GameObject;
-		DestroyByTime bolt = clone.GetComponent <DestroyByTime>();
-		bolt.optionValue = 2;
-	}
-	public void onClickButton3(){
-		GameObject clone = Instantiate(shot,shotSpawn.position,transform.rotation) as GameObject;
-		DestroyByTime bolt = clone.GetComponent <DestroyByTime>();
-		bolt.optionValue = 3;
-	}
+
 
 }

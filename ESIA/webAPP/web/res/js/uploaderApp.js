@@ -52,6 +52,7 @@ uploaderApp.service('DataManager', function($parse,services,$location,$q,$cookie
                         Game.Data = [];
                         Game.Data = response.data;  
                         fixDataStructure();
+                        console.log(response);
                         console.log("currentGameID: " + Game.Status.currentGameID)
                         $location.path( "/editor" );
                     });
@@ -139,6 +140,15 @@ uploaderApp.service('DataManager', function($parse,services,$location,$q,$cookie
                     Game.List.push(response.data)
                 })
     }
+    this.updateGame = function(){
+        services.updateGame(Game.Status.userhash.hash, Game.Status.currentGameID, Game.Data.gameName, Game.Data.description)
+                .then(function(response){
+                    console.log(response);
+                    Game.Data.gameName = response.data.gameName;
+                    Game.Data.gameDescription = response.data.description;
+                })
+        // updateGame: function(hash,gameID,gameName,gameDescription){
+    }
     // moar or niet?
     });
 
@@ -150,7 +160,10 @@ uploaderApp.controller('GameEditor', [ '$scope', 'DataManager',function ($scope,
                $scope.result = DataManager.dataGet() ;
                // aux functions
                $scope.addEnemy = function(){ DataManager.addNode('enemyList')}
-    
+               // updateGame
+               $scope.updateGameInfo = function(){
+                   DataManager.updateGame();
+               }
     }
 ]);
 
@@ -163,16 +176,16 @@ uploaderApp.directive('angularFile',function ($parse,DataManager) {
                     element.bind('change', function(){
                         // upload and set a new asset using the file on this input file
                         // this.setNewAsset = function(file,assetId,assetType,assetText,answerId,imageFileId, listtarge, entrytarget)
+                        
                         DataManager.updateAsset(element[0].files[0],
                                                 scope.result.Data[scope.attrs.targetList][scope.attrs.entryNo].id,
                                                 attrs.assetType,
-                                                "PLACEHOLDER",
+                                                -1,
                                                 -1,
                                                 -1, 
                                                 scope.attrs.targetList,
                                                 scope.attrs.entryNo
                                                 )
-                        // Clean the file field
                     })
 		}
 	};
@@ -191,15 +204,18 @@ uploaderApp.directive('assetBox', function(DataManager){
            scope.data.assetEntry = scope.result.Data[attrs.targetList][attrs.entryNo];
            scope.attrs = attrs;
            
+           
            // set a click() tot he upload button
            elem.find('button[class="uploadButton btn btn-sm btn-success"]').click(function(){ elem.find('input').click();} )
            // bing a function to the gallery button
            elem.find('button[class="galleryButton btn btn-sm btn-primary"]').click(function(){ console.log("GALLERY OPEN"); } )
            // set a bind of change to the answer 
            elem.find('select').bind('change', function(){ 
-                scope.updateAsset();
-                scope.updateScope(); 
-
+           //function(file,assetId,assetType,assetText,answerId,
+           // imageFileId, targetList, targetEntry){
+               console.log("atualizando");
+               scope.updateAsset();
+               
            });
            // set a click() to the deletebuttom
            elem.find('button[class="deleteButton btn btn-sm btn-danger"]').click(function(){ 
@@ -209,15 +225,25 @@ uploaderApp.directive('assetBox', function(DataManager){
                scope.$apply();
 
            })
+           // update text field
+           elem.find('input[type="text"]').focusout(function(){ scope.updateAsset(); });          
            
            // update asset function
            scope.updateAsset = function(){
-               console.log(scope.result.Data[attrs.targetList][attrs.entryNo].id)
+               if(scope.result.Data[attrs.targetList][attrs.entryNo].assetText === null)
+                   assetText = -1;
+               else
+                   assetText = scope.result.Data[attrs.targetList][attrs.entryNo].assetText
+               
+               if(scope.result.Data[attrs.targetList][attrs.entryNo].rightans === null)
+                   answerId = -1;
+               else
+                   answerId = scope.result.Data[attrs.targetList][attrs.entryNo].rightans.id
                DataManager.updateAsset(null,
                                        scope.result.Data[attrs.targetList][attrs.entryNo].id,
                                        attrs.assetType,
-                                       "PLACEHOLDER",
-                                       scope.result.EnemyList[scope.attrs.entryNo].answerID.assetId,
+                                       assetText,
+                                       answerId,
                                        -1, 
                                        attrs.targetList,
                                        attrs.entryNo
