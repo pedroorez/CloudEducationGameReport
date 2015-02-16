@@ -4,18 +4,26 @@ using SimpleJSON;
 
 public class PersistData : MonoBehaviour {
 
+	// Domain reference
+	public static string host = "http://localhost:8084";
+	public string domain = host;
+
 	// ESIa Services Variables 
-	public static string esia_domain = "http://localhost:8084/ESIa/";
+	public static string esia_domain = host + "/ESIa/";
 	public string url_esia_getgamelist = esia_domain + "GetGameList/";
 	public string url_esia_login = esia_domain + "login/";
 	public string url_esia_getgamedata = esia_domain + "GetGameData/";
 
 	// CGR Services Variables
+	public static string cgr_domain = host + "/CloudGameReport/services/";
+	public string url_cgr_login = cgr_domain + "login/";
+	public string url_cgr_availableClasses = cgr_domain + "ListOfAvailableClasses/";
+	public string url_cgr_requestSubscription = cgr_domain + "SubscribeToClass/";
+	public string url_cgr_subscribedClasses = cgr_domain + "ListOfSubscribedGameEntries/";
+	public string url_cgr_saveData = cgr_domain + "Save/";
 
-	// CGR Login Data
+	// Services Keys
 	public string CGRkey;
-
-	// ESIa Login Data
 	public string ESIAkey;
 
 	// Current Game JSONNode 
@@ -37,6 +45,7 @@ public class PersistData : MonoBehaviour {
 	// -TEMP- Initial Setup
 	void Start(){
 		ESIAkey = "7c4b0904033e20f270adc82e943803b2196a9f86";
+		CGRkey = "ucmkio6qh47rrr96cmvta48fh8";
 	}
 
 }

@@ -56,7 +56,6 @@
      <Compile Include="Assets\Scripts\Game Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Libs\SimpleJSON.cs" />
      <Compile Include="Assets\Scripts\Lobby Scripts\Controller_LobbyMenu.cs" />
-     <Compile Include="Assets\Scripts\Lobby Scripts\Controller_ScrollList.cs" />
      <Compile Include="Assets\Scripts\Lobby Scripts\ScrollableList.cs" />
      <Compile Include="Assets\Scripts\PersistData.cs" />
  <Reference Include="UnityEngine.UI">

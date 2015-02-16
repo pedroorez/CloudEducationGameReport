@@ -30,7 +30,7 @@ public class AssetManager : MonoBehaviour {
 	// Get folder reference
 	void Start(){
 		gameListPath = Application.persistentDataPath +"\\"+ "GameList.txt";
-		domain = "http://localhost:8084";
+		domain = PersistData.singleton.domain;
 	}
 
 	// Download function
