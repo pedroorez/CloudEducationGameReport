@@ -24,19 +24,17 @@ public class DestroyAsteroid : MonoBehaviour {
 			Destroy (gameObject);
 		}
 
-//		//Instantiate an explosion for the user
-//		Instantiate(explosion, transform.position, transform.rotation);
+		//Instantiate an explosion for the user
+		//Instantiate(explosion, transform.position, transform.rotation);
 
 		//Check if the value of a bolt is the same of the 
-		DestroyByTime cheker = other.GetComponent<DestroyByTime> ();
-		if (cheker.optionValue == ansValue) {
+		DestroyByTime checker = other.GetComponent<DestroyByTime> ();
+		if (checker.optionValue == ansValue) {
 			// If correct add points to the controller and destroy the Enemy
 			GameController.Controller.AddPoints();
-			// else Destroy the other Object 
 			Destroy (gameObject);
-			Destroy(other.gameObject);
+			Destroy (other.gameObject);
 		}
-
 		Destroy(other.gameObject);
 	}
 

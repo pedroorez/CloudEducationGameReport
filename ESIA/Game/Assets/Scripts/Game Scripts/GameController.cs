@@ -8,6 +8,9 @@ public class GameController : MonoBehaviour {
 
 	// Menus Objects
 	public GameObject PauseMenu;
+	public GameObject EndOfMatchPanel;
+	public Text displayText;
+	public int score;
 
 	// GameController Reference
 	public static GameController Controller;
@@ -18,48 +21,19 @@ public class GameController : MonoBehaviour {
 	public float startWait = 1;
 	public int hazardCount = 10;
 
-	// Score Display
-	public Text displayText;
-	public int score;
-
-	// End of Game Display
-	public GameObject EndOfMatchPanel;
-
-	// json gamedata
-	JSONNode gamedata;
-	string folder;
-
 	// stuff
+	JSONNode gamedata;
 	Random randomGen;
 	int randomRange;
-	// Singleton
-	void Awake() {
-		//If I am the first instance, make me the Singleton
-		if(Controller == null){
-			Controller = this;
-			DontDestroyOnLoad(this);
-		}
-		//If a Singleton already exists and you find another reference in scene, destroy it!
-		else{ if(this != Controller) Destroy(this.gameObject);	}
-	}
-
+	
 	// Start function, starts coroutine and set the score
 	void Start(){
-		// get the blob data
-		GameObject gobj = GameObject.Find("DataBlob");
-		datablob db = gobj.GetComponent<datablob>();
-		gamedata = db.jsonnode; 
-		folder = "GAME"+gamedata["gameID"];
-		randomRange = gamedata["enemyList"].Count;
+		Controller = this;
 		score = 0;
-		GameLoader loader = gameObject.GetComponent<GameLoader> ();
-		loader.LoadAssetsFromFile();
+		gamedata = PersistData.singleton.CurrentGame;
+		randomRange = gamedata["enemyList"].Count;
+		gameObject.GetComponent<GameLoader>().LoadAssetsFromFile();
 		StartCoroutine("SpawnWaves");
-	}
-
-	// Update function, keep the score updated
-	void Update(){ 
-		displayText.text = "Score: " + score.ToString();
 	}
 
 	// Spawn Enemy Waves
@@ -93,8 +67,12 @@ public class GameController : MonoBehaviour {
 			}
 		}
 	}
+	
+	// Update function, keep the score updated
+	void Update(){ displayText.text = "Score: " + score.ToString(); }
 
 	public void AddPoints(){ score += 10; }
+
 	public void EndOfMatch() {
 		StopCoroutine ("SpawnWaves");
 		Debug.Log("Match Ended");

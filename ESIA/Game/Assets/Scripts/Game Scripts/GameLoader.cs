@@ -30,11 +30,8 @@ public class GameLoader : MonoBehaviour {
 
 	// Use this for initialization
 	public void LoadAssetsFromFile() {
-		// get the blob data
-		GameObject gobj = GameObject.Find("DataBlob");
-		datablob db = gobj.GetComponent<datablob>();
-		JSONNode N = db.jsonnode; 
-		// set assets folder
+		JSONNode N = PersistData.singleton.CurrentGame; 
+		Debug.Log(N);
 		string folder = "GAME"+N["gameID"];
 
 		// button loader
@@ -46,9 +43,9 @@ public class GameLoader : MonoBehaviour {
 		button3txt = button3.GetComponentInChildren<Text> ();
 
 		// load button data
-		button1img.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["answerList"][0]["imageFile"]["filename"],folder));
-		button2img.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["answerList"][1]["imageFile"]["filename"],folder));
-		button3img.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["answerList"][2]["imageFile"]["filename"],folder));
+		button1img.sprite = AssetManager.singleton.spriteCreator(AssetManager.singleton.LoadSavedTextureFromFile(N["answerList"][0]["imageFile"]["filename"],folder));
+		button2img.sprite = AssetManager.singleton.spriteCreator(AssetManager.singleton.LoadSavedTextureFromFile(N["answerList"][1]["imageFile"]["filename"],folder));
+		button3img.sprite = AssetManager.singleton.spriteCreator(AssetManager.singleton.LoadSavedTextureFromFile(N["answerList"][2]["imageFile"]["filename"],folder));
 		button1txt.text = "";
 		button2txt.text = "";
 		button3txt.text = "";
@@ -63,11 +60,11 @@ public class GameLoader : MonoBehaviour {
 		
 		//player loader
 		playerimg = player.GetComponent<SpriteRenderer> ();
-		playerimg.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["playerAsset"][0]["imageFile"]["filename"],folder));
+		playerimg.sprite = AssetManager.singleton.spriteCreator(AssetManager.singleton.LoadSavedTextureFromFile(N["playerAsset"][0]["imageFile"]["filename"],folder));
 
 		//background loader
 		backgroundimg = background.GetComponent<SpriteRenderer> ();
-		backgroundimg.sprite = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["backgroundAsset"][0]["imageFile"]["filename"],folder));
+		backgroundimg.sprite = AssetManager.singleton.spriteCreator(AssetManager.singleton.LoadSavedTextureFromFile(N["backgroundAsset"][0]["imageFile"]["filename"],folder));
 		float boundx = backgroundimg.sprite.bounds.size.x;
 		float boundy = backgroundimg.sprite.bounds.size.y;
 		float scale = Mathf.Min(20/boundx,20/boundy);
@@ -77,7 +74,7 @@ public class GameLoader : MonoBehaviour {
 		enemySpriteList = new List<Sprite>();
 		// get all sprites from files
 		for(int i = 0; i < N["enemyList"].Count; i++){
-			Sprite newEnemy = AssetManager.spriteCreator(AssetManager.LoadSavedTextureFromFile(N["enemyList"][i]["imageFile"]["filename"],folder));
+			Sprite newEnemy = AssetManager.singleton.spriteCreator(AssetManager.singleton.LoadSavedTextureFromFile(N["enemyList"][i]["imageFile"]["filename"],folder));
 			enemySpriteList.Add(newEnemy);
 		}
 

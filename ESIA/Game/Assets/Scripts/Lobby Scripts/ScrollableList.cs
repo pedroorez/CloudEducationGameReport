@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using SimpleJSON;
 
-// Generic function to generate dinamic scrollable lists
 public class ScrollableList : MonoBehaviour
 {
 	// Panel Prefab that will be used as a model.
 	public GameObject downloadGameButton;
 	public GameObject loadGameButton;
-	// list with buttons
+	// list with buttons -for reseting-
 	List<GameObject> buttonList = new List<GameObject>();
 
+	//********************************************//
+	//				 Builder Function
+	//********************************************//
 	public void DrawOnList(JSONNode N, string listType)
 	{
 		// vars
@@ -58,7 +60,7 @@ public class ScrollableList : MonoBehaviour
 		// filling loop
 		int j = 0;
 		// load downloaded games
-		JSONNode downloadedGames = AssetManager.LoadGamesData();
+		JSONNode downloadedGames = AssetManager.singleton.LoadGamesData();
 		for (int i = 0; i < itemCount; i++)
 		{
 			// if the amount of itens placed are a multiple of columnCount, jump to the nex row
@@ -79,25 +81,33 @@ public class ScrollableList : MonoBehaviour
 			Textos[1].text = N[i]["description"].Value;
 			Textos[2].text = "Download Game ID:"+N[i]["gameID"].Value;
 
+			// If its a 
 			if (listType.Equals("fullOnlineList")){
-			// set the id to the downloader button
-			DownloadButtonCaller[] button = newItem.GetComponentsInChildren<DownloadButtonCaller>();
-			button[0].gameID = N[i]["gameID"].Value;
+				// set the id to the downloader button
+				string gameID = N[i]["gameID"].Value; // i got zero ideia why i have to do this
+				newItem.GetComponentInChildren<Button>()
+						.onClick.AddListener( () => DownloadGame(gameID) );
 
-			// check if the game was already downloaded
-			if(downloadedGames != null)
-			for(int k = 0; k < downloadedGames.Count; k++ )			
-				if(downloadedGames[k]["gameID"].AsInt == N[i]["gameID"].AsInt){
-					Textos[2].text = "JOGO BAIXADO";
-					button[0].setActive(false);
-				}
+				// check if the game was already downloaded
+				// and set it as downloaded
+				if(downloadedGames != null)
+					for(int k = 0; k < downloadedGames.Count; k++ )			
+						if(downloadedGames[k]["gameID"].AsInt == N[i]["gameID"].AsInt){
+							Textos[2].text = "JOGO BAIXADO";
+							newItem.GetComponentsInChildren<Button>()[0]
+								   .gameObject.SetActive(false);
+							newItem.GetComponentsInChildren<Button>(true)[1]
+								   .gameObject.SetActive(true);
+							newItem.GetComponentsInChildren<Button>(true)[1]
+								   .onClick.AddListener( () => DeleteGame(gameID, newItem) );
+					}
 			}
+			// if it's the donwloaded game only
 			else{
-				LoadGameCaller[] button = newItem.GetComponentsInChildren<LoadGameCaller>();
-				button[0].gameID = N[i]["gameID"].Value;
-				button[0].gamedata = N[i];
+				JSONNode gamedata = N[i];	 // still no ideia, braw
+				newItem.GetComponentInChildren<Button>()
+					.onClick.AddListener( () => LoadGame(gamedata) );
 			}
-
 
 			// move and size the new item
 			RectTransform rectTransform = newItem.GetComponent<RectTransform>();
@@ -109,6 +119,37 @@ public class ScrollableList : MonoBehaviour
 			rectTransform.offsetMax = new Vector2(x, y);
 		}
 			
+	}
+
+	//********************************************//
+	//           Button Callbacks
+	//********************************************//
+	// Load a Game Callback
+	void LoadGame(JSONNode gamedata){
+		PersistData.singleton.CurrentGame = gamedata; // save gamedata
+		Application.LoadLevel("BattleScene");		  // load gamescene
+	}
+	// Download a Game Callback
+	void DownloadGame(string gameid){
+		StartCoroutine(DownloadGameData(gameid));
+	}
+	// Delete a Game Callback
+	void DeleteGame(string gameid, GameObject Button){
+		AssetManager.singleton.removeGameByID(gameid);
+	}
+	//********************************************//
+	//           Services Callback
+	//********************************************//
+	// GetSingleGameData Service Callback
+	IEnumerator DownloadGameData(string gameid) {
+		string url = PersistData.singleton.url_esia_getgamedata + 
+					 PersistData.singleton.ESIAkey + "/" + gameid;
+		WWW www = new WWW(url);
+		Debug.Log(url);
+		yield return www;
+		JSONNode gamedata = JSON.Parse(www.text);
+		AssetManager.singleton.DownloadGame(gamedata);
+		// change button
 	}
 	
 }

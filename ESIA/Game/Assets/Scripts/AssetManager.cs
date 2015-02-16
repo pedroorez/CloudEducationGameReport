@@ -6,22 +6,34 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 
 public class AssetManager : MonoBehaviour {
+
 	// Queue Information
 	int downloadQueue = 0;
 	bool downloadFinish = false;
 	int totalQueueSize = 2;
-	static string domain = "http://localhost:8084";
-	static string gameListPath;
-	
-//	// Start Coroutines that download the files.
-//	public void StartDownload(){
-//		StartCoroutine(Downloader("Papagaio.png", folder, url));
-//		StartCoroutine(Downloader("Paçoca.png", folder, url2));
-//	}
+	static string domain;
+	string gameListPath;
 
-	void Start(){gameListPath = Application.persistentDataPath +"\\"+ "GameList.txt";}
+	// Singleton
+	public static AssetManager singleton;
+	void Awake() {
+		//If I am the first instance, make me the Singleton
+		if(singleton == null){
+			singleton = this;
+			DontDestroyOnLoad(this);
+		}
+		// If a Singleton already exists and you find another 
+		// reference in scene, destroy it!
+		else{ if(this != singleton) Destroy(this.gameObject); }
+	}
 
-	// download function
+	// Get folder reference
+	void Start(){
+		gameListPath = Application.persistentDataPath +"\\"+ "GameList.txt";
+		domain = "http://localhost:8084";
+	}
+
+	// Download function
 	public bool DownloadGame(JSONNode gamedata){
 		string imgurl;
 		string filename;
@@ -61,18 +73,14 @@ public class AssetManager : MonoBehaviour {
 			filename = gamedata["playerAsset"][0]["imageFile"]["filename"].Value;
 			StartCoroutine(Downloader(filename,folder,domain + imgurl));
 		}
-
 		//confirm save
 		return true;
-
 	}
 		
 	void Update(){
 		// Run the Next stuff after all downloads are complete
 		// It will run only one time
 		if (!downloadFinish && downloadQueue < 1) {
-						Debug.Log ((totalQueueSize-downloadQueue)*100/totalQueueSize);
-						Debug.Log ("Rodando Coiso NOW"); 
 						downloadFinish = true;
 				} else if (!downloadFinish)
 			Debug.Log ((totalQueueSize-downloadQueue)*100/totalQueueSize);
@@ -82,18 +90,13 @@ public class AssetManager : MonoBehaviour {
 	IEnumerator Downloader(string filename,string foldername, string urlPath) {
 		// Add 1 item to the downloadQueue
 		downloadQueue++;
-		// Show what is beeing downloading
-		//Debug.Log ("Downloading: " + urlPath);
-		// http request
-		WWW www = new WWW(urlPath);
+
+		WWW www = new WWW(urlPath); // http request
         yield return www;		
 		// Save File that was downloaded to a director
 		Texture2D download = www.texture;
 		SaveTextureToFile(download, foldername , filename);	
-		// Display where the data was saved
-		//Debug.Log("File Saved: " + Application.persistentDataPath +"/"+ foldername +"/"+ filename );
-		// Remove 1 item form the downloadQueue
-		downloadQueue--;
+		downloadQueue--; // Remove 1 item form the downloadQueue
 	}
 
 	// File Saver
@@ -105,24 +108,24 @@ public class AssetManager : MonoBehaviour {
 	}
 	
 	// Load a texture from a folder on the aplication data
-	public static Texture2D LoadSavedTextureFromFile(string fileName, string folder){	
+	public Texture2D LoadSavedTextureFromFile(string fileName, string folder){	
 		byte[] byteVector = File.ReadAllBytes(Application.persistentDataPath +"\\"+ folder +"\\"+fileName);
 		Texture2D loadedTexture = new Texture2D(8,8);
 		loadedTexture.LoadImage(byteVector);
 		return loadedTexture;
 	}
 	
-	public static Sprite spriteCreator(Texture2D texture){
+	public Sprite spriteCreator(Texture2D texture){
 		return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
 	}
 
 	// loade the json with the gamelist data
-	static public JSONNode LoadGamesData(){
+	public JSONNode LoadGamesData(){
 		JSONNode gamelist;
 		try{
 			gamelist = JSONNode.LoadFromFile(gameListPath);
 		} catch(IOException e) { 
-			Debug.Log("nao achou o arquivo retornando um novo");
+			Debug.Log("nao achou o arquivo retornando um novo "+ e);
 			return null;
 		}
 			return gamelist ;
@@ -140,20 +143,18 @@ public class AssetManager : MonoBehaviour {
 			Debug.Log("gamelist NULLADA");
 			gamelist = JSONNode.Parse("[{}]");
 		}
-		else
-			for(int i =0; i < gamelist.Count; i++ )			
-				if(gamelist[i]["gameID"].AsInt == newGameDataID) return false;
+		else for(int i =0; i < gamelist.Count; i++ )			
+			if(gamelist[i]["gameID"].AsInt == newGameDataID) return false;
 		//save serialized list
 		gamelist.Add(newGameData);
 		gamelist.SaveToFile(gameListPath);
 		Debug.Log("DADOS DO JOGO SALVO");
-		//allokay
 		return true;
 	}
 
 	// remove a game from the database by ID
-	static public bool removeGameByID(string gameID){
-		JSONNode gamedata = AssetManager.LoadGamesData();
+	public bool removeGameByID(string gameID){
+		JSONNode gamedata = AssetManager.singleton.LoadGamesData();
 		for(int i =0; i < gamedata.Count; i++){
 			if(gamedata[i]["gameID"].Value.Equals(gameID)){
 				gamedata.Remove(i);

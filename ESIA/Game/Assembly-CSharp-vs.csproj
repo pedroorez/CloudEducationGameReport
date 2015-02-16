@@ -47,20 +47,18 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\AssetManager.cs" />
-     <Compile Include="Assets\Scripts\DownloadButtonCaller.cs" />
-     <Compile Include="Assets\Scripts\Game Script\DestroyAsteroid.cs" />
-     <Compile Include="Assets\Scripts\Game Script\DestroyByBoundary.cs" />
-     <Compile Include="Assets\Scripts\Game Script\DestroyByTime.cs" />
-     <Compile Include="Assets\Scripts\Game Script\GameController.cs" />
-     <Compile Include="Assets\Scripts\Game Script\GameLoader.cs" />
-     <Compile Include="Assets\Scripts\Game Script\Mover.cs" />
-     <Compile Include="Assets\Scripts\Game Script\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Game Scripts\DestroyAsteroid.cs" />
+     <Compile Include="Assets\Scripts\Game Scripts\DestroyByBoundary.cs" />
+     <Compile Include="Assets\Scripts\Game Scripts\DestroyByTime.cs" />
+     <Compile Include="Assets\Scripts\Game Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\Game Scripts\GameLoader.cs" />
+     <Compile Include="Assets\Scripts\Game Scripts\Mover.cs" />
+     <Compile Include="Assets\Scripts\Game Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Libs\SimpleJSON.cs" />
-     <Compile Include="Assets\Scripts\LoadGameCaller.cs" />
-     <Compile Include="Assets\Scripts\LoaderManager.cs" />
-     <Compile Include="Assets\Scripts\LobbyMenuManager.cs" />
-     <Compile Include="Assets\Scripts\ScrollableList.cs" />
-     <Compile Include="Assets\Scripts\datablob.cs" />
+     <Compile Include="Assets\Scripts\Lobby Scripts\Controller_LobbyMenu.cs" />
+     <Compile Include="Assets\Scripts\Lobby Scripts\Controller_ScrollList.cs" />
+     <Compile Include="Assets\Scripts\Lobby Scripts\ScrollableList.cs" />
+     <Compile Include="Assets\Scripts\PersistData.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
  </Reference>

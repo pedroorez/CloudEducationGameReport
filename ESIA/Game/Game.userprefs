@@ -1,13 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AssetManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Lobby Scripts\ScrollableList.cs">
     <Files>
-      <File FileName="Assets\Scripts\Game Script\GameLoader.cs" Line="68" Column="40" />
-      <File FileName="Assets\Scripts\LobbyMenuManager.cs" Line="41" Column="32" />
-      <File FileName="Assets\Scripts\AssetManager.cs" Line="145" Column="25" />
-      <File FileName="Assets\Scripts\LoaderManager.cs" Line="72" Column="40" />
-      <File FileName="Assets\Scripts\Game Script\GameController.cs" Line="121" Column="1" />
-      <File FileName="Assets\Scripts\DownloadButtonCaller.cs" Line="25" Column="51" />
+      <File FileName="Assets\Scripts\PersistData.cs" Line="11" Column="9" />
+      <File FileName="Assets\Scripts\Lobby Scripts\Controller_ScrollList.cs" Line="29" Column="7" />
+      <File FileName="Assets\Scripts\Lobby Scripts\ScrollableList.cs" Line="88" Column="54" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
