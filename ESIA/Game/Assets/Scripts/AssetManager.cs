@@ -143,7 +143,7 @@ public class AssetManager : MonoBehaviour {
 		if(gamelist == null)
 		{ 
 			Debug.Log("gamelist NULLADA");
-			gamelist = JSONNode.Parse("[{}]");
+			gamelist = JSONNode.Parse("[]");
 		}
 		else for(int i =0; i < gamelist.Count; i++ )			
 			if(gamelist[i]["gameID"].AsInt == newGameDataID) return false;

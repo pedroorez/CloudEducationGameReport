@@ -105,7 +105,11 @@ public class Controller_LobbyMenu : MonoBehaviour {
         CanvasLoadingPanel.SetActive(true);
 		CanvasLobbyMenu.SetActive(false);
 		Canvas_List.SetActive(true);
-        scrolllist.DrawOnList(AssetManager.singleton.LoadGamesData(), "downloadedList");
+        JSONNode downloadedGames = AssetManager.singleton.LoadGamesData();
+        if (downloadedGames.Count > 0)
+            scrolllist.DrawOnList(downloadedGames, "downloadedList");
+        else showLobbyMenu();    
+
         CanvasLoadingPanel.SetActive(false);
     }
 
