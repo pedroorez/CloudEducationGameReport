@@ -12,21 +12,22 @@ public class GameController : MonoBehaviour {
 	public Text displayText;
 	public int score;
 
-	// GameController Reference
-	public static GameController Controller;
-
+    // Game Configuration
 	public GameObject hazard;
 	public Vector2 spawnValues;
 	public float spawnWait = 1;
 	public float startWait = 1;
 	public int hazardCount = 10;
 
-	// stuff
-	JSONNode gamedata;
-	Random randomGen;
+	// Aux Variables
+	JSONNode gamedata; 
+	Random randomSeed;
 	int randomRange;
+
+    // GameController Singleton
+    public static GameController Controller;	
 	
-	// Start function, starts coroutine and set the score
+    // Start function, starts coroutine and set the score
 	void Start(){
 		Controller = this;
 		score = 0;
@@ -36,7 +37,9 @@ public class GameController : MonoBehaviour {
 		StartCoroutine("SpawnWaves");
 	}
 
-	// Spawn Enemy Waves
+    //********************************************//
+    //           Main Game Loop
+    //********************************************//
 	IEnumerator SpawnWaves(){
 		while (true){
 			// Wait time between waves
@@ -67,7 +70,9 @@ public class GameController : MonoBehaviour {
 			}
 		}
 	}
-	
+    //********************************************//
+    //              Aux Functions
+    //********************************************//
 	// Update function, keep the score updated
 	void Update(){ displayText.text = "Score: " + score.ToString(); }
 
@@ -77,11 +82,13 @@ public class GameController : MonoBehaviour {
 		StopCoroutine ("SpawnWaves");
 		Debug.Log("Match Ended");
 		EndOfMatchPanel.SetActive(true);
-		// disable butons
+        // disable butons
 		GameLoader loader = gameObject.GetComponent<GameLoader> ();
 		loader.DisableButtons ();
 		displayText.enabled = false;
-	}
+	    // Save Match
+        StartCoroutine(CGR_saveMatch());
+    }
 
 	public void pauseGame(){
 		Time.timeScale = 0.0F;
@@ -98,4 +105,22 @@ public class GameController : MonoBehaviour {
 		Time.timeScale = 1.0F;
 		Application.LoadLevel ("Lobby"); 
 	}
+
+    //********************************************//
+    //           Services Callback
+    //********************************************//
+    // SaveMatch Service Callback
+    IEnumerator CGR_saveMatch()
+    {
+        string data = "{\"points\":\"" + score + "\"}";
+        string url = PersistData.singleton.url_cgr_saveData +
+                     PersistData.singleton.CGRkey + "/" + 
+                     PersistData.singleton.CGR_GameEntry_ID +"/" + 
+                     data ;
+
+        WWW www = new WWW(url);
+        Debug.Log(url);
+        yield return www;
+        Debug.Log(www.text);
+    }
 }

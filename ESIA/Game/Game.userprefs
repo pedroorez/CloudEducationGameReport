@@ -1,13 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Lobby Scripts\Controller_LobbyMenu.cs">
     <Files>
-      <File FileName="Assets\Scripts\PersistData.cs" Line="45" Column="25" />
-      <File FileName="Assets\Scripts\Lobby Scripts\Controller_LobbyMenu.cs" Line="5" Column="1" />
+      <File FileName="Assets\Scripts\Game Scripts\GameController.cs" Line="122" Column="1" />
+      <File FileName="Assets\Scripts\Game Scripts\DestroyAsteroid.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Lobby Scripts\ScrollableList.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Lobby Scripts\Controller_LobbyMenu.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PersistData.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\Pedro\Desktop\CloudEducationGameReport\ESIA\Game\Assets\Scripts\Lobby Scripts\ScrollableList.cs" line="40" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

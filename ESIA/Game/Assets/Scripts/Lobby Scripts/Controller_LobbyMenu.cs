@@ -5,7 +5,12 @@ using SimpleJSON;
 
 public class Controller_LobbyMenu : MonoBehaviour {
 
+    // Loading Panel Reference
+    public GameObject CanvasLoadingPanel;
+
 	// GameObjects References
+    public GameObject CanvasIntro;
+
 	public GameObject CanvasLobbyMenu;
 	public GameObject Canvas_List;
 
@@ -16,27 +21,17 @@ public class Controller_LobbyMenu : MonoBehaviour {
 	// GameObject References
 	public ScrollableList scrolllist;
 	
-	// -TEMP- Login Values
-	string nickname = "123";
-	string password = "123";
-	string gameID   = "1";
+	// CGR Login Fields
+	public InputField cgr_nickname_field;
+	public InputField cgr_password_field;
+	// ESIa Login Field
+	public InputField esia_nickname_field;
+	public InputField esia_password_field;
 
 	//*********************************************//
 	//                 GENERAL
 	//*********************************************//
 
-	// show All Games List Canvas
-	public void showAllGameList(){
-		CanvasLobbyMenu.SetActive(false);
-		Canvas_List.SetActive(true);
-		ESIa_showAllGamesList();
-	}
-	// show downloaded games
-	public void showDownloadedGames(){
-		CanvasLobbyMenu.SetActive(false);
-		Canvas_List.SetActive(true);
-		ESIa_showDownloadedGameList();
-	}
 	// Show Lobby Main Menu
 	public void showLobbyMenu(){
 		Canvas_List.SetActive(false);
@@ -54,29 +49,39 @@ public class Controller_LobbyMenu : MonoBehaviour {
 		CanvasLobbyMenu.SetActive(true);
 	}
 	// Go Back to Intro
-	public void goBackToIntro(){ Application.LoadLevel ("Intro"); }
+	public void goBackToIntro(){
+        CanvasLobbyMenu.SetActive(false);
+        CanvasIntro.SetActive(true);
+    }
+    // Go Back to Intro
+    public void startGame(){
+        CanvasLobbyMenu.SetActive(true);
+        CanvasIntro.SetActive(false);
+    }
 
 	//********************************************//
 	//           CGR Button Callbacks
 	//********************************************//
 	// CGR Login
 	public void CGR_makeLogin(){
-		StartCoroutine(CGR_Login(nickname,password));
+		StartCoroutine(CGR_Login(cgr_nickname_field.text,
+		                         cgr_password_field.text));
 	}
 	// CGR List Available Classes
 	public void CGR_showAvailableClasses(){
 		StartCoroutine(CGR_availableClasses());
-	}
-	// CGR Request Subscription
-	public void CGR_RequestSubscriptionToClass(string classID){
-		StartCoroutine(CGR_requestSubscription(classID));
+		CanvasCGRMenu.SetActive(false);
+		Canvas_List.SetActive(true);
 	}
 	// CGR List SubscribedClasses
 	public void CGR_showSubscribedClasses(){
-		StartCoroutine(CGR_subcribedClasses());
+        StartCoroutine(CGR_subcribedClasses());
+        CanvasCGRMenu.SetActive(false);
+        Canvas_List.SetActive(true);
 	}
 	public void CGR_logoff(){
 		Debug.Log("Loggin Off");
+		PersistData.singleton.CGRkey = "";
 		CanvasCGRMenuLogin.SetActive(true);
 		CanvasCGRMenuOptions.SetActive(false);
 
@@ -84,76 +89,88 @@ public class Controller_LobbyMenu : MonoBehaviour {
 	//********************************************//
 	//           ESIa Button Callbacks
 	//********************************************//
-	public void ESIa_makeLogin(){
-		StartCoroutine(ESIa_Login(nickname,password));
+	// Login to ESIa (for reasons?)
+    public void ESIa_makeLogin(){
+		StartCoroutine(ESIa_Login(esia_nickname_field.text,
+		                          esia_password_field.text));
 	}
-	
-	public void ESIa_showAllGamesList(){
-		StartCoroutine(ESIa_GetGameList());
+	// show All Games List Canvas
+    public void ESIa_showAllGameList(){
+		CanvasLobbyMenu.SetActive(false);
+		Canvas_List.SetActive(true);
+        StartCoroutine(ESIa_GetGameList());
 	}
-	
-	public void ESIa_showDownloadedGameList(){
-		scrolllist.DrawOnList(AssetManager.singleton.LoadGamesData(), "downloadedList");
-	}
+	// show downloaded games
+	public void ESIa_showDownloadedGames(){
+        CanvasLoadingPanel.SetActive(true);
+		CanvasLobbyMenu.SetActive(false);
+		Canvas_List.SetActive(true);
+        scrolllist.DrawOnList(AssetManager.singleton.LoadGamesData(), "downloadedList");
+        CanvasLoadingPanel.SetActive(false);
+    }
 
 	//********************************************//
 	//           CGR Services Callback
 	//********************************************//
 	// Login Callback
 	IEnumerator CGR_Login(string nick, string pass) {
+        CanvasLoadingPanel.SetActive(true);
 		string url = PersistData.singleton.url_cgr_login + 
-					 gameID + "/" + nick + "/" + pass;
+					 PersistData.singleton.ESIa_CGR_GameID
+					 + "/" + nick + "/" + pass;
 		WWW www = new WWW(url);
 		Debug.Log(url);
 		yield return www;
-		PersistData.singleton.CGRkey = www.text;
-		if(www.text != null){
+		if(!www.text.Equals("no shit happened")){
+			PersistData.singleton.CGRkey = www.text;
 			CanvasCGRMenuLogin.SetActive(false);
 			CanvasCGRMenuOptions.SetActive(true);
 		}
+        CanvasLoadingPanel.SetActive(false);
 	}
 	// AvailableClasses Callback
 	IEnumerator CGR_availableClasses() {
+        CanvasLoadingPanel.SetActive(true);
 		string url = PersistData.singleton.url_cgr_availableClasses + 
 			  	     PersistData.singleton.CGRkey;
 		WWW www = new WWW(url);
 		Debug.Log(url);
 		yield return www;
 		Debug.Log(www.text);
-	}
-	// Request Subscription to Class Callback
-	IEnumerator CGR_requestSubscription(string classID) {
-		string url = PersistData.singleton.url_cgr_requestSubscription + 
-					 PersistData.singleton.CGRkey +
-					 "/" + classID;
-		WWW www = new WWW(url);
-		Debug.Log(url);
-		yield return www;
-		Debug.Log(www.text);
+		JSONNode classesList = JSON.Parse(www.text);
+		scrolllist.DrawOnList(classesList,"availableClasses");
+        CanvasLoadingPanel.SetActive(false);
 	}
 	// Request Subscription to Class Callback
 	IEnumerator CGR_subcribedClasses() {
+        CanvasLoadingPanel.SetActive(true);
 		string url = PersistData.singleton.url_cgr_subscribedClasses + 
 					 PersistData.singleton.CGRkey;
 		WWW www = new WWW(url);
 		Debug.Log(url);
 		yield return www;
-		Debug.Log(www.text);
-	}
+        JSONNode classesList = JSON.Parse(www.text);
+        scrolllist.DrawOnList(classesList, "SubscribedClasses");
+        CanvasLoadingPanel.SetActive(false);
+    }
 
 	//********************************************//
 	//           ESIa Services Callback
 	//********************************************//
 	// Login Callback
 	IEnumerator ESIa_Login(string nick, string pass) {
-		string url = PersistData.singleton.url_esia_login + nick + "/" + pass;
+        CanvasLoadingPanel.SetActive(true);
+		string url = PersistData.singleton.url_esia_login + 
+ 					 nick + "/" + pass ;
 		WWW www = new WWW(url);
 		yield return www;
 		JSONNode hashkey = JSON.Parse(www.text);
 		PersistData.singleton.ESIAkey = hashkey["hash"];
+        CanvasLoadingPanel.SetActive(false);
 	}
 	// GetFullGameList Callback
 	IEnumerator ESIa_GetGameList() {
+        CanvasLoadingPanel.SetActive(true);
 		string url = PersistData.singleton.url_esia_getgamelist + 
 			PersistData.singleton.ESIAkey + "/" + "all";
 		WWW www = new WWW(url);
@@ -161,5 +178,6 @@ public class Controller_LobbyMenu : MonoBehaviour {
 		yield return www;
 		JSONNode gamelist = JSON.Parse(www.text);
 		scrolllist.DrawOnList(gamelist,"fullOnlineList");
-	}
+        CanvasLoadingPanel.SetActive(false);
+    }
 }

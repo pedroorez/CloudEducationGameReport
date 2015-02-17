@@ -35,9 +35,11 @@ public class AssetManager : MonoBehaviour {
 
 	// Download function
 	public bool DownloadGame(JSONNode gamedata){
-		string imgurl;
+		// Say gameDataPath
+        Debug.Log("Salvando Dados em: " + gameListPath);         
+        // Variables
+        string imgurl;
 		string filename;
-		Debug.Log(gamedata);
 		string gameid = gamedata["gameID"].Value;
 		string folder = "GAME"+gameid;
 		bool result = saveToGamesData(gamedata);
@@ -167,5 +169,15 @@ public class AssetManager : MonoBehaviour {
 		}
 		return false;
 	}
+
+    // get gamedata by id
+    public JSONNode getDownloadedGameById(string id)
+    {
+        JSONNode fullgamelist = LoadGamesData();
+        for (int i = 0; i < fullgamelist.Count; i++)
+            if (fullgamelist[i]["gameID"].Value.Equals(id)) return fullgamelist[i]; 
+        
+        return null;
+    }
 
 }
