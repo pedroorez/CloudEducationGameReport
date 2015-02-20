@@ -67,7 +67,7 @@ public class GameLoader : MonoBehaviour {
 		backgroundimg.sprite = AssetManager.singleton.spriteCreator(AssetManager.singleton.LoadSavedTextureFromFile(N["backgroundAsset"][0]["imageFile"]["filename"],folder));
 		float boundx = backgroundimg.sprite.bounds.size.x;
 		float boundy = backgroundimg.sprite.bounds.size.y;
-		float scale = Mathf.Min(20/boundx,20/boundy);
+		float scale = Mathf.Max(20/boundx,20/boundy);
 		background.transform.localScale = new Vector3(scale, scale, 1F);
 
 		// start list
