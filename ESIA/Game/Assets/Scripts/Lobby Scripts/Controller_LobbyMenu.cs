@@ -17,6 +17,10 @@ public class Controller_LobbyMenu : MonoBehaviour {
 	public GameObject CanvasCGRMenu;
 	public GameObject CanvasCGRMenuLogin;
 	public GameObject CanvasCGRMenuOptions;
+    
+    // ScrollList Buttons References
+    public GameObject ButtonShowCGRMenu;
+    public GameObject ButtonShowLobby;
 
 	// GameObject References
 	public ScrollableList scrolllist;
@@ -27,6 +31,13 @@ public class Controller_LobbyMenu : MonoBehaviour {
 	// ESIa Login Field
 	public InputField esia_nickname_field;
 	public InputField esia_password_field;
+
+    //*********************************************//
+    //              TransitionWake
+    //*********************************************//
+    void Start() {
+        Transition.singleton.FadeIn();
+    }
 
 	//*********************************************//
 	//                 GENERAL
@@ -40,15 +51,11 @@ public class Controller_LobbyMenu : MonoBehaviour {
 	}
 	// show CGRMenu
 	public void showCGRMenu(){
+        Canvas_List.SetActive(false);
 		CanvasCGRMenu.SetActive(true);
 		CanvasLobbyMenu.SetActive(false);
 	}
-	// Go Back to Main lobby
-	public void goBackToMainLobby(){
-		CanvasCGRMenu.SetActive(false);
-		CanvasLobbyMenu.SetActive(true);
-	}
-	// Go Back to Intro
+    // Go Back to Intro
 	public void goBackToIntro(){
         CanvasLobbyMenu.SetActive(false);
         CanvasIntro.SetActive(true);
@@ -69,13 +76,17 @@ public class Controller_LobbyMenu : MonoBehaviour {
 	}
 	// CGR List Available Classes
 	public void CGR_showAvailableClasses(){
-		StartCoroutine(CGR_availableClasses());
+        StartCoroutine(CGR_availableClasses());
+        ButtonShowCGRMenu.SetActive(true);
+        ButtonShowLobby.SetActive(false);
 		CanvasCGRMenu.SetActive(false);
 		Canvas_List.SetActive(true);
 	}
 	// CGR List SubscribedClasses
 	public void CGR_showSubscribedClasses(){
         StartCoroutine(CGR_subcribedClasses());
+        ButtonShowCGRMenu.SetActive(true);
+        ButtonShowLobby.SetActive(false);
         CanvasCGRMenu.SetActive(false);
         Canvas_List.SetActive(true);
 	}
@@ -97,7 +108,9 @@ public class Controller_LobbyMenu : MonoBehaviour {
 	// show All Games List Canvas
     public void ESIa_showAllGameList(){
 		CanvasLobbyMenu.SetActive(false);
-		Canvas_List.SetActive(true);
+        Canvas_List.SetActive(true);
+        ButtonShowCGRMenu.SetActive(false);
+        ButtonShowLobby.SetActive(true);
         StartCoroutine(ESIa_GetGameList());
 	}
 	// show downloaded games
@@ -109,7 +122,6 @@ public class Controller_LobbyMenu : MonoBehaviour {
         if (downloadedGames.Count > 0)
             scrolllist.DrawOnList(downloadedGames, "downloadedList");
         else showLobbyMenu();    
-
         CanvasLoadingPanel.SetActive(false);
     }
 

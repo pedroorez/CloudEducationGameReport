@@ -1,16 +1,161 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>COOL API MAN HERE</div>
-    </body>
-</html>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <br><br>
+        <!--API PART-->
+        <div class="panel panel-success">
+            <div class="panel-heading">API</div>
+            <div class="panel-body">
+                <p style="font-size:10em; text-align: center;"><span font class="glyphicon glyphicon-console"/></p>
+              Above you can check the API used in this application in case you want to user 
+              our service to make your own Educational Space Invaders Version.
+              <br><br>
+              Hack, Mod, Improve =D
+            </div>
+        </div>
+        <!--Create User Service-->
+        <div class="panel panel-success">
+            <div class="panel-heading">Create User</div>
+            <div class="panel-body">
+                    "/createUser/{nickname}/{password}"
+                <ul>
+                    <li> nickname - user's nickname</li>
+                    <li> password - user's password</li>
+                </ul>
+                    this service will get the nickname and create a user on the database
+            </div>
+        </div>
+        <!--Login Service-->
+        <div class="panel panel-success">
+            <div class="panel-heading">Login</div>
+            <div class="panel-body">
+                    "/login/{nickname}/{password}"
+                <ul>
+                    <li> nickname - user's nickname</li>
+                    <li> password - user's password</li>
+                </ul>
+                    This service will get the nickname and password and return a hashkey if the user is logged, this hashkey will be used to user authentication on the other services
+            </div>
+        </div>
+        <!--GetGameData Service-->
+        <div class="panel panel-success">
+            <div class="panel-heading">Get the from a specific game</div>
+            <div class="panel-body">
+                    "/GetGameData/{hash}/{GameID}"
+                <ul>
+                    <li> hash - user's hash identifier, provided by login service</li>
+                    <li> GameID - GameID of the game]</li>
+                </ul>
+                    Service that response a JSON with all data of the provided GameID. Used for editor
+            </div>
+        </div>
+        <!--Get all games-->
+        <div class="panel panel-success">
+            <div class="panel-heading">Get all the games available</div>
+            <div class="panel-body">
+                    "/GetGameList/{hash}/{mode}"
+                    "/GetAllGamesList/"
+                <ul>
+                    <li> hash - user's hash identifier, provided by login service</li>
+                    <li> mode - 'all' for all games available, 'mine' for only the user's created games</li>
+                </ul>
+                    The GameData of a specific gameid
+                    this service also works without the hash, but if the game is closed for public it wont work (use it -for the game)
+            </div>
+        </div>
+        <!--Get all Images Service-->
+        <div class="panel panel-success">
+            <div class="panel-heading">Get all images availables (for gallery)</div>
+            <div class="panel-body">
+                    "/GetImageList/{hash}"
+                <ul>
+                    <li> hash - user's hash identifier, provided by login service</li>
+                </ul>
+                    get all images uploaded by the user (for gallery creation and reuse of sprites)
+            </div>
+        </div>
+        <!--Delete Asset Service-->
+        <div class="panel panel-success">
+            <div class="panel-heading">Delete an Asset from a game</div>
+            <div class="panel-body">
+                    "/deleteAsset/{hash}/{assetId}"
+                <ul>
+                    <li> hash - user's hash identifier, provided by login service</li>
+                    <li> assetID - ID of the asset to be deleted</li>
+                </ul>
+                    This service delete a specific asset from a game. The image of the asset is not 
+                    deleted only the reference of the image to a specific Game.
+            </div>
+        </div>
+        <!--Delete Game Service-->
+        <div class="panel panel-success">
+            <div class="panel-heading">Delete a Game</div>
+            <div class="panel-body">
+                    "/deleteGame/{hash}/{gameID}"
+                <ul>
+                    <li> hash - user's hash identifier, provided by login service</li>
+                    <li> gameID - Id of the game to be deleted</li>
+                </ul>
+                    This service delete the game reference and all it's assets. The Image file of the asset will be kept.
+            </div>
+        </div>
+        <!--Create a new game Service-->
+        <div class="panel panel-success">
+            <div class="panel-heading">Create a new Game</div>
+            <div class="panel-body">
+                    "/createNewGame/{hash}/"
+                <ul>
+                    <li> hash - user's hash identifier, provided by login service</li>
+                </ul>
+                    This service create an empty game
+            </div>
+        </div>
+        <!--Update Game Service-->
+        <div class="panel panel-success">
+            <div class="panel-heading">Update a Game</div>
+            <div class="panel-body">
+                    "/updateGame/{hash}/{gameID}/{gameName}/{gameDescription}"
+                <ul>
+                    <li> hash - user's hash identifier, provided by login service</li>
+                    <li> gameID - ID of the game which data wll be modified</li>
+                    <li> gameName - The new game name to be used</li>
+                    <li> gameDescription -  the new game description to be used</li>
+                </ul>
+                    This service update the meta data of the game.
+            </div>
+        </div>
+        <!--Update Asset Service-->
+        <div class="panel panel-success">
+            <div class="panel-heading">Update or Create an Asset</div>
+            <div class="panel-body">
+                    "/updateAsset/{hash}/{gameID}/{assetId}/{assetType}/{assetText}/{answerId}/{imageFileId}"
+                <ul>
+                    <li> hash - user's hash identifier, provided by login service</li>
+                    <li> gameID - Game ID which the asset will be associated</li>
+                    <li> assetID - the asset ID that will be modified</li>
+                    <li> assetType - the asset Type(enemy, player, background or answer) of the asset that will be created or modified</li>
+                    <li> assetText - the asset Text of the asset that will be created or modified</li>
+                    <li> answerID - set an asset as answer (used for enemy asset type only)</li>
+                    <li> imageFieldID - set this ID as the image for that asset. (used for gallery)</li>
+                </ul>
+                    This is the main asset function. 
+                    The hash and the gameID are obligatory.
+                    The other ones are optional, to avoid changing the information add a -1 to 
+                    the field, this will indicate that the data will not be replaced
+                    To upload a file just add a formdata and send it as POST.
+                    The service will answer a JSON with the data of this asset with its ID, Url and other information
+                
+            </div>
+        </div>
+        <!--CGR Service-->
+        <div class="panel panel-success">
+            <div class="panel-heading">Cloud Game Report System</div>
+            <div class="panel-body">
+                <ul>
+                    <li>You can find the CGR API on its website:
+                    /CloudGameReport/about</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

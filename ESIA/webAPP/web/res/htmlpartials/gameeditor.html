@@ -1,9 +1,5 @@
-<div class="galleryBox">
-    asdasd
-</div>
-
-<div class="row">
-    <div class="col-md-4 leftpanel" style="background-color:lavender; height:100%; ">	
+<div class="row" style="color:white">
+    <div class="col-md-4 leftpanel" style="height:100%; ">	
         <h2> Game Preview </h2>
 
         <div class="GamePreview" > 
@@ -21,19 +17,27 @@
         </div>  
     </div>
 
-    <div class="col-md-8 rightpanel " style="background-color:lavenderblush; ">
+    <div class="col-md-8 rightpanel ">
         <div class="row text-center">
+            <center>
             <h1>Game Information</h1>
-            <label>GameID:</label>
-            <input type="text" ng-model="result.Data.gameID" readonly/>
-            <label>Creator Fullname:</label>
-            <input type="text" ng-model="result.Data.creator.fullname" readonly/>
-            <br>
-            <label>Game Name:</label>
-            <input type="text" ng-model="result.Data.gameName" ng-blur="updateGameInfo()"/>
-            <label>Game Description</label>
-            <input type="text" ng-model="result.Data.description" ng-blur="updateGameInfo()"/>
-        </div>
+            <table  style='color:white;'>
+                <tr>
+                    <td><label>GameID:</label></td>
+                    <td><input type="text" ng-model="result.Data.gameID" readonly/></td>
+                    <td><label>Creator Fullname:</label></td>
+                    <td><input type="text" ng-model="result.Data.creator.fullname" readonly/></td>
+                </tr>
+                <tr>
+                    <td><label>Game Name:</label></td>
+                    <td><input type="text" ng-model="result.Data.gameName" ng-blur="updateGameInfo()"/></td>
+                    <td><label>Game Description</label></td>
+                    <td><input type="text" ng-model="result.Data.description" ng-blur="updateGameInfo()"/></td>
+                </tr>
+                <br>
+            </table>
+            </center>
+            </div>
         
         <div class="row">
             <h1>Assets</h1>
@@ -56,7 +60,7 @@
                 <h2>Enemies</h2>
                 <asset-box ng-repeat="(key,enemy) in result.Data.enemyList track by $index" entry-No="{{key}}" asset-type="enemy" target-List="enemyList"> </asset-box>
                 <div class="assetBox"> 
-                    <a ng-click="addEnemy()"><span class="glyphicon glyphicon-plus" aria-hidden="true" style="font-size:180"></span></a>
+                    <a ng-click="addEnemy()"><span class="glyphicon glyphicon-plus" aria-hidden="true" style="font-size:180; position: fixe; top:25px; left:10px"></span></a>
                 </div>
             </div>
         </div>

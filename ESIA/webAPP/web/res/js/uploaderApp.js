@@ -39,7 +39,7 @@ uploaderApp.service('DataManager', function($parse,services,$location,$q,$cookie
     }
     // currente gameID
     Game.Status = []
-    Game.Status.currentGameID = 1
+    Game.Status.currentGameID = null;
     Game.Status.userhash = [];
     Game.Status.logged = false;
     // is logged?

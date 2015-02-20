@@ -11,6 +11,7 @@ hidden { visibility: hidden; }
 
 /* General Game Preview */
 .enemy{
+        text-align: center;
 	height: 80px;
 	width: 80px;
 	position: absolute;
@@ -20,6 +21,7 @@ hidden { visibility: hidden; }
 .enemy3{ left:40%; top:5%;  }
 .buttom{
 	position: absolute;
+        text-align: center;
 	bottom: 5px;
 	width: 30%;
 	height: 90px;	
@@ -28,6 +30,7 @@ hidden { visibility: hidden; }
 .right{ right: 15px; }
 .center{ left: 35%; }
 .player{
+        text-align: center;
 	position: absolute;
         bottom: 100px;
         width:  100px;
@@ -45,14 +48,15 @@ hidden { visibility: hidden; }
 
 /* AssetBox CSS */
 .assetBox{
+        position: relative;
         display: inline-block;
-        width: 250px;
-        height: 255px;
+        width: 215px;
+        height: 260px;
 	padding: 5px;
         margin: 5px;
         overflow: auto;
         background-color: lightsteelblue;
-        border-radius: 10px;
+        border-radius: 2px;
         text-align: center;
         vertical-align: center;
 }
@@ -62,12 +66,11 @@ hidden { visibility: hidden; }
     top:0px;
     left:0px;
     width:100%;
-    max-height:100%;
+    height:100%;
 }
 
 .GamePreview{
     position: relative;
-    background: blue;
     height:85%;
 }
 
@@ -85,6 +88,7 @@ hidden { visibility: hidden; }
 
 /* gamelist CSS */
 .gamedisplay{
+        position: relative;
         display: inline-block;
         width: 250px;
         height: 210px;
@@ -92,9 +96,10 @@ hidden { visibility: hidden; }
         margin: 5px;
         overflow: auto;
         background-color: lightsteelblue;
-        border-radius: 10px;
+        border-radius: 2px;
         text-align: center;
         vertical-align: center;
+        font-size: 130%;
 }
 
 .galleryBox{

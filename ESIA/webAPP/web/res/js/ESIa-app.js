@@ -36,6 +36,11 @@ ESIapp.config(['$routeProvider', function($routeProvider){
         templateUrl: '/ESIa/res/htmlpartials/signup.html',
         controller: 'signup'
     })
+     // Game Case
+    .when('/game',
+    {
+        templateUrl: '/ESIa/res/htmlpartials/game.html',
+    })
     // root case
 //    .when('/',{
 //        templateUrl: '/ESIa/res/htmlpartials/displayAll.html',
@@ -54,6 +59,7 @@ ESIapp.controller('mainapp', function($scope,$location, DataManager){
     }
     // bind the logged variable
     $scope.gamestatus = DataManager.isLogged();
+    
     // go to initial
     if($scope.gamestatus.logged === false){
         $location.path( "/home" );
