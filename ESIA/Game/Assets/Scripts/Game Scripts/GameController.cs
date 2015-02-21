@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour {
 
 	// Menus Objects
 	public GameObject PauseMenu;
+    public GameObject PauseButton;
 	public GameObject EndOfMatchPanel;
 	public Text displayText;
 	public int score;
@@ -29,6 +30,7 @@ public class GameController : MonoBehaviour {
 	
     // Start function, starts coroutine and set the score
 	void Start(){
+        Transition.singleton.FadeIn();
 		Controller = this;
 		score = 0;
 		gamedata = PersistData.singleton.CurrentGame;
@@ -81,6 +83,7 @@ public class GameController : MonoBehaviour {
 	public void EndOfMatch() {
 		StopCoroutine ("SpawnWaves");
 		Debug.Log("Match Ended");
+        PauseButton.SetActive(false);
 		EndOfMatchPanel.SetActive(true);
         // disable butons
 		GameLoader loader = gameObject.GetComponent<GameLoader> ();
@@ -92,12 +95,14 @@ public class GameController : MonoBehaviour {
 
 	public void pauseGame(){
 		Time.timeScale = 0.0F;
+        PauseButton.SetActive(false);
 		PauseMenu.SetActive(true);
 	}
 
 	public void unPauseGame(){
 		Time.timeScale = 1.0F;
-		PauseMenu.SetActive(false);
+        PauseButton.SetActive(true);
+        PauseMenu.SetActive(false);
 		
 	}
 

@@ -80,22 +80,22 @@ public class ScrollableList : MonoBehaviour
 			if (listType.Equals("fullOnlineList")){
 				Text[] Textos = newItem.GetComponentsInChildren<Text>();
 				Button[] ButtonList = newItem.GetComponentsInChildren<Button>(true);
+                // Deactivate DeleteButton by default
+                ButtonList[1].gameObject.SetActive(false);
 				string GameID = N[i]["gameID"].Value;
 				// Set newItem Texts
-				Textos[0].text = N[i]["gameID"].Value;
-				Textos[1].text = N[i]["description"].Value;
-				Textos[2].text = "Download Game ID:"+N[i]["gameID"].Value;
-				// Add Download Game Listener
-				ButtonList[0].onClick.AddListener( () => DownloadGame(GameID));
+				Textos[0].text = N[i]["gameName"].Value;
+                Textos[1].text = "<b>Description:</b> " + N[i]["description"].Value;
+				// Add Download Game and Delete Game Listener
+                ButtonList[0].onClick.AddListener(() => DownloadGame(GameID, ButtonList));
+                ButtonList[1].onClick.AddListener(() => DeleteGame(GameID, ButtonList));
 				// check if the game was already downloaded
 				// and set it as downloaded
 				if(downloadedGames != null)
 					for(int k = 0; k < downloadedGames.Count; k++ )			
 						if(downloadedGames[k]["gameID"].AsInt == N[i]["gameID"].AsInt){
-							Textos[2].text = "JOGO BAIXADO";
 							ButtonList[0].gameObject.SetActive(false);
 							ButtonList[1].gameObject.SetActive(true);
-							ButtonList[1].onClick.AddListener( () => DeleteGame(GameID, newItem) );
 						}
 			}
 
@@ -104,9 +104,8 @@ public class ScrollableList : MonoBehaviour
 			if (listType.Equals("downloadedList")){
 				Text[] Textos = newItem.GetComponentsInChildren<Text>();
 				// Set newItem Texts
-				Textos[0].text = N[i]["gameID"].Value;
-				Textos[1].text = N[i]["description"].Value;
-				Textos[2].text = "Download Game ID:"+N[i]["gameID"].Value;
+                Textos[0].text = N[i]["gameName"].Value;
+                Textos[1].text = "<b>Description:</b> " + N[i]["description"].Value;
 				JSONNode gamedata = N[i];	 // still no ideia, braw
 				newItem.GetComponentInChildren<Button>()
 					.onClick.AddListener( () => LoadGame(gamedata) );
@@ -118,9 +117,9 @@ public class ScrollableList : MonoBehaviour
 				Text[] Textos = newItem.GetComponentsInChildren<Text>();
 				string classID = N[i]["classID"].Value;
 				// Set newItem Texts
-				Textos[0].text = "Professor: " + N[i]["professor"]["fullName"].Value;
-				Textos[1].text = "Class Name: " + N[i]["className"].Value;
-				Textos[2].text = "Class Description: "+N[i]["classDescription"].Value;
+                Textos[0].text = N[i]["className"].Value;
+                Textos[1].text = "Professor: " + N[i]["professor"]["fullName"].Value;
+                Textos[2].text = "Class Description: " + N[i]["classDescription"].Value;
 				newItem.GetComponentInChildren<Button>()
 					.onClick.AddListener( () => CGR_subscribeToClass(classID) );
 			}
@@ -132,10 +131,9 @@ public class ScrollableList : MonoBehaviour
                 string gameReference = N[i]["gameReference"].Value;
                 string gameEntry = N[i]["gameEntryID"].Value;
 				// Set newItem Texts
-				Textos[0].text = "Professor: " + N[i]["classe"]["professor"]["fullName"].Value;
-                Textos[1].text = "Class Name: " + N[i]["classe"]["className"].Value;
+                Textos[0].text = N[i]["classe"]["className"].Value;
+                Textos[1].text = "Professor: " + N[i]["classe"]["professor"]["fullName"].Value;
                 Textos[2].text = "Class Description: " + N[i]["classe"]["classDescription"].Value;
-                Textos[3].text = "Game Name: " + N[i]["gameName"].Value;
 				newItem.GetComponentInChildren<Button>()
                     .onClick.AddListener(() => CGR_LoadGame(gameReference, gameEntry));
 			}
@@ -163,16 +161,18 @@ public class ScrollableList : MonoBehaviour
 	//********************************************//
 	// Load a Game Callback
 	void LoadGame(JSONNode gamedata){
-		PersistData.singleton.CurrentGame = gamedata; // save gamedata
-		Application.LoadLevel("BattleScene");		  // load gamescene
+        Transition.singleton.FadeOutTo("BattleScene"); // set the loader
+		PersistData.singleton.CurrentGame = gamedata;  // save gamedata
 	}
 	// Download a Game Callback
-	void DownloadGame(string gameid){
-		StartCoroutine(ESIa_DownloadGameData(gameid));
+	void DownloadGame(string gameid, Button[] buttonlist){
+        StartCoroutine(ESIa_DownloadGameData(gameid, buttonlist));
 	}
 	// Delete a Game Callback
-	void DeleteGame(string gameid, GameObject Button){
+    void DeleteGame(string gameid, Button[] buttonlist){
 		AssetManager.singleton.removeGameByID(gameid);
+        buttonlist[0].gameObject.SetActive(true);
+        buttonlist[1].gameObject.SetActive(false);
 	}
 	// Delete a Game Callback
 	void CGR_subscribeToClass(string classid){
@@ -195,7 +195,7 @@ public class ScrollableList : MonoBehaviour
 	//           Services Callback
 	//********************************************//
 	// GetSingleGameData Service Callback
-	IEnumerator ESIa_DownloadGameData(string gameid) {
+    IEnumerator ESIa_DownloadGameData(string gameid, Button[] buttonlist){
 		string url = PersistData.singleton.url_esia_getgamedata + 
 					 PersistData.singleton.ESIAkey + "/" + gameid;
 		WWW www = new WWW(url);
@@ -203,6 +203,7 @@ public class ScrollableList : MonoBehaviour
 		yield return www;
 		JSONNode gamedata = JSON.Parse(www.text);
 		AssetManager.singleton.DownloadGame(gamedata);
+        buttonlist[1].gameObject.SetActive(true);
 	}
 	// Request Subscription to Class Callback
 	IEnumerator CGR_requestSubscription(string classID) {

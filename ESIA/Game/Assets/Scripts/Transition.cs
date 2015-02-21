@@ -9,6 +9,7 @@ public class Transition : MonoBehaviour {
     Text text;
     Color c;
     Color tc;
+    string sceneName = "";
     
     public bool fadingIn;
     public bool fadingOut;
@@ -44,6 +45,8 @@ public class Transition : MonoBehaviour {
             tc.a = Mathf.Lerp(background.color.a, 0, Time.deltaTime * fadeTime);
             background.color = c;
             text.color = tc;
+            if (VolumeController.background != null)
+                VolumeController.background.audioAsset.volume = 1 - tc.a ;
             if (background.color.a < 0.01){
                 faddedIn = true;
                 fadingIn = false;
@@ -56,9 +59,15 @@ public class Transition : MonoBehaviour {
             tc.a = Mathf.Lerp(background.color.a, 1, Time.deltaTime * fadeTime);
             background.color = c;
             text.color = tc;
+            if (VolumeController.background != null)
+                VolumeController.background.audioAsset.volume = 1 - tc.a;
             if (background.color.a > 0.99){
                 faddedOut = true;
                 fadingOut = false;
+                if (!sceneName.Equals("")){
+                    Application.LoadLevel(sceneName);
+                    sceneName = "";
+                }
             }
         }
 
@@ -72,6 +81,9 @@ public class Transition : MonoBehaviour {
 
     // function to active the fade out
     public void FadeOut() { fadingOut = true; }
+
+    // function to active the fade out
+    public void FadeOutTo(string name) { fadingOut = true; sceneName = name; }
 
     // function to active the fade in
     public void FadeIn() { fadingIn = true; }

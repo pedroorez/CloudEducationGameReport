@@ -115,6 +115,8 @@ public class Controller_LobbyMenu : MonoBehaviour {
 	}
 	// show downloaded games
 	public void ESIa_showDownloadedGames(){
+        ButtonShowCGRMenu.SetActive(false);
+        ButtonShowLobby.SetActive(true);
         CanvasLoadingPanel.SetActive(true);
 		CanvasLobbyMenu.SetActive(false);
 		Canvas_List.SetActive(true);
