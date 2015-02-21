@@ -31,7 +31,6 @@ public class GameController : MonoBehaviour {
 	
     // Start function, starts coroutine and set the score
 	void Start(){
-        Transition.singleton.FadeIn();
 		Controller = this;
 		score = 0;
 		gamedata = PersistData.singleton.CurrentGame;
@@ -50,26 +49,13 @@ public class GameController : MonoBehaviour {
 
 			for(int i=0; i< hazardCount; i++)
 			{
-				Vector2 spawnPosition = new Vector2(Random.Range(-spawnValues.x,spawnValues.x),spawnValues.y);
-				Quaternion spawnRotation = Quaternion.identity;
-				GameObject clone = Instantiate (hazard, spawnPosition, spawnRotation) as GameObject;
-				DestroyAsteroid enemy = clone.GetComponent <DestroyAsteroid>();
-				// get sprite reference
-				SpriteRenderer sprite = clone.GetComponent<SpriteRenderer>(); 
-				// generate a random number that will define the enemy
-				int id = Random.Range(0,randomRange);
-				// set the assets for that specific spawn
-				sprite.sprite = GameLoader.enemySpriteList[id];
-				// set the polygon collider
-				clone.AddComponent<PolygonCollider2D>();
-				//set the answers
-				enemy.ansValue=gamedata["enemyList"][id]["rightans"]["id"].AsInt;
-				//resize the gameobject
-				float boundx = sprite.sprite.bounds.size.x;
-				float boundy = sprite.sprite.bounds.size.y;
-				float scale = Mathf.Min(2/boundx,2/boundy);
-				clone.transform.localScale = new Vector3(scale, scale, 1F);
-				yield return new WaitForSeconds(spawnWait);
+                // generate a random number that will define the enemy
+                int id = Random.Range(0, randomRange);
+				GameObject clone = Instantiate (GameLoader.enemeyPrefabList[id], 
+                                                new Vector2(Random.Range(-spawnValues.x,spawnValues.x),spawnValues.y), 
+                                                Quaternion.identity) as GameObject;
+                clone.gameObject.SetActive(true);
+                yield return new WaitForSeconds(spawnWait);
 			}
 		}
 	}

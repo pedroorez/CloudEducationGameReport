@@ -14,6 +14,8 @@ public class GameLoader : MonoBehaviour {
 	public GameObject player;
 	public GameObject background;
 
+    public GameObject enemyPrefab;
+
 	// Reference for the internal elements
 	Image button1img;
 	Image button2img;
@@ -26,7 +28,7 @@ public class GameLoader : MonoBehaviour {
 	SpriteRenderer backgroundimg;
 
 	//enemy assetlist
-	public static List<Sprite> enemySpriteList;
+    public static List<GameObject> enemeyPrefabList;
 
 	// Use this for initialization
 	public void LoadAssetsFromFile() {
@@ -71,13 +73,30 @@ public class GameLoader : MonoBehaviour {
 		background.transform.localScale = new Vector3(scale, scale, 1F);
 
 		// start list
-		enemySpriteList = new List<Sprite>();
+        enemeyPrefabList = new List<GameObject>();
+        // create a list of the enemy gameobject already resized and etc
 		// get all sprites from files
 		for(int i = 0; i < N["enemyList"].Count; i++){
-			Sprite newEnemy = AssetManager.singleton.spriteCreator(AssetManager.singleton.LoadSavedTextureFromFile(N["enemyList"][i]["imageFile"]["filename"],folder));
-			enemySpriteList.Add(newEnemy);
-		}
-
+            GameObject clone = Instantiate(enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            // get clone reference
+            SpriteRenderer sprite = clone.GetComponent<SpriteRenderer>();
+            DestroyAsteroid enemy = clone.GetComponent<DestroyAsteroid>();
+            // set the sprite
+            sprite.sprite = AssetManager.singleton.spriteCreator(AssetManager.singleton.LoadSavedTextureFromFile(N["enemyList"][i]["imageFile"]["filename"],folder));
+            // set the polygon collider
+            clone.AddComponent<PolygonCollider2D>();
+            //set the answers
+            enemy.ansValue = N["enemyList"][i]["rightans"]["id"].AsInt;
+            //resize the gameobject
+            float enemy_boundx = sprite.sprite.bounds.size.x;
+            float enemy_boundy = sprite.sprite.bounds.size.y;
+            float enemy_scale = Mathf.Min(2 / enemy_boundx, 2 / enemy_boundy);
+            clone.transform.localScale = new Vector3(enemy_scale, enemy_scale, 1F);
+            // add the altered prefab clone to the list
+            enemeyPrefabList.Add(clone);
+        }
+        // Game Loaded, Start Game
+        Transition.singleton.FadeIn();
 	}
 
 	public void DisableButtons(){
