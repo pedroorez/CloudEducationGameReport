@@ -191,7 +191,7 @@ public class ScrollableList : MonoBehaviour
             }
         PersistData.singleton.CGR_GameEntry_ID = gameEntry;
         PersistData.singleton.CurrentGame = gamedata; // save gamedata
-        Application.LoadLevel("BattleScene");		  // load gamescene 
+        Transition.singleton.FadeOutTo("BattleScene");		  // load gamescene 
     }
 
 	//********************************************//
@@ -230,7 +230,7 @@ public class ScrollableList : MonoBehaviour
         if (gamedata == null) yield return null;
         yield return AssetManager.singleton.DownloadGame(gamedata);
         PersistData.singleton.CurrentGame = gamedata; // save gamedata
-        Application.LoadLevel("BattleScene");		  // load gamescene 
+        Transition.singleton.FadeOutTo("BattleScene");		  // load gamescene 
     }
 
     public void cleanList(){
