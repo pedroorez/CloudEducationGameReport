@@ -123,6 +123,7 @@ public class Controller_LobbyMenu : MonoBehaviour {
 	}
 	// show downloaded games
 	public void ESIa_showDownloadedGames(){
+        scrolllist.cleanList();
         ButtonShowCGRMenu.SetActive(false);
         ButtonShowLobby.SetActive(true);
         CanvasLoadingPanel.SetActive(true);
@@ -157,6 +158,7 @@ public class Controller_LobbyMenu : MonoBehaviour {
 	}
 	// AvailableClasses Callback
 	IEnumerator CGR_availableClasses() {
+        scrolllist.cleanList();
         CanvasLoadingPanel.SetActive(true);
 		string url = PersistData.singleton.url_cgr_availableClasses + 
 			  	     PersistData.singleton.CGRkey;
@@ -170,6 +172,7 @@ public class Controller_LobbyMenu : MonoBehaviour {
     }
 	// Request Subscription to Class Callback
 	IEnumerator CGR_subcribedClasses() {
+        scrolllist.cleanList();
         CanvasLoadingPanel.SetActive(true);
 		string url = PersistData.singleton.url_cgr_subscribedClasses + 
 					 PersistData.singleton.CGRkey;
@@ -197,6 +200,7 @@ public class Controller_LobbyMenu : MonoBehaviour {
 	}
 	// GetFullGameList Callback
 	IEnumerator ESIa_GetGameList() {
+        scrolllist.cleanList();
         CanvasLoadingPanel.SetActive(true);
 		string url = PersistData.singleton.url_esia_getgamelist + 
 			PersistData.singleton.ESIAkey + "/" + "all";

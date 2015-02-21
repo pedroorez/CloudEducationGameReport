@@ -11,6 +11,7 @@ public class ScrollableList : MonoBehaviour
 	public GameObject loadGameButton;
 	public GameObject availableClassesButton;
 	public GameObject subscribedClassesButton;
+    public GameObject scrollbar;
 	List<GameObject> buttonList = new List<GameObject>(); // list with buttons -for reseting-
 
 	//	 Builder Function
@@ -42,6 +43,9 @@ public class ScrollableList : MonoBehaviour
 			break;
 		}
 
+        // clean list before drawing another on
+        foreach (GameObject b in buttonList) Destroy(b);
+
 		// Get the prefab transform and the container transform
 		RectTransform rowRectTransform = itemPrefab.GetComponent<RectTransform>();
 		RectTransform containerRectTransform = gameObject.GetComponent<RectTransform>();
@@ -57,8 +61,6 @@ public class ScrollableList : MonoBehaviour
 		containerRectTransform.offsetMin = new Vector2(containerRectTransform.offsetMin.x, -scrollHeight / 2);
 		containerRectTransform.offsetMax = new Vector2(containerRectTransform.offsetMax.x, scrollHeight / 2);
 
-		// clean list before drawing another on
-		foreach (GameObject b in buttonList) Destroy(b);
 
 		// load downloaded games
 		JSONNode downloadedGames = AssetManager.singleton.LoadGamesData();
@@ -153,7 +155,8 @@ public class ScrollableList : MonoBehaviour
             rectTransform.sizeDelta.Set(0, 0);
 
 		}
-			
+        // activate scrollbar
+        scrollbar.SetActive(true);
 	}
 
 	//********************************************//
@@ -229,4 +232,11 @@ public class ScrollableList : MonoBehaviour
         PersistData.singleton.CurrentGame = gamedata; // save gamedata
         Application.LoadLevel("BattleScene");		  // load gamescene 
     }
+
+    public void cleanList(){
+        // clean list before drawing another on
+        scrollbar.SetActive(false);
+        foreach (GameObject b in buttonList) Destroy(b);
+    }            
 }
+
