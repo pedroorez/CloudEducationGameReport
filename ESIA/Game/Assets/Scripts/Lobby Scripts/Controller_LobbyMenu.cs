@@ -54,7 +54,14 @@ public class Controller_LobbyMenu : MonoBehaviour {
         Canvas_List.SetActive(false);
 		CanvasCGRMenu.SetActive(true);
 		CanvasLobbyMenu.SetActive(false);
-	}
+        string key = PlayerPrefs.GetString("CGR_KEY");
+        if (key.Length != 0){
+            PersistData.singleton.CGRkey = key;
+            CanvasCGRMenuLogin.SetActive(false);
+            CanvasCGRMenuOptions.SetActive(true);
+        }
+	
+    }
     // Go Back to Intro
 	public void goBackToIntro(){
         CanvasLobbyMenu.SetActive(false);
@@ -93,6 +100,7 @@ public class Controller_LobbyMenu : MonoBehaviour {
 	public void CGR_logoff(){
 		Debug.Log("Loggin Off");
 		PersistData.singleton.CGRkey = "";
+        PlayerPrefs.DeleteKey("CGR_KEY");
 		CanvasCGRMenuLogin.SetActive(true);
 		CanvasCGRMenuOptions.SetActive(false);
 
@@ -143,6 +151,7 @@ public class Controller_LobbyMenu : MonoBehaviour {
 			PersistData.singleton.CGRkey = www.text;
 			CanvasCGRMenuLogin.SetActive(false);
 			CanvasCGRMenuOptions.SetActive(true);
+            PlayerPrefs.SetString("CGR_KEY", www.text);
 		}
         CanvasLoadingPanel.SetActive(false);
 	}
@@ -158,7 +167,7 @@ public class Controller_LobbyMenu : MonoBehaviour {
 		JSONNode classesList = JSON.Parse(www.text);
 		scrolllist.DrawOnList(classesList,"availableClasses");
         CanvasLoadingPanel.SetActive(false);
-	}
+    }
 	// Request Subscription to Class Callback
 	IEnumerator CGR_subcribedClasses() {
         CanvasLoadingPanel.SetActive(true);
@@ -197,5 +206,6 @@ public class Controller_LobbyMenu : MonoBehaviour {
 		JSONNode gamelist = JSON.Parse(www.text);
 		scrolllist.DrawOnList(gamelist,"fullOnlineList");
         CanvasLoadingPanel.SetActive(false);
+
     }
 }

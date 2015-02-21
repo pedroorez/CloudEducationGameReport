@@ -14,7 +14,10 @@ public class AssetManager : MonoBehaviour {
 	static string domain;
 	string gameListPath;
 
-	// Singleton
+    // root path for saving files
+    string rootPath;
+	
+    // Singleton
 	public static AssetManager singleton;
 	void Awake() {
 		//If I am the first instance, make me the Singleton
@@ -29,9 +32,11 @@ public class AssetManager : MonoBehaviour {
 
 	// Get folder reference
 	void Start(){
-		gameListPath = Application.persistentDataPath +"\\"+ "GameList.txt";
+        rootPath = Application.persistentDataPath;
+		gameListPath = rootPath +"/"+ "GameList.txt";
 		domain = PersistData.singleton.domain;
-	}
+        
+    }
 
 	// Download function
 	public bool DownloadGame(JSONNode gamedata){
@@ -104,14 +109,14 @@ public class AssetManager : MonoBehaviour {
 	// File Saver
 	// Save a file to a specific folder on the project persistency folder
 	void SaveTextureToFile(Texture2D texture, string folder,string fileName){
-		(new FileInfo(Application.persistentDataPath +"\\"+ folder )).Directory.Create();
-		Directory.CreateDirectory(Application.persistentDataPath +"\\"+ folder);
-		File.WriteAllBytes(Application.persistentDataPath +"\\"+ folder +"\\"+ fileName, texture.EncodeToPNG());
+		(new FileInfo(rootPath +"/"+ folder )).Directory.Create();
+		Directory.CreateDirectory(rootPath +"/"+ folder);
+		File.WriteAllBytes(rootPath +"/"+ folder +"/"+ fileName, texture.EncodeToPNG());
 	}
 	
 	// Load a texture from a folder on the aplication data
 	public Texture2D LoadSavedTextureFromFile(string fileName, string folder){	
-		byte[] byteVector = File.ReadAllBytes(Application.persistentDataPath +"\\"+ folder +"\\"+fileName);
+		byte[] byteVector = File.ReadAllBytes(rootPath +"/"+ folder +"/"+fileName);
 		Texture2D loadedTexture = new Texture2D(8,8);
 		loadedTexture.LoadImage(byteVector);
 		return loadedTexture;
@@ -127,7 +132,7 @@ public class AssetManager : MonoBehaviour {
 		try{
 			gamelist = JSONNode.LoadFromFile(gameListPath);
 		} catch(IOException e) { 
-			Debug.Log("nao achou o arquivo retornando um novo "+ e);
+			Debug.Log("nao achou o arquivo retornando um novo");
 			return null;
 		}
 			return gamelist ;
@@ -163,7 +168,7 @@ public class AssetManager : MonoBehaviour {
 				//save modified data
 				gamedata.SaveToFile(gameListPath);
 				//delete game folder
-				Directory.Delete(Application.persistentDataPath + "\\" + "GAME"+gameID, true);
+				Directory.Delete(rootPath + "/" + "GAME"+gameID, true);
 				return true;
 			}
 		}

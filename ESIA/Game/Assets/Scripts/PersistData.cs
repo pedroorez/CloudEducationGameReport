@@ -49,7 +49,6 @@ public class PersistData : MonoBehaviour {
 	// -TEMP- Initial Setup
 	void Start(){
 		ESIAkey = "7c4b0904033e20f270adc82e943803b2196a9f86";
-		CGRkey = "ucmkio6qh47rrr96cmvta48fh8";
 	}
 
 }

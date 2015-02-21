@@ -10,13 +10,7 @@ public class SpashTimer : MonoBehaviour {
 
         // Activate the Fadeout after a while    
         if (timerInSecs <= 0)
-            Transition.singleton.FadeOut();
-
-        // activate the loadlevel after the transition
-        if (timerInSecs <= 0 && Transition.singleton.faddedOut) {
-            Application.LoadLevel("Lobby");
-            Transition.singleton.faddedOut = false;        
-        }
+            Transition.singleton.FadeOutTo("Lobby");
     }
 
 }

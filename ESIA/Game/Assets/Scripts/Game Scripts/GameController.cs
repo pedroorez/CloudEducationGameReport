@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour {
     public GameObject PauseButton;
 	public GameObject EndOfMatchPanel;
 	public Text displayText;
+    public Text displayTextGameOver;
 	public int score;
 
     // Game Configuration
@@ -76,7 +77,7 @@ public class GameController : MonoBehaviour {
     //              Aux Functions
     //********************************************//
 	// Update function, keep the score updated
-	void Update(){ displayText.text = "Score: " + score.ToString(); }
+	void Update(){ displayTextGameOver.text = displayText.text = "Score: " + score.ToString(); }
 
 	public void AddPoints(){ score += 10; }
 
@@ -108,7 +109,7 @@ public class GameController : MonoBehaviour {
 
 	public void goBackToLobby(){
 		Time.timeScale = 1.0F;
-		Application.LoadLevel ("Lobby"); 
+        Transition.singleton.FadeOutTo("Lobby"); 
 	}
 
     //********************************************//
