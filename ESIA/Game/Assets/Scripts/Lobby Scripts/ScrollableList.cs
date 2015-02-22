@@ -200,7 +200,7 @@ public class ScrollableList : MonoBehaviour
 	// GetSingleGameData Service Callback
     IEnumerator ESIa_DownloadGameData(string gameid, Button[] buttonlist){
 		string url = PersistData.singleton.url_esia_getgamedata + 
-					 PersistData.singleton.ESIAkey + "/" + gameid;
+					 gameid;
 		WWW www = new WWW(url);
 		Debug.Log(url);
 		yield return www;
@@ -222,7 +222,7 @@ public class ScrollableList : MonoBehaviour
     IEnumerator ESIa_DownloadGameData_forCGR(string gameid)
     {
         string url = PersistData.singleton.url_esia_getgamedata +
-                     PersistData.singleton.ESIAkey + "/" + gameid;
+                     gameid;
         WWW www = new WWW(url);
         Debug.Log(url);
         yield return www;

@@ -5,22 +5,22 @@ using SimpleJSON;
 public class PersistData : MonoBehaviour {
 
 	// Domain reference
-	public static string host = "http://localhost:8084";
-	public string domain = host;
+    public static string host = "http://104.236.6.158:4242";
+    public string domain;
 
 	// ESIa Services Variables 
-	public static string esia_domain = host + "/ESIa/";
-	public string url_esia_getgamelist = esia_domain + "GetGameList/";
-	public string url_esia_login = esia_domain + "login/";
-	public string url_esia_getgamedata = esia_domain + "GetGameData/";
+	public static string esia_domain;
+	public string url_esia_getgamelist;
+	public string url_esia_login;
+	public string url_esia_getgamedata;
 
 	// CGR Services Variables
-	public static string cgr_domain = host + "/CloudGameReport/services/";
-	public string url_cgr_login = cgr_domain + "login/";
-	public string url_cgr_availableClasses = cgr_domain + "ListOfAvailableClasses/";
-	public string url_cgr_requestSubscription = cgr_domain + "SubscribeToClass/";
-	public string url_cgr_subscribedClasses = cgr_domain + "ListOfSubscribedGameEntries/";
-	public string url_cgr_saveData = cgr_domain + "Save/";
+	public static string cgr_domain;
+    public string url_cgr_login;
+    public string url_cgr_availableClasses;
+    public string url_cgr_requestSubscription;
+    public string url_cgr_subscribedClasses;
+    public string url_cgr_saveData;
 
 	// Services Keys
 	public string CGRkey;
@@ -44,11 +44,25 @@ public class PersistData : MonoBehaviour {
 		// If a Singleton already exists and you find another 
 		// reference in scene, destroy it!
 		else{ if(this != singleton) Destroy(this.gameObject); }
-	}
 
-	// -TEMP- Initial Setup
-	void Start(){
-		ESIAkey = "7c4b0904033e20f270adc82e943803b2196a9f86";
+        // set variables
+        // Domain reference
+	    domain = host;
+
+	    // ESIa Services Variables 
+	    esia_domain = host + "/ESIa/";
+        url_esia_getgamelist = esia_domain + "GetAllGamesList/";
+	    url_esia_login = esia_domain + "login/";
+        url_esia_getgamedata = esia_domain + "GetOpenGameData/";
+
+	    // CGR Services Variables
+	    cgr_domain = host + "/CloudGameReport/services/";
+	    url_cgr_login = cgr_domain + "login/";
+	    url_cgr_availableClasses = cgr_domain + "ListOfAvailableClasses/";
+	    url_cgr_requestSubscription = cgr_domain + "SubscribeToClass/";
+	    url_cgr_subscribedClasses = cgr_domain + "ListOfSubscribedGameEntries/";
+	    url_cgr_saveData = cgr_domain + "Save/";
+
 	}
 
 }

@@ -45,12 +45,14 @@ public class Controller_LobbyMenu : MonoBehaviour {
 
 	// Show Lobby Main Menu
 	public void showLobbyMenu(){
+        CanvasLoadingPanel.SetActive(false);
 		Canvas_List.SetActive(false);
 		CanvasLobbyMenu.SetActive(true);
 		CanvasCGRMenu.SetActive(false);
 	}
 	// show CGRMenu
 	public void showCGRMenu(){
+        CanvasLoadingPanel.SetActive(false);
         Canvas_List.SetActive(false);
 		CanvasCGRMenu.SetActive(true);
 		CanvasLobbyMenu.SetActive(false);
@@ -64,11 +66,13 @@ public class Controller_LobbyMenu : MonoBehaviour {
     }
     // Go Back to Intro
 	public void goBackToIntro(){
+        CanvasLoadingPanel.SetActive(false);
         CanvasLobbyMenu.SetActive(false);
         CanvasIntro.SetActive(true);
     }
     // Go Back to Intro
     public void startGame(){
+        CanvasLoadingPanel.SetActive(false);
         CanvasLobbyMenu.SetActive(true);
         CanvasIntro.SetActive(false);
     }
@@ -82,7 +86,9 @@ public class Controller_LobbyMenu : MonoBehaviour {
 		                         cgr_password_field.text));
 	}
 	// CGR List Available Classes
-	public void CGR_showAvailableClasses(){
+	public void CGR_showAvailableClasses()
+    {
+        CanvasLoadingPanel.SetActive(false);
         StartCoroutine(CGR_availableClasses());
         ButtonShowCGRMenu.SetActive(true);
         ButtonShowLobby.SetActive(false);
@@ -91,6 +97,7 @@ public class Controller_LobbyMenu : MonoBehaviour {
 	}
 	// CGR List SubscribedClasses
 	public void CGR_showSubscribedClasses(){
+        CanvasLoadingPanel.SetActive(false);
         StartCoroutine(CGR_subcribedClasses());
         ButtonShowCGRMenu.SetActive(true);
         ButtonShowLobby.SetActive(false);
@@ -98,7 +105,8 @@ public class Controller_LobbyMenu : MonoBehaviour {
         Canvas_List.SetActive(true);
 	}
 	public void CGR_logoff(){
-		Debug.Log("Loggin Off");
+        CanvasLoadingPanel.SetActive(false);
+        Debug.Log("Loggin Off");
 		PersistData.singleton.CGRkey = "";
         PlayerPrefs.DeleteKey("CGR_KEY");
 		CanvasCGRMenuLogin.SetActive(true);
@@ -202,8 +210,7 @@ public class Controller_LobbyMenu : MonoBehaviour {
 	IEnumerator ESIa_GetGameList() {
         scrolllist.cleanList();
         CanvasLoadingPanel.SetActive(true);
-		string url = PersistData.singleton.url_esia_getgamelist + 
-			PersistData.singleton.ESIAkey + "/" + "all";
+        string url = PersistData.singleton.url_esia_getgamelist;
 		WWW www = new WWW(url);
 		Debug.Log(url);
 		yield return www;
