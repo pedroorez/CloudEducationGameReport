@@ -1,19 +1,23 @@
 <br>
 <div class="row">
-    <div class="col-md-12" >
-        <div ng-repeat="(key, game) in fullgamelist.List track by $index" 
-             class="gamedisplay"> 
-            <b>Name:</b><br>{{game.gameName}} <br>
-            <b>Description:</b><br>{{game.description}} <br>
-            <div style="position: absolute; bottom: 10px; left:10px;">
-                <button class="btn btn-primary" ng-click="loadGame(game.gameID)"> EDIT GAME </button>
-                <button class="btn btn-danger"ng-click="deleteGame(game.gameID, key)"> DELETE GAME </button>
+    <div class="col-md-12">
+        <center>
+            <!--List of games-->
+            <div ng-repeat="(key, game) in fullgamelist.List" class="animate-repeat">
+                <div class="gamedisplay"> 
+                    <b>Name:</b><br>{{game.gameName}} <br>
+                    <b>Description:</b><br>{{game.description}} <br>
+                    <div style="position: absolute; bottom: 10px; left:10px;">
+                        <button class="btn btn-primary" ng-click="loadGame(game.gameID)"> EDIT GAME </button>
+                        <button class="btn btn-danger"ng-click="deleteGame(game.gameID, key)"> DELETE GAME </button>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="gamedisplay" style="margin-left:1px">
-            <span ng-click="createNewGame()" class="glyphicon glyphicon-plus" aria-hidden="true" style="font-size:180; position: absolute; left: 40px; top:10px"/> 
-        </div>
-    
+                 <!--add new game button-->
+            <div class="gamedisplay" style="margin-left:1px">
+                <span ng-click="createNewGame()" class="glyphicon glyphicon-plus" aria-hidden="true" style="font-size:180; position: absolute; left: 40px; top:10px"/> 
+            </div>
+        </center>
     </div>
 </div>
     

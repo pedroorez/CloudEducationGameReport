@@ -1,8 +1,7 @@
 <html ng-app="ESIapp" ng-controller="mainapp">
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="/ESIa/res/css/style.css"/>
 <link rel="stylesheet" href="/ESIa/res/css/Animation.css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <header>
     <title>Educational Space Invaders - Advance Edition</title>
 </header>
@@ -53,21 +52,18 @@
     </div>
 </nav>
     
-<div class="container-fluid" ng-controller="mainapp">
-    <ng-view class="at-view-flip-in-vertical at-view-flip-out-vertical"></ng-view>
+<div class="container-fluid view-animate-container" ng-controller="mainapp">
+    <ng-view class="view-animate"></ng-view>
 </div>
 
 
 </body>
-    <style> input{ color:black;} 
-            option{ color:black;} </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.13/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.13/angular-route.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.13/angular-animate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0-beta.1/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0-beta.1/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0-beta.1/angular-animate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0-beta.1/angular-cookies.min.js"></script>
     <script src="/ESIa/res/js/ESIa-app.js"></script>
     <script src="/ESIa/res/js/uploaderApp.js"></script>
     <script src="/ESIa/res/js/services.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.13/angular-cookies.min.js"></script>
 </html>

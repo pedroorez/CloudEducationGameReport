@@ -1,22 +1,24 @@
 <div class="row" style="color:white">
-    <div class="col-md-4 leftpanel" style="height:100%; ">	
+    <div class="col-md-4 leftpanel" style="height:100%; text-align: center;">	
+        <div class="centerpreview">
         <h2> Game Preview </h2>
+            <div class="aspect169">
+                <div class="GamePreview" > 
+                    <img class="background" ng-src="{{result.Data.backgroundAsset[0].imageFile.imgurl}}" />
 
-        <div class="GamePreview" > 
-            <img class="background" ng-src="{{result.Data.backgroundAsset[0].imageFile.imgurl}}" />
+                    <div class="enemy1 enemy">  <img ng-src="{{result.Data.enemyList[0].imageFile.imgurl}}"  class="imageGamePreview"/> </div>
+                    <div class="enemy2 enemy">  <img ng-src="{{result.Data.enemyList[1].imageFile.imgurl}}"  class="imageGamePreview"/> </div>
+                    <div class="enemy3 enemy">  <img ng-src="{{result.Data.enemyList[2].imageFile.imgurl}}"  class="imageGamePreview"/> </div>
 
-            <div class="enemy1 enemy">  <img ng-src="{{result.Data.enemyList[0].imageFile.imgurl}}"  class="imageGamePreview"/> </div>
-            <div class="enemy2 enemy">  <img ng-src="{{result.Data.enemyList[1].imageFile.imgurl}}"  class="imageGamePreview"/> </div>
-            <div class="enemy3 enemy">  <img ng-src="{{result.Data.enemyList[2].imageFile.imgurl}}"  class="imageGamePreview"/> </div>
+                    <div class="player">        <img ng-src="{{result.Data.playerAsset[0].imageFile.imgurl}}"     class="imageGamePreview"/> </div>
 
-            <div class="player">        <img ng-src="{{result.Data.playerAsset[0].imageFile.imgurl}}"     class="imageGamePreview"/> </div>
-
-            <div class="left buttom">   <img ng-src="{{result.Data.answerList[0].imageFile.imgurl}}" class="imageGamePreview"/> </div>
-            <div class="center buttom"> <img ng-src="{{result.Data.answerList[1].imageFile.imgurl}}" class="imageGamePreview"/> </div>
-            <div class="right buttom">  <img ng-src="{{result.Data.answerList[2].imageFile.imgurl}}" class="imageGamePreview"/> </div>
-        </div>  
+                    <div class="left buttom">   <img ng-src="{{result.Data.answerList[0].imageFile.imgurl}}" class="imageGamePreview"/> </div>
+                    <div class="center buttom"> <img ng-src="{{result.Data.answerList[1].imageFile.imgurl}}" class="imageGamePreview"/> </div>
+                    <div class="right buttom">  <img ng-src="{{result.Data.answerList[2].imageFile.imgurl}}" class="imageGamePreview"/> </div>
+                </div>  
+            </div>
+        </div>
     </div>
-
     <div class="col-md-8 rightpanel ">
         <div class="row text-center">
             <center>
@@ -58,9 +60,14 @@
         <div class="row text-center" >
             <div class="col-sm-12">
                 <h2>Enemies</h2>
-                <asset-box ng-repeat="(key,enemy) in result.Data.enemyList track by $index" entry-No="{{key}}" asset-type="enemy" target-List="enemyList"> </asset-box>
-                <div class="assetBox"> 
-                    <a ng-click="addEnemy()"><span class="glyphicon glyphicon-plus" aria-hidden="true" style="font-size:180; position: fixe; top:25px; left:10px"></span></a>
+                <div ng-repeat="(key,enemy) in result.Data.enemyList" class="animate-repeat"> 
+                    <asset-box entry-No="{{key}}" 
+                               asset-type="enemy" 
+                               target-List="enemyList"></asset-box>
+                </div>
+                
+                <div class="assetBox" style="margin-left: 1px"> 
+                    <a ng-click="addEnemy()"><span class="glyphicon glyphicon-plus" aria-hidden="true" style="font-size:180; top:25px; left:10px"></span></a>
                 </div>
             </div>
         </div>
@@ -68,7 +75,7 @@
         <div class="row text-center">
             <div class="col-sm-12">
             <h2>Answers</h2>
-            <asset-box ng-repeat="(key,enemy) in result.Data.answerList track by $index" entry-No="{{key}}" asset-type="answer" target-List="answerList"> </asset-box>
+            <asset-box ng-repeat="(key,enemy) in result.Data.answerList " entry-No="{{key}}" asset-type="answer" target-List="answerList"> </asset-box>
             </div>
         </div>
     </div>

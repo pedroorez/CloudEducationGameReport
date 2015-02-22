@@ -8,13 +8,10 @@
         <button class="deleteButton btn btn-sm btn-danger" ng-show="attrs.assetType==='enemy'"> 
             <span class="glyphicon glyphicon-remove"/> DELETE </button>
         <input ng-model="result.Data[attrs.targetList][attrs.entryNo].assetText" 
-               
                type="text" placeholder="Asset Text"/>
-        
-        <select
-                ng-show="attrs.assetType==='enemy'"  
-                ng-model="result.Data.enemyList[attrs.entryNo].rightans"
-                ng-options="ans.assetText for ans in result.Data.answerList track by ans.id">
+        <select ng-show="attrs.assetType==='enemy'"  
+                ng-options="ans.assetText for ans in result.Data.answerList track by ans.id"
+                ng-model="result.Data.enemyList[attrs.entryNo].rightans">
         </select>
         <br>
         <img  class="imageAssetPreview" ng-src="{{result.Data[attrs.targetList][attrs.entryNo].imageFile.imgurl}}"/>
