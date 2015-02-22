@@ -143,6 +143,29 @@ public class ServicesController {
         return loadedGame;
     }
     
+     // Receive nickname and password and log the user
+    // return a HASHKEY to be used on the services.
+    @RequestMapping(value = "/GetOpenGameData/{GameID}", method = RequestMethod.GET)
+    @ResponseBody Game GetOpenGameData(@PathVariable int GameID) throws Exception {
+   
+        GameDAO GDAO = new GameDAO();
+        Game loadedGame = GDAO.getGameDataById(GameID);
+        
+        try {loadedGame.setEnemyList(GDAO.getAssets(GameID, "enemy")); }
+        catch(Exception e){System.out.println("NO ENEMY FOUND");}
+        
+        try{ loadedGame.setAnswerList(GDAO.getAssets(GameID, "answer")); }
+        catch(Exception e){System.out.println("NO ANSWER FOUND");}
+        
+        try { loadedGame.setPlayerAsset(GDAO.getAssets(GameID,"player")); }
+        catch(Exception e){System.out.println("NO PLAYER FOUND");}
+        
+        try { loadedGame.setBackgroundAsset(GDAO.getAssets(GameID, "background")); }
+        catch(Exception e){System.out.println("NO BACKGROUND FOUND");}
+        System.out.println(loadedGame);
+        return loadedGame;
+    }
+    
     // Delete an Asset
     @RequestMapping(value = "/deleteAsset/{hash}/{assetId}", method = RequestMethod.GET)
     @ResponseBody boolean deleteAsset(@PathVariable int assetId, @PathVariable String hash) throws Exception {
