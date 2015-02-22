@@ -205,8 +205,7 @@ public class ScrollableList : MonoBehaviour
 		Debug.Log(url);
 		yield return www;
 		JSONNode gamedata = JSON.Parse(www.text);
-		AssetManager.singleton.DownloadGame(gamedata);
-        buttonlist[1].gameObject.SetActive(true);
+		yield return AssetManager.singleton.DownloadGame(gamedata, buttonlist[1].gameObject);
 	}
 	// Request Subscription to Class Callback
 	IEnumerator CGR_requestSubscription(string classID) {
@@ -228,7 +227,7 @@ public class ScrollableList : MonoBehaviour
         yield return www;
         JSONNode gamedata = JSON.Parse(www.text);
         if (gamedata == null) yield return null;
-        yield return AssetManager.singleton.DownloadGame(gamedata);
+        yield return AssetManager.singleton.DownloadGame(gamedata, null);
         PersistData.singleton.CurrentGame = gamedata; // save gamedata
         Transition.singleton.FadeOutTo("BattleScene");		  // load gamescene 
     }

@@ -7,10 +7,15 @@ using System.Collections.Generic;
 
 public class AssetManager : MonoBehaviour {
 
+    // loadingpanel ref
+    public GameObject loadingPanel;
+    GameObject deleteButton;
+
 	// Queue Information
 	int downloadQueue = 0;
-	bool downloadFinish = false;
-	int totalQueueSize = 2;
+	bool downloading = false;
+	int totalQueueSize = 0;
+    int downloadedFiles = 0;
 	static string domain;
 	string gameListPath;
 
@@ -39,8 +44,9 @@ public class AssetManager : MonoBehaviour {
     }
 
 	// Download function
-	public bool DownloadGame(JSONNode gamedata){
-		// Say gameDataPath
+	public bool DownloadGame(JSONNode gamedata, GameObject button){
+        deleteButton = button;
+        // Say gameDataPath
         Debug.Log("Salvando Dados em: " + gameListPath);         
         // Variables
         string imgurl;
@@ -81,29 +87,38 @@ public class AssetManager : MonoBehaviour {
 			StartCoroutine(Downloader(filename,folder,domain + imgurl));
 		}
 		//confirm save
-		return true;
+        return true;
+
 	}
 		
 	void Update(){
 		// Run the Next stuff after all downloads are complete
 		// It will run only one time
-		if (!downloadFinish && downloadQueue < 1) {
-						downloadFinish = true;
-				} else if (!downloadFinish)
-			Debug.Log ((totalQueueSize-downloadQueue)*100/totalQueueSize);
+        if (downloading && downloadQueue < 1){
+			downloading = false;
+            deleteButton.SetActive(true);
+            loadingPanel.SetActive(false);
+            Debug.Log("0 - GAME DATA DOWNLOADED");
+        }
+        else if (downloading){
+            Debug.Log((totalQueueSize - downloadedFiles) * 100 / totalQueueSize);
+        }
 	}
 
 	// Callback function to download a texture from a urlpath into a file mamed filename
 	IEnumerator Downloader(string filename,string foldername, string urlPath) {
 		// Add 1 item to the downloadQueue
 		downloadQueue++;
-
+        totalQueueSize++;
+        downloading = true;
+        loadingPanel.SetActive(true);
 		WWW www = new WWW(urlPath); // http request
         yield return www;		
 		// Save File that was downloaded to a director
 		Texture2D download = www.texture;
 		SaveTextureToFile(download, foldername , filename);	
 		downloadQueue--; // Remove 1 item form the downloadQueue
+        downloadedFiles++;
 	}
 
 	// File Saver
