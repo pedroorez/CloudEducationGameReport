@@ -1,4 +1,4 @@
-var ESIapp = angular.module('ESIapp',['uploaderApp', 'ngRoute','services']);
+var ESIapp = angular.module('ESIapp',['uploaderApp', 'ngRoute','services','ngAnimate']);
 
 ESIapp.config(['$routeProvider', function($routeProvider){
     // roteador
@@ -96,7 +96,9 @@ ESIapp.controller('gamelister', function($scope,services,DataManager){
      }
      
     $scope.deleteGame = function(gameID,entryKey){
-         DataManager.deleteGame(gameID, entryKey);
+        if (window.confirm("Delete this Game? \n (Others will not be able to download it)")) {
+            DataManager.deleteGame(gameID, entryKey);
+          }
      }
      
      $scope.createNewGame = function(){

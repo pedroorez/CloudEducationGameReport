@@ -219,11 +219,12 @@ uploaderApp.directive('assetBox', function(DataManager){
            });
            // set a click() to the deletebuttom
            elem.find('button[class="deleteButton btn btn-sm btn-danger"]').click(function(){ 
-               DataManager.deleteNode(attrs.targetList,
-                                      attrs.entryNo,
-                                      scope.result.Data[attrs.targetList][attrs.entryNo].id);
-               scope.$apply();
-
+                if (window.confirm("Delete this Asset? \n (The image still will be available to use)")) {
+                    DataManager.deleteNode(attrs.targetList,
+                                           attrs.entryNo,
+                                           scope.result.Data[attrs.targetList][attrs.entryNo].id);
+                    scope.$apply();
+            }
            })
            // update text field
            elem.find('input[type="text"]').focusout(function(){ scope.updateAsset(); });          
@@ -233,20 +234,20 @@ uploaderApp.directive('assetBox', function(DataManager){
                if(scope.result.Data[attrs.targetList][attrs.entryNo].assetText === null)
                    assetText = -1;
                else
-                   assetText = scope.result.Data[attrs.targetList][attrs.entryNo].assetText
+                   assetText = scope.result.Data[attrs.targetList][attrs.entryNo].assetText;
                
                if(scope.result.Data[attrs.targetList][attrs.entryNo].rightans === null)
                    answerId = -1;
                else
-                   answerId = scope.result.Data[attrs.targetList][attrs.entryNo].rightans.id
-               DataManager.updateAsset(null,
-                                       scope.result.Data[attrs.targetList][attrs.entryNo].id,
-                                       attrs.assetType,
-                                       assetText,
-                                       answerId,
-                                       -1, 
-                                       attrs.targetList,
-                                       attrs.entryNo
+                    answerId = scope.result.Data[attrs.targetList][attrs.entryNo].rightans.id
+                    DataManager.updateAsset(null,
+                                            scope.result.Data[attrs.targetList][attrs.entryNo].id,
+                                            attrs.assetType,
+                                            assetText,
+                                            answerId,
+                                            -1, 
+                                            attrs.targetList,
+                                            attrs.entryNo
             )
            }
            
