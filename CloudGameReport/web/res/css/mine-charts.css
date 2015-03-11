@@ -1,0 +1,22 @@
+.center {
+    text-align: center;
+}
+
+.right{
+    text-align: right;
+}
+
+.half{
+    width:45%;
+}
+
+.chartplace{
+    width:  100%;
+    min-height: 400px;
+    height: auto;
+    max-height: 100%;
+}
+
+.hide{
+    display:none;
+}

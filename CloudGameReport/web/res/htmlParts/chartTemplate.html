@@ -1,0 +1,77 @@
+<div class="row">
+    <!-- chart place -->
+    <div class="col-md-9 center">
+        <div class="chartplace"></div>
+    </div>
+    
+    <!-- options place -->
+    <div id="options" class="col-md-3">
+        <form>
+            <div class="form-group">
+                <label class="control-label">Chart Type: </label>
+                <select ng-model="chart.charttype"
+                        ng-change="chart.draw()"
+                        class="form-control">
+                    <option value="PieChart">Pie Chart</option>
+                    <option value="AreaChart">Area Chart</option>
+                    <option value="LineChart">Line Chart</option>
+                    <option value="ColumnChart">Column Chart</option>
+                    <option value="BarChart">Bar Chart</option>
+                    <option value="BubbleChart">Bubble Chart</option>
+                    <option value="SteppedAreaChart">Stepped Area Chart</option>
+                    <option value="ComboChart">Combo Chart</option>
+                    <option value="Table">Table</option>
+                </select>
+            </div>
+           
+            <div class="form-group">
+                <label class="control-label"> X Axis : </label>
+                <select class="form-control" readonly>
+                    <option select> {{chart.XAxis.name}} </option>
+                </select>
+            </div>
+            
+            <div class="form-group" ng-class="{hide : chart.is_hidden }">
+                <label class="control-label"> Y Axis: </label>
+                <select ng-options="key as param.name for (key, param) in charts.list.parameters" 
+                        ng-model="chart.YAxisID"
+                        ng-change="chart.draw()"
+                        class="form-control"></select>
+            </div>
+            
+            <div class="form-group" ng-class="{hide : chart.is_hidden }">
+                <label class="control-label"> Weight : </label>
+                <select ng-options="key as param.name for (key, param) in charts.list.parameters" 
+                        ng-model="chart.weightID"
+                        ng-change="chart.draw()"
+                        class="form-control"></select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label"> Limit Results: </label>
+                <select ng-model="chart.limit"
+                        ng-change="chart.draw()"
+                        class="form-control">
+                    <option select value=""> All Data </option>
+                    <option value="05" > First 05 entries</option>
+                    <option value="10" > First 10 entries</option>
+                    <option value="15" > First 15 entries</option>
+                    <option value="20" > First 20 entries</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label"> Order By: </label>
+                <select ng-model="chart.orderby"
+                        ng-change="chart.draw()"
+                        class="form-control">
+                    <option value="0" ng-show="chart.XAxis.name">XAxis - {{chart.XAxis.name}}</option>    
+                    <option value="1" ng-show="chart.YAxis.name">YAxis - {{chart.YAxis.name}}</option>    
+                    <option value="3" ng-show="chart.Weight.name">Weight - {{chart.Weight.name}}</option>    
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- divisor -->
+<hr>
