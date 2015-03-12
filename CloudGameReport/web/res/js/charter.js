@@ -14,24 +14,30 @@ charter.service('chartsManager', function(){
     var charts = [];
     charts.list =[];
     // a chart data model
-    charts.list = { "parameters": [ {"type":"column", "identifier":"points", "name":"Points","value":"number"},
-                                    {"type":"column", "identifier":"time", "name":"Time","value":"number"},
-                                    {"type":"column", "identifier":"rightans", "name":"Right Answers","value":"number"},
-                                    {"type":"column", "identifier":"wrongans", "name":"Wrong Answers","value":"number"},
-                                    {"type":"column", "identifier":"numofshots", "name":"# of Shots","value":"number"}],
-                    "data":[{"matchid":"1", "player":"josh",  "time":"666", "rightans":"3", "wrongans":"22", "numofshots":"12"},
-                            {"matchid":"2", "player":"josh", "points":"846", "time":"066", "rightans":"4", "wrongans":"12", "numofshots":"87"},
-                            {"matchid":"3", "player":"josh",  "time":"006", "rightans":"2", "wrongans":"34", "numofshots":"12"},
-                            {"matchid":"4", "player":"josh", "points":"987", "time":"012", "rightans":"7", "wrongans":"01", "numofshots":"87"},
-                            {"matchid":"5", "player":"josh",  "time":"623", "rightans":"5", "wrongans":"04", "numofshots":"34"},
-                            {"matchid":"6", "player":"josh", "points":"542", "time":"623", "rightans":"5", "wrongans":"04", "numofshots":"34"},
-                            {"matchid":"7", "player":"josh", "points":"846", "time":"066", "rightans":"4", "wrongans":"12", "numofshots":"87"},
-                            {"matchid":"8", "player":"josh",  "time":"006", "rightans":"2", "wrongans":"34", "numofshots":"12"},
-                            {"matchid":"9", "player":"josh", "points":"542", "time":"623", "rightans":"5", "wrongans":"04", "numofshots":"34"},
-                            {"matchid":"10", "player":"josh", "points":"444", "time":"056", "rightans":"9", "wrongans":"06", "numofshots":"65"}], 
+    charts.list = { 
+//                    "parameters": [ {"type":"column", "identifier":"points", "name":"Points","value":"number"},
+//                                    {"type":"column", "identifier":"time", "name":"Time","value":"number"},
+//                                    {"type":"column", "identifier":"rightans", "name":"Right Answers","value":"number"},
+//                                    {"type":"column", "identifier":"wrongans", "name":"Wrong Answers","value":"number"},
+//                                    {"type":"column", "identifier":"numofshots", "name":"# of Shots","value":"number"}],
+//                    "data":[{"matchid":"1", "player":"josh",  "time":"666", "rightans":"3", "wrongans":"22", "numofshots":"12"},
+//                            {"matchid":"2", "player":"josh", "points":"846", "time":"066", "rightans":"4", "wrongans":"12", "numofshots":"87"},
+//                            {"matchid":"3", "player":"josh",  "time":"006", "rightans":"2", "wrongans":"34", "numofshots":"12"},
+//                            {"matchid":"4", "player":"josh", "points":"987", "time":"012", "rightans":"7", "wrongans":"01", "numofshots":"87"},
+//                            {"matchid":"5", "player":"josh",  "time":"623", "rightans":"5", "wrongans":"04", "numofshots":"34"},
+//                            {"matchid":"6", "player":"josh", "points":"542", "time":"623", "rightans":"5", "wrongans":"04", "numofshots":"34"},
+//                            {"matchid":"7", "player":"josh", "points":"846", "time":"066", "rightans":"4", "wrongans":"12", "numofshots":"87"},
+//                            {"matchid":"8", "player":"josh",  "time":"006", "rightans":"2", "wrongans":"34", "numofshots":"12"},
+//                            {"matchid":"9", "player":"josh", "points":"542", "time":"623", "rightans":"5", "wrongans":"04", "numofshots":"34"},
+//                            {"matchid":"10", "player":"josh", "points":"444", "time":"056", "rightans":"9", "wrongans":"06", "numofshots":"65"}], 
                     "options": [],
                     "drawlist":[]};
-                   
+    // add a new chart
+    this.addChart = function() {charts.list.drawlist.push({}); console.log(charts.list.drawlist) }
+    // set the parameters
+    this.setParameters = function(data) { charts.list.parameters = data; };
+    // set the data
+    this.setData = function(data) { charts.list.data = data; };
     // google chart data builder
     this.buildChartData = function(i){
         // set empty option dictionary
@@ -39,6 +45,7 @@ charter.service('chartsManager', function(){
         // get values
         chart = charts.list.drawlist[i];
         XAxis = chart.XAxis = charts.list.parameters[i];
+        console.log(XAxis);
         YAxis = {};
         Weight = {};
         
@@ -147,4 +154,14 @@ charter.directive("googleChart",function(chartsManager){
 charter.controller("chartsController",function($scope,chartsManager){
     // twoway data bind charts data
     $scope.charts = chartsManager.getCharts();
+    $scope.setData = function(data){ chartsManager.setData(data); console.log(data); };
+    $scope.setParameters = function(data){ chartsManager.setParameters(data); console.log(data); };
+    
+    $('#addchart').click(function(){
+        alert("hi");
+        chartsManager.addChart();
+    });
+    
+    $scope.setData(rdata);
+    $scope.setParameters(rparams);
 });

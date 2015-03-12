@@ -8,12 +8,13 @@ import com.cloudgamereport.model.GameTypeValue;
 import com.cloudgamereport.model.Gamelog;
 import com.cloudgamereport.model.Subscription;
 import com.cloudgamereport.model.User;
-import com.cloudgamereport.model.DisplayEntry;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -278,57 +279,82 @@ public class ViewsController {
     public String generateReport(HttpServletRequest request, @PathVariable int gameEntryID) {
         // Initiate values
         QuestionDAO DAO = null;
-        List<Gamelog> GameValueEntry = null;
+        List<Gamelog> logList = null;
         List<GameTypeValue> GameTypeValueList = null;
-        List<DisplayEntry> ResultList = new ArrayList<DisplayEntry>();
-            
-        try {
+        GameEntry gameEntry = null;
+        String reportParameters = "";
+        String reportData = "";
+        JSONArray jsonreportdata = new JSONArray();
+        try{
             DAO = new QuestionDAO();
-            // 
-            GameEntry Entrada = DAO.getGameEntryByID(gameEntryID);
-            GameTypeValueList = DAO.getGameValuesByTypeID(Entrada.getGameType().getGametypeID());
+            gameEntry = DAO.getGameEntryByID(gameEntryID);  
+            GameTypeValueList = DAO.getGameValuesByTypeID(gameEntry.getGameType().getGametypeID());
+            boolean isMatchInserted = false;
+            boolean isPlayerInserted = false;
             
+            //start data writing
+            reportParameters += "[";
+            //add matchid paramters
+//            reportParameters += "{ \"type\":\"column\", "
+//                                    + "\"identifier\":\""+"matchid"+"\", "
+//                                    + "\"name\":\""+"Match ID"+"\","
+//                                    + "\"value\":\""+"string"+"\" },";
+//            // add player paramters
+//            reportParameters += "{ \"type\":\"column\", "
+//                                    + "\"identifier\":\""+"player"+"\", "
+//                                    + "\"name\":\""+"Player Name"+"\","
+//                                    + "\"value\":\""+"string"+"\" },";
             // loop trought all the typeValue
             for (GameTypeValue typeValue : GameTypeValueList) {
-                GameValueEntry = DAO.getGameValueEntryList(gameEntryID, typeValue.getGametypeValueID());
-
-                DisplayEntry NewDisplayEntry = new DisplayEntry();
-                NewDisplayEntry.setGameType(typeValue);
-                // if the game field type is SUM, then sum all values and save
-                // in a displayEntry object
-                if (typeValue.getDisplayType().equals("SUM")) {
-                    int sum = 0;
-                    // make the sum
-                    for (Gamelog LogLine : GameValueEntry)
-                        sum += Integer.valueOf(LogLine.getDataValue());
-
-                    // create a stub gameloglist and a gamelog to save in the DisplayEntry
-                    List<Gamelog> sumList = new ArrayList<Gamelog>();
-                    Gamelog newlog = new Gamelog();
+                //add a parrameters
+                reportParameters += "{ \"type\":\"column\", "
+                                    + "\"identifier\":\""+typeValue.getParamIdentificator()+"\", "
+                                    + "\"name\":\""+typeValue.getParamName()+"\","
+                                    + "\"value\":\""+typeValue.getParamType()+"\" },";
+                
+                // get log list
+                logList = DAO.getGameValueEntryList(gameEntryID, typeValue.getGametypeValueID());
+                for (int i =0; i < logList.size(); i++)
+                {   
+                    Gamelog logentry = logList.get(i);
+                    JSONObject data = null;
+                    try{
+                        data = jsonreportdata.getJSONObject(i);
+                    }catch(Exception e){data = new JSONObject();}
                     
-                    //save the sum value in the DisplayEntry
-                    newlog.setDataValue(String.valueOf(sum));
-                    sumList.add(newlog);
-                    NewDisplayEntry.setGamelogList(sumList);
-                } 
-                
-                // If the game field type is LIST then List all data into the displayEntry
-                if (typeValue.getDisplayType().equals("LIST"))
-                    NewDisplayEntry.setGamelogList(GameValueEntry);
-                
-                // Save the Display Entry in the List of Display Entry
-                ResultList.add(NewDisplayEntry);
-            }
-            
-            // Save the Data on the request
-            request.setAttribute("ResultList", ResultList);
-            request.setAttribute("GameReference", Entrada.getGameReference());
-            request.setAttribute("GameEntryName", Entrada.getGameName());
-            request.setAttribute("ClassID", Entrada.getClasse().getClassID());
-            request.setAttribute("GameTypeName", Entrada.getGameType().getGametypeName());
+                    
+                     // insert match and player on the first columns
+                    if(!isMatchInserted)
+                        data.accumulate("matchid", logentry.getMatchID());
+                    if(!isPlayerInserted)
+                        data.accumulate("player", logentry.getSubscription().getPlayerID().getFullName());
+                    
+                    data.accumulate(typeValue.getParamIdentificator(), logentry.getDataValue());
+                    
+                    // save data
+                    jsonreportdata.put(i, data);
+                }
+                // close match e player parameters
+                isMatchInserted = true;
+                isPlayerInserted = true;
+            } 
+            // close data writing
+            reportParameters += "]";
+            // show data
+            reportData = jsonreportdata.toString();
+            System.out.print("\n" +reportParameters+"\n");
+            System.out.print("\n" +reportData+"\n\n");
         }
         catch (Exception e) { e.printStackTrace(); } 
         finally { DAO.closeFactory(); }
+        // Save the Data on the request
+        request.setAttribute("GameReference", gameEntry.getGameReference());
+        request.setAttribute("GameEntryName", gameEntry.getGameName());
+        request.setAttribute("ClassID", gameEntry.getClasse().getClassID());
+        request.setAttribute("GameTypeName", gameEntry.getGameType().getGametypeName());
+        request.setAttribute("ReportParameters", reportParameters);
+        request.setAttribute("ReportData", reportData);
+
         
         // go to showreport page
         return "showReport";
@@ -361,9 +387,9 @@ public class ViewsController {
             for(int i=1; i < amountOfFields+1; i++){
 
                 GameTypeValue newGameTypeValue = new GameTypeValue();
-                newGameTypeValue.setDisplayType(request.getParameter("displaytype_"+i));
-                newGameTypeValue.setValueName(request.getParameter("fieldName_"+i));
-                newGameTypeValue.setValueIdentificator(request.getParameter("fieldIdentificator_"+i));
+                newGameTypeValue.setParamType(request.getParameter("paramType_"+i));
+                newGameTypeValue.setParamIdentificator(request.getParameter("paramIdentificator_"+i));
+                newGameTypeValue.setParamName(request.getParameter("paramName_"+i));
                 newGameTypeValue.setGameType(newGameType);
 
                 DAO.addGameTypeValue(newGameTypeValue);

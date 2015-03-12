@@ -6,7 +6,11 @@
         <link href="../res/angular-chart/angular-chart.css" rel="stylesheet">
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
     </head>
+     <script>
+        var rdata = ${ReportData};
+        var rparams = ${ReportParameters};
 
+     </script>
     <body>
         <div class="container">
 
@@ -22,6 +26,7 @@
 
             <center> <div  class="alert alert-danger" role="alert">${erromsg}</div></center>
             <center> <div  class="alert alert-success" role="alert">${sucessmsg}</div></center>
+
             <!--Main Box Div-->
             <div class="container mainbox"  ng-controller="chartsController">
                 <h1 class="center"> Report Charter </h1>
@@ -30,6 +35,7 @@
                 <div ng-repeat="(key, param) in charts.list.parameters" 
                      google-chart chart-no="{{key}}" ></div>
                 
+                <button id="addchart" class="btn btn-large btn-primary">ADD A NEW CHART</button>
             </div>
 
             <div align="center" class="footer">
@@ -47,5 +53,4 @@
     <script type="text/javascript" src="../res/angular-chart/Chart.js"></script>
     <script type="text/javascript" src="../res/angular-chart/angular-chart.js"></script>
     <script type="text/javascript" src="../res/js/charter.js"></script>
-
 </html>

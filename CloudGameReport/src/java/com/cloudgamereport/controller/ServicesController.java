@@ -163,7 +163,7 @@ public class ServicesController {
             for (GameTypeValue GameTypeValue : GameTypeValueList) {
                 
                 //recupera campo por campo com o método get() e imprime cada um
-                String datafield = my_obj.get(GameTypeValue.getValueIdentificator()).toString();
+                String datafield = my_obj.get(GameTypeValue.getParamIdentificator()).toString();
                    
                 Gamelog NewLog = new Gamelog();
                 NewLog.setDataValue(datafield);

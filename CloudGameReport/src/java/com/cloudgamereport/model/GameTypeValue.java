@@ -21,21 +21,13 @@ public class GameTypeValue implements Serializable {
     @JoinColumn(name = "gametypeID")
     private GameType gameType;
     
-    private String valueName;
-    private String valueIdentificator;
-    private String displayType;
+    private String paramName;
+    private String paramIdentificator;
+    private String paramType;
 
     
     
     
-    /***********************************************/
-    public String getDisplayType() {
-        return displayType;
-    }
-
-    public void setDisplayType(String DisplayType) {
-        this.displayType = DisplayType;
-    }
     
     public int getGametypeValueID() {
         return gametypeValueID;
@@ -49,27 +41,33 @@ public class GameTypeValue implements Serializable {
         return gameType;
     }
 
-    public void setGameType(GameType GameType) {
-        this.gameType = GameType;
+    public void setGameType(GameType gameType) {
+        this.gameType = gameType;
     }
 
-    public String getValueName() {
-        return valueName;
+    public String getParamName() {
+        return paramName;
     }
 
-    public void setValueName(String ValueName) {
-        this.valueName = ValueName;
+    public void setParamName(String paramName) {
+        this.paramName = paramName;
     }
 
-    public String getValueIdentificator() {
-        return valueIdentificator;
+    public String getParamIdentificator() {
+        return paramIdentificator;
     }
 
-    public void setValueIdentificator(String ValueIdentificator) {
-        this.valueIdentificator = ValueIdentificator;
+    public void setParamIdentificator(String paramIdentificator) {
+        this.paramIdentificator = paramIdentificator;
     }
-    
-      
-    
+
+    public String getParamType() {
+        return paramType;
+    }
+
+    public void setParamType(String paramType) {
+        this.paramType = paramType;
+    }
+
     
 }

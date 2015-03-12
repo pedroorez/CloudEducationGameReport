@@ -61,20 +61,16 @@
 
                 var html =  '<hr>'+
                             '<table>'+
-                            '<tr><td>Field Name: </td> <td><input name="fieldName_'+i+'" type="text"><br></td></tr>'+
-                            '<tr><td>Field Identificator: </td> <td><input name="fieldIdentificator_'+i+'" type="text"><br></td></tr>'+
+                            '<tr><td>Parameter Name: </td> <td><input name="paramName_'+i+'" type="text"><br></td></tr>'+
+                            '<tr><td>Parameter Identificator: </td> <td><input name="paramIdentificator_'+i+'" type="text"><br></td></tr>'+
                             '<tr >'+
-                            '    <td>Display Type: </td>'+
+                            '    <td>Parameter Type :</td>'+
                             '    <td align="center">    '+
-                            '<select class="selectpicker" name="displaytype_'+i+'">'+
-                            '        <option value="SUM">Sum</option>'+
-                            '        <option value="LIST">List</option>'+
+                            '<select class="selectpicker" name="paramType_'+i+'">'+
+                            '        <option value="string">String</option>'+
+                            '        <option value="number">Number</option>'+
                             '    </select>'+
                             '    </td></tr>'+
-                            '<tr>' +
-                            '<td>Options</td>'+
-                            '<td></td>'+
-                            '</tr>'+
                             ' </table>';
 
                 $( "#Fields" ).append( html );
