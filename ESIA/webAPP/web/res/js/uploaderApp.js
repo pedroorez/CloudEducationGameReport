@@ -15,10 +15,13 @@ uploaderApp.service('DataManager', function($parse,services,$location,$q,$cookie
     // fix the data structure
     fixDataStructure = function(){
         if(Game.Data.answerList === null)
-            Game.Data.answerList = [{},{},{}]
-        else while(Game.Data.answerList.length < 3)
-            Game.Data.answerList.push({})
-
+            Game.Data.answerList = []
+        while(Game.Data.answerList.length < 3)
+        {
+            i = Game.Data.answerList.length;
+            i++
+            Game.Data.answerList.push({"assetText":"Answer " + i})
+        }
         if(Game.Data.playerAsset === null)
             Game.Data.playerAsset = [{}];
         if(Game.Data.backgroundAsset === null)
@@ -102,8 +105,17 @@ uploaderApp.service('DataManager', function($parse,services,$location,$q,$cookie
     }
     // log user
     this.loguser = function(nickname,password){
-        //use login service
-        loguser(nickname,password);
+        services.logUser(nickname,password)
+            .then(function(response){
+                if(response.data.status === "goodpass"){
+                    $cookieStore.put('hash',response.data);
+                    Game.Status.userhash = response.data;
+                    Game.Status.logged = true
+                    $location.path( "/gamelist" );
+                    console.log(response.data)
+                }
+                    else alert("Sorry, wrong password");
+            });
     }
     // cookie getter
     this.getcookies = function(){
