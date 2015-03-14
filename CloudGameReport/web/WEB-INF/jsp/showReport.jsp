@@ -9,7 +9,6 @@
      <script>
         var rdata = ${ReportData};
         var rparams = ${ReportParameters};
-
      </script>
     <body>
         <div class="container">
@@ -30,9 +29,9 @@
             <!--Main Box Div-->
             <div class="container mainbox"  ng-controller="chartsController">
                 <h1 class="center"> Report Charter </h1>
-                <h4 class="center"> for game -- GAME NAME HERE -- </h4>
+                <h4 class="center"> -- ${GameTypeName} | ${GameEntryName} -- </h4>
                 
-                <div ng-repeat="(key, param) in charts.list.parameters" 
+                <div ng-repeat="(key, param) in charts.list.drawlist" 
                      google-chart chart-no="{{key}}" ></div>
                 
                 <button id="addchart" class="btn btn-large btn-primary">ADD A NEW CHART</button>
