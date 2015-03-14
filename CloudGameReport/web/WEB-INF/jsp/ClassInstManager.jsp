@@ -37,10 +37,16 @@
                 <center>
                     
                     <table style="width:100%">
-                        <tr> <td><b>ID</b></td> <td><b>Game Type</b></td> <td><b>Game Name</b></td> </tr>
+                        <tr> 
+                            <td><b>Game Name</b></td> 
+                            <td><b>Game Type</b></td> 
+                            <td><b>Reference</b></td> 
+                        </tr>
                         <c:forEach var="EntryItem" items="${GameEntryList}">
                             <tr> 
-                                <td>${EntryItem.gameEntryID}</td> <td>${EntryItem.gameType.gametypeName}</td> <td>${EntryItem.gameName}</td>
+                                <td>${EntryItem.gameName}</td>
+                                <td>${EntryItem.gameType.gametypeName}</td> 
+                                <td>${EntryItem.gameReference}</td> 
                                 <td>
                                     <div class="btn-group pull-right">
                                         <a href="../generateReport/${EntryItem.gameEntryID}">
