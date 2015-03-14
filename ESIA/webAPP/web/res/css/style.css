@@ -77,6 +77,7 @@ hidden { visibility: hidden; }
     display: inline-block;
     width: 100%;
     max-width: 500px;
+    max-height: 90%;
 }
 
 
@@ -208,13 +209,13 @@ hidden { visibility: hidden; }
 }
 
 .view-animate.ng-enter {
-  left:100%;
+  left:-100%;
 }
 .view-animate.ng-enter.ng-enter-active {
   left:0;
 }
 .view-animate.ng-leave.ng-leave-active {
-  left:-100%;
+  left:100%;
 }
 
 select { color:black;}
