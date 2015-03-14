@@ -9,31 +9,15 @@ google.load('visualization', '1', {packages: ['corechart', 'table']});
 var charter = angular.module('charter',["chart.js"]);
 
 charter.service('chartsManager', function(){
-    this.getCharts = function(){ return charts; };
+    this.getChartsList = function(){ return charts.list; };
     // Main Model
     var charts = [];
     charts.list =[];
     // a chart data model
-    charts.list = { 
-//                    "parameters": [ {"type":"column", "identifier":"points", "name":"Points","value":"number"},
-//                                    {"type":"column", "identifier":"time", "name":"Time","value":"number"},
-//                                    {"type":"column", "identifier":"rightans", "name":"Right Answers","value":"number"},
-//                                    {"type":"column", "identifier":"wrongans", "name":"Wrong Answers","value":"number"},
-//                                    {"type":"column", "identifier":"numofshots", "name":"# of Shots","value":"number"}],
-//                    "data":[{"matchid":"1", "player":"josh",  "time":"666", "rightans":"3", "wrongans":"22", "numofshots":"12"},
-//                            {"matchid":"2", "player":"josh", "points":"846", "time":"066", "rightans":"4", "wrongans":"12", "numofshots":"87"},
-//                            {"matchid":"3", "player":"josh",  "time":"006", "rightans":"2", "wrongans":"34", "numofshots":"12"},
-//                            {"matchid":"4", "player":"josh", "points":"987", "time":"012", "rightans":"7", "wrongans":"01", "numofshots":"87"},
-//                            {"matchid":"5", "player":"josh",  "time":"623", "rightans":"5", "wrongans":"04", "numofshots":"34"},
-//                            {"matchid":"6", "player":"josh", "points":"542", "time":"623", "rightans":"5", "wrongans":"04", "numofshots":"34"},
-//                            {"matchid":"7", "player":"josh", "points":"846", "time":"066", "rightans":"4", "wrongans":"12", "numofshots":"87"},
-//                            {"matchid":"8", "player":"josh",  "time":"006", "rightans":"2", "wrongans":"34", "numofshots":"12"},
-//                            {"matchid":"9", "player":"josh", "points":"542", "time":"623", "rightans":"5", "wrongans":"04", "numofshots":"34"},
-//                            {"matchid":"10", "player":"josh", "points":"444", "time":"056", "rightans":"9", "wrongans":"06", "numofshots":"65"}], 
-                    "options": [],
-                    "drawlist":[]};
+    charts.list = { "options": [],
+                    "drawlist":[]   };
     // add a new chart
-    this.addChart = function() {charts.list.drawlist.push({}); console.log(charts.list.drawlist) }
+    this.addChart = function() {charts.list.drawlist.push([]);}
     // set the parameters
     this.setParameters = function(data) { charts.list.parameters = data; };
     // set the data
@@ -42,17 +26,18 @@ charter.service('chartsManager', function(){
     this.buildChartData = function(i){
         // set empty option dictionary
         charts.list.drawlist[i].options = {};
+        
         // get values
         chart = charts.list.drawlist[i];
-        XAxis = chart.XAxis = charts.list.parameters[i];
-        console.log(XAxis);
+        XAxis = {};
         YAxis = {};
         Weight = {};
-        
+        // set XAxis if available
+        XAxis = charts.list.parameters[chart.XAxisID];
+        chart.XAxis = XAxis;
         // set YAxis if available
         if(chart.YAxisID){
             YAxis = charts.list.parameters[chart.YAxisID];
-            console.log(YAxis);
             chart.YAxis = YAxis;
         }
         // set Weight if available
@@ -60,44 +45,66 @@ charter.service('chartsManager', function(){
             Weight = charts.list.parameters[chart.weightID];
             chart.Weight = Weight;
         }
-
+        
         // create new datatable
         charts.list.dt = new google.visualization.DataTable();
-        charts.list.dt.addColumn("string", "Match ID");
-        charts.list.dt.addColumn(XAxis.value, XAxis.name);
-
-        // check if its a bubblechart spcial case
-        if (chart.charttype === "BubbleChart"){
-            // add weight column
-            charts.list.dt.addColumn("number", YAxis.name);
-            charts.list.dt.addColumn("number", Weight.name);
-            // data loop chart
-            charts.list.data.forEach(function(dt_elm, dt_inx, dt_ar){
-                charts.list.dt.addRow([ "Match ID " + dt_elm["matchid"],
-                                        parseInt(dt_elm[XAxis.identifier]), 
-                                        parseInt(dt_elm[YAxis.identifier]), 
-                                        parseInt(dt_elm[Weight.identifier])             ]);
-            }); 
-            // set axis properties
-            charts.list.drawlist[i].options.hAxis = {title:  XAxis.identifier + " Axis" };
-            charts.list.drawlist[i].options.vAxis = {title:  YAxis.identifier + " Axis"};       
-            charts.list.drawlist[i].options.colorAxis = {legend:  { position: "bottom" } }; 
-            charts.list.drawlist[i].options.title = XAxis.name + " by " + YAxis.name + " weighted by " + Weight.name + " Graph";
-
+        
+        // chef if its a table special case
+        if (chart.charttype === "Table"){
+            charts.list.dt.addColumn("string", "Match ID");
+            // add all columns
+            charts.list.parameters.forEach(function(dt_elm, dt_inx, dt_ar){
+                charts.list.dt.addColumn(dt_elm['value'], dt_elm['name']);
+            });
+            // add every row
+            charts.list.data.forEach(function(dt_elm, dt_inx, dt_arg){
+                row = [];
+                // add basic rows
+                row.push("Match ID " + dt_elm['matchid']);
+                // generate generate row to be 
+                charts.list.parameters.forEach(function(param_elm, param_inx, param_arg){
+                    row.push(parseInt(dt_elm[param_elm['identifier']]));
+                });
+                charts.list.dt.addRow(row);
+            });    
         }
-        // normal chart if not a bubblechart
-        else{
-            // data loop chart
-            charts.list.data.forEach(function(dt_elm, dt_inx, dt_ar){
-                charts.list.dt.addRow([ "Match ID " + dt_elm["matchid"], 
-                                        parseInt(dt_elm[XAxis.identifier])    ]);
-            }); 
-            // set axis
-            charts.list.drawlist[i].options.hAxis = {title: "Matches" + " Axis" , textPosition: "none"};
-            charts.list.drawlist[i].options.vAxis = {title: XAxis.name + " Axis"};
-            charts.list.drawlist[i].options.title = XAxis.name + " Graph";
-        }
+        else {
+            charts.list.dt.addColumn("string", "Match ID");
+            charts.list.dt.addColumn(XAxis.value, XAxis.name);
 
+            // check if its a bubblechart spcial case
+            if (chart.charttype === "BubbleChart"){
+                // add weight column
+                charts.list.dt.addColumn("number", YAxis.name);
+                charts.list.dt.addColumn("number", Weight.name);
+                // data loop chart
+                charts.list.data.forEach(function(dt_elm, dt_inx, dt_ar){
+                    charts.list.dt.addRow([ "Match ID " + dt_elm["matchid"],
+                                            parseInt(dt_elm[XAxis.identifier]), 
+                                            parseInt(dt_elm[YAxis.identifier]), 
+                                            parseInt(dt_elm[Weight.identifier])             ]);
+                }); 
+                // set axis properties
+                charts.list.drawlist[i].options.hAxis = {title:  XAxis.identifier + " Axis" };
+                charts.list.drawlist[i].options.vAxis = {title:  YAxis.identifier + " Axis"};       
+                charts.list.drawlist[i].options.colorAxis = {legend:  { position: "bottom" } }; 
+                charts.list.drawlist[i].options.title = XAxis.name + " by " + YAxis.name + " weighted by " + Weight.name + " Graph";
+
+            }
+            // normal chart if not a bubblechart
+            else{
+                // data loop chart
+                charts.list.data.forEach(function(dt_elm, dt_inx, dt_ar){
+                    charts.list.dt.addRow([ "Match ID " + dt_elm["matchid"], 
+                                            parseInt(dt_elm[XAxis.identifier])    ]);
+                }); 
+                // set axis
+                charts.list.drawlist[i].options.hAxis = {title: "Matches" + " Axis" , textPosition: "none"};
+                charts.list.drawlist[i].options.vAxis = {title: XAxis.name + " Axis"};
+                charts.list.drawlist[i].options.title = XAxis.name + " Graph";
+            }
+        }
+        
         // sort and limit datatable
         if (charts.list.drawlist[i].orderby)
             charts.list.dt.sort([ {column: parseInt(charts.list.drawlist[i].orderby) } ]);
@@ -115,31 +122,44 @@ charter.directive("googleChart",function(chartsManager){
         scope: true,
         templateUrl: "../res/htmlParts/chartTemplate.html",
         link: function($scope, $elem, $attr){
-            // create a draw function callback
-            $scope.charts.list.drawlist[$attr.chartNo] = [];
+            // set default parameters
             $scope.chart = $scope.charts.list.drawlist[$attr.chartNo];
-            // set default order
-            $scope.chart.orderby = 0;
+            $scope.chart.orderby = "0";
+            $scope.chart.XAxisID = "0";
+            $scope.chart.charttype = "AreaChart";
+            chartplace = $elem.find(".chartplace")[0];
             // draw function
             $scope.chart.draw =
                 function(){
-                    // set options  --- redo --
-                    options = $scope.chart.options;
-                    // get charttype
-                    if (!$scope.chart.charttype)
-                       $scope.chart.charttype = "AreaChart";
-                    // create chart element
-                    var googleChart = new google.visualization[$scope.chart.charttype]($elem.find(".chartplace")[0]);
-                    // build chart datatable
-                    dt = chartsManager.buildChartData($attr.chartNo);
-                    // draw
-                    googleChart.draw(dt,options);
-                    // check if hidden
-                    if ($scope.chart.charttype === "BubbleChart" || 
-                        $scope.chart.charttype === "ScatterChart" )
-                        $scope.chart.is_hidden = false;
+                    googleChart = new google.visualization[$scope.chart.charttype](chartplace);
+                    googleChart.draw(chartsManager.buildChartData($attr.chartNo),
+                                     $scope.chart.options);
+                    
+                    // hide what must be hidden
+                    if ($scope.chart.charttype === "Table")
+                    {
+                        $scope.is_field_hidden.X = true;
+                        $scope.is_field_hidden.Y = true;
+                        $scope.is_field_hidden.Weight = true;
+                        $scope.is_field_hidden.OrderBy = true;
+                        $scope.is_field_hidden.Limit = true;
+                    }
+                    else if ($scope.chart.charttype === "BubbleChart")
+                    {
+                        $scope.is_field_hidden.X = false;
+                        $scope.is_field_hidden.Y = false;
+                        $scope.is_field_hidden.Weight = false;
+                        $scope.is_field_hidden.OrderBy = false;
+                        $scope.is_field_hidden.Limit = false;
+                    }
                     else
-                        $scope.chart.is_hidden = true;
+                    {
+                        $scope.is_field_hidden.X = false;
+                        $scope.is_field_hidden.Y = true;
+                        $scope.is_field_hidden.Weight = true;
+                        $scope.is_field_hidden.OrderBy = false;
+                        $scope.is_field_hidden.Limit = false;
+                    }
                 };
             // first draw 2times for "reasons"
             $scope.chart.draw();
@@ -151,17 +171,23 @@ charter.directive("googleChart",function(chartsManager){
     };
 });
 
-charter.controller("chartsController",function($scope,chartsManager){
-    // twoway data bind charts data
-    $scope.charts = chartsManager.getCharts();
-    $scope.setData = function(data){ chartsManager.setData(data); console.log(data); };
-    $scope.setParameters = function(data){ chartsManager.setParameters(data); console.log(data); };
-    
+charter.controller("chartsController",function($scope,$compile,chartsManager){
+    // define da ta
+    chartsManager.setData(rdata);
+    chartsManager.setParameters(rparams);
+    //get chart reference
+    $scope.charts = [];
+    $scope.is_field_hidden = {};
+    $scope.charts.list = [];
+    $scope.charts.list = chartsManager.getChartsList();
+    // set a watcher for the add chart button
+    i = 0;
     $('#addchart').click(function(){
-        alert("hi");
         chartsManager.addChart();
+        charttemplate = "<div google-chart chart-no=\""+i+"\"></div>";
+        $('#charts_place').append($compile(charttemplate)($scope));
+        i++;        
     });
     
-    $scope.setData(rdata);
-    $scope.setParameters(rparams);
+
 });
