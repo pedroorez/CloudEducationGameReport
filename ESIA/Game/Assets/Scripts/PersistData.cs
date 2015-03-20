@@ -5,8 +5,8 @@ using SimpleJSON;
 public class PersistData : MonoBehaviour {
 
 	// Domain reference
-//    public static string host = "http://104.236.6.158:4242";
-    public static string host = "http://localhost:8084";
+    public static string host = "http://104.236.6.158:4242";
+//    public static string host = "http://localhost:8084";
     public string domain;
 
 	// ESIa Services Variables 
