@@ -27,12 +27,13 @@ public class Transition : MonoBehaviour {
             singleton = this;
             text = (Text)GetComponentInChildren<Text>();
             background = (Image)GetComponentInChildren<Image>();
+
+            // set transition values
+            c = background.color;
+            tc = text.color;
         }
         else if (singleton != this) Destroy(gameObject); // else destroy current Manager
-        
-        // set transition values
-        c = background.color;
-        tc = text.color;
+
     }
 
     // Update is called once per frame
