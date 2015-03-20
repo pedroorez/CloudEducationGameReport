@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 screenPoint;
 	private Vector3 offset;
 
+    /*
 	// On Mouse down, get the current offset between the object and the user finger
 	void OnMouseDown() {
 		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
@@ -31,16 +32,33 @@ public class PlayerController : MonoBehaviour {
 	{	
 		//calculate the current x,y, input position
 		Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-		Vector3 curposition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+        movePlayer(curScreenPoint);
+	}
+    */
 
-		// Set the position of the ship
-		// The ship must follow the defined boundaries
-		transform.position = new Vector3
-		(	// Clamp is used to define the boundaries
-			Mathf.Clamp(curposition.x, boundary.xMin, boundary.xMax),
-			Mathf.Clamp(curposition.y, boundary.yMin, boundary.yMax),
-			transform.position.z
-		);
+    // Multitouch controller
+    void Update()
+    { 
+        Touch myTouch = Input.GetTouch(0);
+        movePlayer(myTouch.position);
+    }
+
+    //  Player Controller
+    void movePlayer(Vector3 input)
+    { 
+        // Get space position
+        Vector3 curposition = Camera.main.ScreenToWorldPoint(input) + offset;
+        if (curposition.y > -7)
+        {
+            // Set the position of the ship
+            // The ship must follow the defined boundaries
+            transform.position = new Vector3
+            (	// Clamp is used to define the boundaries
+                Mathf.Clamp(curposition.x, boundary.xMin, boundary.xMax),
+                Mathf.Clamp(curposition.y, boundary.yMin, boundary.yMax),
+                transform.position.z
+            );
+        }
 	}
 
 	// Callback buttom function.
