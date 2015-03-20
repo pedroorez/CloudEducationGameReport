@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour {
     { 
         // Get space position
         Vector3 curposition = Camera.main.ScreenToWorldPoint(input) + offset;
-        if (curposition.y > -7)
+        if (curposition.y > -7 && curposition.y < 0)
         {
             // Set the position of the ship
             // The ship must follow the defined boundaries
