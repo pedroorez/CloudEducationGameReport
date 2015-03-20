@@ -38,9 +38,12 @@ public class PlayerController : MonoBehaviour {
 
     // Multitouch controller
     void Update()
-    { 
-        Touch myTouch = Input.GetTouch(0);
-        movePlayer(myTouch.position);
+    {
+        if (Input.touches.Length > 0)
+        {
+            Touch myTouch = Input.touches[0];
+            movePlayer(myTouch.position);
+        }
     }
 
     //  Player Controller
