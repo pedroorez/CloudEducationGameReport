@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.IO;
+using UnityEngine.UI;
 using SimpleJSON;
 using System.Runtime.Serialization.Formatters.Binary; 
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ public class AssetManager : MonoBehaviour {
     // loadingpanel ref
     public GameObject loadingPanel;
     GameObject deleteButton;
-
+    GameObject Percentage;
+    Text[] pertext;
 	// Queue Information
 	int downloadQueue = 0;
 	bool downloading = false;
@@ -18,7 +20,11 @@ public class AssetManager : MonoBehaviour {
     int downloadedFiles = 0;
 	static string domain;
 	string gameListPath;
-
+    float from = 0;
+    float to;
+    float perdown;
+    string totalPercentageString;
+    bool counterIsOver = false;    
     // root path for saving files
     string rootPath;
 	
@@ -86,7 +92,10 @@ public class AssetManager : MonoBehaviour {
 			filename = gamedata["playerAsset"][0]["imageFile"]["filename"].Value;
 			StartCoroutine(Downloader(filename,folder,domain + imgurl));
 		}
-		//confirm save
+        // get references for counter
+        Percentage = GameObject.FindGameObjectsWithTag("DownloadingPercentage")[0];
+        pertext = Percentage.GetComponentsInChildren<Text>();
+        //confirm save
         return true;
 
 	}
@@ -94,14 +103,30 @@ public class AssetManager : MonoBehaviour {
 	void Update(){
 		// Run the Next stuff after all downloads are complete
 		// It will run only one time
-        if (downloading && downloadQueue < 1){
-			downloading = false;
+        if (downloading && downloadQueue < 1 && counterIsOver){
+            Percentage = GameObject.FindGameObjectsWithTag("DownloadingPercentage")[0];
+            Text[] pertext = Percentage.GetComponentsInChildren<Text>();
+
+            totalPercentageString = "";
+            pertext[0].text = totalPercentageString;
+            pertext[1].text = totalPercentageString;
+            counterIsOver = false;
+            downloading = false;
+            from = 0;
+            to = 0;
             deleteButton.SetActive(true);
             loadingPanel.SetActive(false);
-            Debug.Log("0 - GAME DATA DOWNLOADED");
+
+            Debug.Log("100% - GAME DATA DOWNLOADED");
         }
         else if (downloading){
-            Debug.Log((totalQueueSize - downloadedFiles) * 100 / totalQueueSize);
+
+            to = 100 - (totalQueueSize - downloadedFiles) * 100 / totalQueueSize;
+            from = Mathf.Lerp(from, to, 0.1f);
+            totalPercentageString = Mathf.Round(from).ToString() + "%";
+            if (from > 99) counterIsOver = true;
+            pertext[0].text = totalPercentageString;
+            pertext[1].text = totalPercentageString;
         }
 	}
 
