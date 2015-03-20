@@ -137,10 +137,8 @@ public class Controller_LobbyMenu : MonoBehaviour {
         CanvasLoadingPanel.SetActive(true);
 		CanvasLobbyMenu.SetActive(false);
 		Canvas_List.SetActive(true);
-        JSONNode downloadedGames = AssetManager.singleton.LoadGamesData();
-        if (downloadedGames.Count > 0)
-            scrolllist.DrawOnList(downloadedGames, "downloadedList");
-        else showLobbyMenu();    
+        StartCoroutine(ESIa_GetDownloadedGameList());
+
         CanvasLoadingPanel.SetActive(false);
     }
 
@@ -217,6 +215,18 @@ public class Controller_LobbyMenu : MonoBehaviour {
 		JSONNode gamelist = JSON.Parse(www.text);
 		scrolllist.DrawOnList(gamelist,"fullOnlineList");
         CanvasLoadingPanel.SetActive(false);
-
     }
+    
+   	// get downloaded game list Callback
+	IEnumerator ESIa_GetDownloadedGameList() {
+        scrolllist.cleanList();
+        CanvasLoadingPanel.SetActive(true);
+        JSONNode downloadedGames = AssetManager.singleton.LoadGamesData();
+		yield return downloadedGames;
+        if (downloadedGames.Count > 0){
+            CanvasLoadingPanel.SetActive(false);
+            scrolllist.DrawOnList(downloadedGames, "downloadedList");
+        } else showLobbyMenu(); 
+    }
+   
 }
