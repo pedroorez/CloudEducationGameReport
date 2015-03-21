@@ -16,6 +16,9 @@ charter.service('chartsManager', function(){
     // a chart data model
     charts.list = { "options": [],
                     "drawlist":[]   };
+    //reset chart
+    this.resetData = function() {  charts.list = { "options": [],
+                                                   "drawlist":[]   };}
     // add a new chart
     this.addChart = function() {charts.list.drawlist.push([]);}
     // set the parameters
@@ -120,7 +123,7 @@ charter.directive("googleChart",function(chartsManager){
     return{
         restrict : "A",
         scope: true,
-        templateUrl: "../res/htmlParts/chartTemplate.html",
+        templateUrl: "/CloudGameReport/res/htmlParts/chartTemplate.html",
         link: function($scope, $elem, $attr){
             // set default parameters
             $scope.chart = $scope.charts.list.drawlist[$attr.chartNo];
@@ -171,23 +174,37 @@ charter.directive("googleChart",function(chartsManager){
     };
 });
 
-charter.controller("chartsController",function($scope,$compile,chartsManager){
-    // define da ta
-    chartsManager.setData(rdata);
-    chartsManager.setParameters(rparams);
-    //get chart reference
+charter.controller("chartsController",function($scope,$compile,chartsManager,$http){
     $scope.charts = [];
     $scope.is_field_hidden = {};
     $scope.charts.list = [];
-    $scope.charts.list = chartsManager.getChartsList();
+    $scope.charts.drawlist = [];
+
     // set a watcher for the add chart button
     i = 0;
     $('#addchart').click(function(){
         chartsManager.addChart();
         charttemplate = "<div google-chart chart-no=\""+i+"\"></div>";
         $('#charts_place').append($compile(charttemplate)($scope));
-        i++;        
+        i++;  
+        console.log($scope.charts);
+
     });
     
+    $scope.getEntryData = function(){
+        console.log("/CloudGameReport/generateJSONreport/"+$scope.gameEntryID+"/"+userID);
+        chartsManager.resetData();
+
+        $http.get("/CloudGameReport/generateJSONreport/"+$scope.gameEntryID+"/"+userID)
+            // if sucessful set data to the model
+            .success(function(responseData){
+                    chartsManager.setData(responseData.data);
+                    chartsManager.setParameters(responseData.parameters);
+                    console.log(responseData);
+                    i = 0;
+                    //get chart reference
+                    $scope.charts.list = chartsManager.getChartsList();
+        });
+    }
 
 });

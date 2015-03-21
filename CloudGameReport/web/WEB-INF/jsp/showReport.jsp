@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
     <head>
         <title>Cloud Game Report</title>
@@ -7,8 +8,7 @@
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
     </head>
      <script>
-        var rdata = ${ReportData};
-        var rparams = ${ReportParameters};
+        var userID = ${UserID};
      </script>
     <body>
         <div class="container">
@@ -27,10 +27,19 @@
             <center> <div  class="alert alert-success" role="alert">${sucessmsg}</div></center>
 
             <!--Main Box Div-->
-            <div class="container mainbox"  ng-controller="chartsController">
+            <div class="container mainbox"  ng-controller="chartsController" style="text-align: center;">
                 <h1 class="center"> Report Charter </h1>
-                <h4 class="center"> -- ${GameTypeName} | ${GameEntryName} -- </h4>
-                
+                <!--<h4 class="center"> -- ${GameTypeName} | ${GameEntryName} -- </h4>
+                - ${GameEntry.gameType.gametypeName}
+                -->
+                <label> Game Entry Name </label>
+                <select ng-change="getEntryData()" ng-model="gameEntryID" class="selectpicker">
+                    <option></option>
+                    <c:forEach var="GameEntry" items="${GameList}">
+                        <option value="${GameEntry.gameEntryID}">${GameEntry.gameName} </option>
+                    </c:forEach>
+                </select>
+                <br><br>
                 <div ng-repeat="(key, param) in charts.list.drawlist" 
                      google-chart chart-no="{{key}}" ></div>
                 
