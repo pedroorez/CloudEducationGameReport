@@ -109,15 +109,18 @@ public class ServicesController {
     
         QuestionDAO DAO;
         Boolean Result = false;
-        
+        Subscription sub;
         try {
             DAO = new QuestionDAO();
             SessionHash session = DAO.getSessionByHash(sessionhash);
+            sub = DAO.getSubscriptionByClassAndUser(ClassID, session.getUser().getUserID());
+
+            if(sub != null) return false;
+
             Result = DAO.subscribeToClass(session,ClassID);
             DAO.closeFactory();
         } catch (Exception e) {
         }
-        
         
         return Result;
 
