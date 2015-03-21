@@ -204,7 +204,23 @@ charter.controller("chartsController",function($scope,$compile,chartsManager,$ht
                     i = 0;
                     //get chart reference
                     $scope.charts.list = chartsManager.getChartsList();
-        });
+                    
+                    if(responseData.data.length === 0  || responseData.parameterslength === 0){
+                        $('#buttonplace').addClass("hide");
+                        $('#erroplace').removeClass("hide")
+                        $('#erroplace').html("<hr><h3> No data found for this game </h3><hr>")
+                    }
+                    else{
+                        $('#erroplace').addClass("hide");
+                        $('#buttonplace').removeClass("hide");
+                    }
+
+                    
+            })
+            .error(function(){
+                $('#erroplace').removeClass("hide")
+                $('#erroplace').html("<hr><h3> Error downloading chart data</h3><hr>")
+            })
     }
 
 });
