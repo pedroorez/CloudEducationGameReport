@@ -1,9 +1,9 @@
 <html>
     <head>
         <title>Cloud Game Report</title>
-        <link href="../res/css/intro.css" rel="stylesheet">
-        <link href="../res/css/mine-charts.css" rel="stylesheet">
-        <link href="../res/angular-chart/angular-chart.css" rel="stylesheet">
+        <link href="/CloudGameReport/res/css/intro.css" rel="stylesheet">
+        <link href="/CloudGameReport/res/css/mine-charts.css" rel="stylesheet">
+        <link href="/CloudGameReport/res/angular-chart/angular-chart.css" rel="stylesheet">
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
     </head>
      <script>
@@ -49,7 +49,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.js"></script>
-    <script type="text/javascript" src="../res/angular-chart/Chart.js"></script>
-    <script type="text/javascript" src="../res/angular-chart/angular-chart.js"></script>
-    <script type="text/javascript" src="../res/js/charter.js"></script>
+    <script type="text/javascript" src="/CloudGameReport/res/angular-chart/Chart.js"></script>
+    <script type="text/javascript" src="/CloudGameReport/res/angular-chart/angular-chart.js"></script>
+    <script type="text/javascript" src="/CloudGameReport/res/js/charter.js"></script>
 </html>
