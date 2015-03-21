@@ -63,8 +63,8 @@
                     
                     <form action="../addGame" method="POST">
                         <table>
-                            <tr>  <td>Game Name:</td> <td><input name="gameName" type="text"><br></td></tr>
-                            <tr>  <td>Game Reference: </td> <td><input name="gameReference" type="text"></td> </tr>
+                            <tr>  <td>Game Name:</td> <td><input name="gameName" type="text" required><br></td></tr>
+                            <tr>  <td>Game Reference: </td> <td><input name="gameReference" type="text" required></td> </tr>
                         </table>
 
                         <select class="selectpicker" name="gameType">

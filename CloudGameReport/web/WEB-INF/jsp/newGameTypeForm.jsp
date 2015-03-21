@@ -31,8 +31,8 @@
             <br>
                 <center>
                 <form action="../saveGameType" method="POST">
-                    New GameType Name: <input name="gameTypeName" type="text">
-                    <input id="amountOfFields" type="hidden" name="amoutOfFields" value="1">
+                    New GameType Name: <input name="gameTypeName" type="text" required>
+                    <input id="amountOfFields" type="hidden" name="amoutOfFields" value="1" >
                     <input type="hidden" name="classID" value="${ClassID}">
 
                     <div id="Fields"></div>     
@@ -61,14 +61,14 @@
 
                 var html =  '<hr>'+
                             '<table>'+
-                            '<tr><td>Parameter Name: </td> <td><input name="paramName_'+i+'" type="text"><br></td></tr>'+
-                            '<tr><td>Parameter Identificator: </td> <td><input name="paramIdentificator_'+i+'" type="text"><br></td></tr>'+
+                            '<tr><td>Parameter Name: </td> <td><input name="paramName_'+i+'" type="text" required><br></td></tr>'+
+                            '<tr><td>Parameter Identificator: </td> <td><input name="paramIdentificator_'+i+'" type="text" required><br></td></tr>'+
                             '<tr >'+
                             '    <td>Parameter Type :</td>'+
                             '    <td align="center">    '+
                             '<select class="selectpicker" name="paramType_'+i+'">'+
-                            '        <option value="string">String</option>'+
                             '        <option value="number">Number</option>'+
+                            '        <option value="string">String</option>'+
                             '    </select>'+
                             '    </td></tr>'+
                             ' </table>';

@@ -48,9 +48,9 @@
                 <form action="./createClass" method="POST">
                     <table align="center" >
                         
-                        <tr> <td>Class Name:</td><td> <input name="ClassName" type="text"/></td> </tr>
+                        <tr> <td>Class Name:</td><td> <input name="ClassName" type="text" required/></td> </tr>
 
-                        <tr><td>Class Description:</td><td> <input name="ClassDescription" type="text"/>   </td> </tr>
+                        <tr><td>Class Description:</td><td> <input name="ClassDescription" type="text" required/>   </td> </tr>
 
                         <tr><td align="center" colspan="3"><button type="submit" class="btn btn-default">Save Class</button><td></tr>
                     </table>
