@@ -730,13 +730,16 @@ public class QuestionDAO {
 
             session.getTransaction().commit();
             session.flush();
+            
+            if(SubscriptionList.size() < 1)
+                return null;
+            
+            Subscription sub = SubscriptionList.get(0);
+            return sub;
         } 
-        catch (HibernateException e) { e.printStackTrace(); } 
+        catch (HibernateException e) { return null; } 
         finally { session.close(); }
 
-        
-        return SubscriptionList.get(0);
-              
     }
     
 
