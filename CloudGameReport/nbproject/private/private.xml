@@ -4,7 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="CloudPowerSave"/>
         <group>
-            <file>file:/C:/Users/Pedro/Desktop/CloudEducationGameReport/CloudGameReport/src/java/com/cloudgamereport/model/User.java</file>
+            <file>file:/C:/Users/Pedro/Desktop/CloudEducationGameReport/CloudGameReport/web/res/js/charter.js</file>
+            <file>file:/C:/Users/Pedro/Desktop/CloudEducationGameReport/CloudGameReport/web/WEB-INF/jsp/newGameTypeForm.jsp</file>
+            <file>file:/C:/Users/Pedro/Desktop/CloudEducationGameReport/CloudGameReport/src/java/com/cloudgamereport/controller/ViewsController.java</file>
+            <file>file:/C:/Users/Pedro/Desktop/CloudEducationGameReport/CloudGameReport/src/java/com/cloudgamereport/DAO/QuestionDAO.java</file>
+            <file>file:/C:/Users/Pedro/Desktop/CloudEducationGameReport/CloudGameReport/src/java/com/cloudgamereport/controller/ServicesController.java</file>
         </group>
     </open-files>
 </project-private>
