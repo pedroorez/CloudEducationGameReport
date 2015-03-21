@@ -15,10 +15,9 @@
 
             <div class="masthead">
                 <ul class="nav nav-pills pull-right">
-                    <li><a href="../ClassesManager">Classes Manager</a></li>
-                    <li ><a href="../manageInstances/${ClassID}">Class Manager</a></li>
+                    <li><a href="/CloudGameReport/ClassesManager">Classes Manager</a></li>
                     <li class="active"><a>Game Report</a></li>
-                    <li ><a href="../logoff">Log Off</a></li>
+                    <li ><a href="/CloudGameReport/logoff">Log Off</a></li>
                 </ul>
                 <h3 >Cloud Game Report</h3>
             </div>
