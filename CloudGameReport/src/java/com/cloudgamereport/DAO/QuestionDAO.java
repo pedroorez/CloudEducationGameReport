@@ -565,7 +565,7 @@ public class QuestionDAO {
     /**************************************************************************************************/
 
     // get the gamelogs of a certain GAMETYPEVALUE of a certain GAMEENTRY
-    public List<Gamelog> getGameValueEntryList(int gameEntryID, int GameTypeValue) {
+    public List<Gamelog> getGameValueEntryList(int gameEntryID, int GameTypeValue, int userID) {
         List<Gamelog> GameValueEntry = null;
         Session session = sessionFactory.openSession();
         try {
@@ -573,7 +573,9 @@ public class QuestionDAO {
 
             Criteria criteria = session.createCriteria(Gamelog.class);
             criteria.add(Restrictions.eq("gameEntryID.gameEntryID", gameEntryID))
-                    .add(Restrictions.eq("gameTypeValue.gametypeValueID", GameTypeValue));
+                    .add(Restrictions.eq("gameTypeValue.gametypeValueID", GameTypeValue))
+                    .add(Restrictions.eq("Subscription.playerID.userID", userID));
+
             GameValueEntry = (List<Gamelog>) criteria.list();
 
             session.getTransaction().commit();
