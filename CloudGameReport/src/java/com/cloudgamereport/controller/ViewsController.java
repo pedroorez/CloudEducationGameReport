@@ -20,6 +20,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/")
@@ -263,8 +264,8 @@ public class ViewsController {
 
         try {
             DAO = new QuestionDAO();
-            DAO.addGameEntry(newGameEntry);
-        }
+            DAO.addGameEntry(newGameEntry); 
+       }
         catch (Exception e) { e.printStackTrace(); } 
         finally { DAO.closeFactory(); }
 
@@ -296,15 +297,18 @@ public class ViewsController {
     // function to generate the report of a centain game entry
     // it create a List of display entry that contain the data to be displayed
     // the loop get each data and fill the display entry list
-    @RequestMapping(value = "/generateReport/{gameEntryID}", method = RequestMethod.GET)
-    public String generateReport(HttpServletRequest request, @PathVariable int gameEntryID) {
+    @ResponseBody
+    @RequestMapping(value = "/generateJSONreport/{gameEntryID}/{userID}", method = RequestMethod.GET)
+    public String generateClassReport(HttpServletRequest request, 
+                                 @PathVariable int gameEntryID,
+                                 @PathVariable int userID){
         // Initiate values
         QuestionDAO DAO = null;
         List<Gamelog> logList = null;
         List<GameTypeValue> GameTypeValueList = null;
         GameEntry gameEntry = null;
         String reportParameters = "";
-        String reportData = "";
+        String reportData = "\"\"";
         JSONArray jsonreportdata = new JSONArray();
         try{
             DAO = new QuestionDAO();
@@ -315,16 +319,7 @@ public class ViewsController {
             
             //start data writing
             reportParameters += "[";
-            //add matchid paramters
-//            reportParameters += "{ \"type\":\"column\", "
-//                                    + "\"identifier\":\""+"matchid"+"\", "
-//                                    + "\"name\":\""+"Match ID"+"\","
-//                                    + "\"value\":\""+"string"+"\" },";
-//            // add player paramters
-//            reportParameters += "{ \"type\":\"column\", "
-//                                    + "\"identifier\":\""+"player"+"\", "
-//                                    + "\"name\":\""+"Player Name"+"\","
-//                                    + "\"value\":\""+"string"+"\" },";
+
             // loop trought all the typeValue
             for (GameTypeValue typeValue : GameTypeValueList) {
                 //add a parrameters
@@ -334,32 +329,35 @@ public class ViewsController {
                                     + "\"value\":\""+typeValue.getParamType()+"\" },";
                 
                 // get log list
-                logList = DAO.getGameValueEntryList(gameEntryID, typeValue.getGametypeValueID());
-                for (int i =0; i < logList.size(); i++)
-                {   
-                    Gamelog logentry = logList.get(i);
-                    JSONObject data = null;
-                    try{
-                        data = jsonreportdata.getJSONObject(i);
-                    }catch(Exception e){data = new JSONObject();}
-                    
-                    
-                     // insert match and player on the first columns
-                    if(!isMatchInserted)
-                        data.accumulate("matchid", logentry.getMatchID());
-                    if(!isPlayerInserted)
-                        data.accumulate("player", logentry.getSubscription().getPlayerID().getFullName());
-                    
-                    data.accumulate(typeValue.getParamIdentificator(), logentry.getDataValue());
-                    
-                    // save data
-                    jsonreportdata.put(i, data);
+                logList = DAO.getGameValueEntryList(gameEntryID, typeValue.getGametypeValueID(), userID);
+                if (logList != null){
+                    for (int i =0; i < logList.size(); i++)
+                    {   
+                        Gamelog logentry = logList.get(i);
+                        JSONObject data = null;
+                        try{
+                            data = jsonreportdata.getJSONObject(i);
+                        }catch(Exception e){data = new JSONObject();}
+
+                        // insert match and player on the first columns
+                        if(!isMatchInserted)
+                            data.accumulate("matchid", logentry.getMatchID());
+                        if(!isPlayerInserted)
+                            data.accumulate("player", logentry.getSubscription().getPlayerID().getFullName());
+
+                        data.accumulate(typeValue.getParamIdentificator(), logentry.getDataValue());
+
+                        // save data
+                        jsonreportdata.put(i, data);
+                    }
                 }
                 // close match e player parameters
                 isMatchInserted = true;
                 isPlayerInserted = true;
             } 
             // close data writing
+            if(reportParameters.length() > 10)
+                reportParameters = reportParameters.substring(0, reportParameters.length()-1);
             reportParameters += "]";
             // show data
             reportData = jsonreportdata.toString();
@@ -368,17 +366,10 @@ public class ViewsController {
         }
         catch (Exception e) { e.printStackTrace(); } 
         finally { DAO.closeFactory(); }
-        // Save the Data on the request
-        request.setAttribute("GameReference", gameEntry.getGameReference());
-        request.setAttribute("GameEntryName", gameEntry.getGameName());
-        request.setAttribute("ClassID", gameEntry.getClasse().getClassID());
-        request.setAttribute("GameTypeName", gameEntry.getGameType().getGametypeName());
-        request.setAttribute("ReportParameters", reportParameters);
-        request.setAttribute("ReportData", reportData);
 
-        
+        String json = "{\"data\":"+reportData+", \"parameters\": "+reportParameters+"}";
         // go to showreport page
-        return "showReport";
+        return json;
     }
 
     /**************************************************************************************************/
