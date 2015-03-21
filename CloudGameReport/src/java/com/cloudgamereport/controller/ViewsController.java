@@ -271,7 +271,28 @@ public class ViewsController {
         return "redirect:/manageInstances/" + request.getParameter("classID");
     }
     /**************************************************************************************************/
-
+    
+    @RequestMapping(value = "/generateReport/{classID}/{userID}", method = RequestMethod.GET)
+    public String generateStudentReport(HttpServletRequest request, 
+                                 @PathVariable int classID,
+                                 @PathVariable int userID){
+        
+        List<GameEntry> gamelist = null;
+        QuestionDAO DAO= null;
+        
+        try{
+            DAO = new QuestionDAO();
+            gamelist = DAO.getGameEntryListByClassID(classID);
+        }catch(Exception e){}
+        
+        request.setAttribute("GameList", gamelist);
+        request.setAttribute("UserID", userID);
+        
+        // go to showreport page
+        return "showReport";
+        
+    }
+    
     // function to generate the report of a centain game entry
     // it create a List of display entry that contain the data to be displayed
     // the loop get each data and fill the display entry list
