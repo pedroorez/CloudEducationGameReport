@@ -574,8 +574,8 @@ public class QuestionDAO {
             Criteria criteria = session.createCriteria(Gamelog.class);
             criteria.add(Restrictions.eq("gameEntryID.gameEntryID", gameEntryID))
                     .add(Restrictions.eq("gameTypeValue.gametypeValueID", GameTypeValue))
-                    .add(Restrictions.eq("Subscription.playerID.userID", userID));
-
+                    .add(Restrictions.eq("knd.userID", userID))
+                    .createAlias("subscription.playerID", "knd");
             GameValueEntry = (List<Gamelog>) criteria.list();
 
             session.getTransaction().commit();
