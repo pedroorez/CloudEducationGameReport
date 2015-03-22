@@ -41,8 +41,8 @@
                 <br><br>
                 <div ng-repeat="(key, param) in charts.list.drawlist" 
                      google-chart chart-no="{{key}}" ></div>
-                <div id="buttonplace">
-                    <button id="addchart" class="btn btn-large btn-primary hide">ADD A NEW CHART</button>
+                <div id="buttonplace" class="hide">
+                    <button id="addchart" class="btn btn-large btn-primary">ADD A NEW CHART</button>
                 </div>
             
                 <div id="erroplace" class="hide">  </div>

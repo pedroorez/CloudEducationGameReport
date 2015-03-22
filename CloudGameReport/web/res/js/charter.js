@@ -205,9 +205,9 @@ charter.controller("chartsController",function($scope,$compile,chartsManager,$ht
                     //get chart reference
                     $scope.charts.list = chartsManager.getChartsList();
                     
-                    if(responseData.data.length === 0  || responseData.parameterslength === 0){
+                    if(responseData.data.length === 0  || responseData.parameters.length === 0){
                         $('#buttonplace').addClass("hide");
-                        $('#erroplace').removeClass("hide")
+                        $('#erroplace').removeClass("hide");
                         $('#erroplace').html("<hr><h3> No data found for this game </h3><hr>")
                     }
                     else{
