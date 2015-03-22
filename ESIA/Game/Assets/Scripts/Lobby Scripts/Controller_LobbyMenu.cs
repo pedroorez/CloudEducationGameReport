@@ -154,7 +154,9 @@ public class Controller_LobbyMenu : MonoBehaviour {
 		WWW www = new WWW(url);
 		Debug.Log(url);
 		yield return www;
-		if(!www.text.Equals("no shit happened")){
+
+        if (www.error == null && !www.text.Equals("no shit happened"))
+        {
 			PersistData.singleton.CGRkey = www.text;
 			CanvasCGRMenuLogin.SetActive(false);
 			CanvasCGRMenuOptions.SetActive(true);
