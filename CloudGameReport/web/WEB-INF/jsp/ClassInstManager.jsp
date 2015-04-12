@@ -49,8 +49,8 @@
                                 <td>${EntryItem.gameReference}</td> 
                                 <td>
                                     <div class="btn-group pull-right">
-                                        <a href="../generateReport/${EntryItem.gameEntryID}">
-                                            <button type="button" class="btn btn-default btn-success">Game Report</button></a>
+<!--                                        <a href="../generateReport/${EntryItem.gameEntryID}">
+                                            <button type="button" class="btn btn-default btn-success">Game Report</button></a>-->
                                         <a href="../deleteGameEntry/${ClassInfo.classID}/${EntryItem.gameEntryID}">
                                             <button type="button" onclick="return confirm('Are you sure you want delete ${EntryItem.gameType.gametypeName} Class?')" class="btn btn-default btn-danger">Delete</button></a>
                                     </div>
