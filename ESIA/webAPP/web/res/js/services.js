@@ -103,9 +103,9 @@ services.factory('services', ['$http', '$q', function ($http, $q) {
                 });
          },
          //****************************//
-         createUser: function(nickname,password){
+         createUser: function(nickname,password, fullname){
                 var deferred = $q.defer();
-                requestPath = '/ESIa/createUser/'+nickname+'/'+password
+                requestPath = '/ESIa/createUser/'+nickname+'/'+password+'/'+fullname
                 return $http.get(requestPath)
                 // if sucessful set data to the model
                 .success(function(responseData){

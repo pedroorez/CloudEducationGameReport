@@ -80,9 +80,9 @@ ESIapp.controller('mainapp', function($scope,$location, DataManager){
 
 ESIapp.controller('signup', function($scope,$location, DataManager){
          // create user
-    $scope.createUser= function(nick,pass,passagain){
+    $scope.createUser= function(nick,pass,passagain, fullname){
         if(pass === passagain){
-            DataManager.createUser(nick,pass);
+            DataManager.createUser(nick,pass, fullname);
             console.log("opa, senha okay, criando usuario")
         }}
 });

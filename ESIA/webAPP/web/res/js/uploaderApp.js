@@ -140,12 +140,16 @@ uploaderApp.service('DataManager', function($parse,services,$location,$q,$cookie
         return Game;
     }
     // get fullgame list
-    this.createUser = function(nick,pass){
-        services.createUser(nick,pass)
+    this.createUser = function(nick,pass, fullname){
+        services.createUser(nick,pass,fullname)
                 .then(function(promisse){
-                    if(promisse.data.userID != -1 )
-                            loguser(nick,pass);
-                    })}
+                    if(promisse.data.userID != -1)
+                        {   console.log("logando")
+                            loguser(nick,pass);}
+                    else{console.log("nao foi possivel logar");
+                        alert("Sorry, This username is already been used")}
+                    }
+                )}
     this.createGame = function(){
         services.createGame(Game.Status.userhash.hash)
                 .then(function(response){
