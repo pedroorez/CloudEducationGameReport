@@ -64,15 +64,18 @@ public class ServicesController {
     }
     
     // signup
-    @RequestMapping(value = "/createUser/{nick}/{pass}", method = RequestMethod.GET)
-    @ResponseBody User createUser(@PathVariable String nick, @PathVariable String pass) throws Exception {
+    @RequestMapping(value = "/createUser/{nick}/{pass}/{fullname}", method = RequestMethod.GET)
+    @ResponseBody User createUser(@PathVariable String nick,
+                                  @PathVariable String pass,
+                                  @PathVariable String fullname) throws Exception {
         
         GameDAO GDAO = new GameDAO();
         
         User novoUsuario = new User();
         novoUsuario.setNickname(nick);
         novoUsuario.setPassword(pass);
-        
+        novoUsuario.setFullName(fullname);
+
         return GDAO.saveUser(novoUsuario);
     }
     
