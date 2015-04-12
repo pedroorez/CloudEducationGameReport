@@ -25,15 +25,17 @@
             <h1>Game Information</h1>
             <table  style='color:white;'>
                 <tr>
-                    <td><label>GameID:</label></td>
+                    <td><label>GameID: </label></td>
                     <td><input type="text" ng-model="result.Data.gameID" readonly/></td>
-                    <td><label>Creator Fullname:</label></td>
-                    <td><input type="text" ng-model="result.Data.creator.fullname" readonly/></td>
+                    <td width="10px"></td>
+                    <td><label>Creator Fullname: </label></td>
+                    <td><input type="text" ng-model="result.Data.creator.fullName" readonly/></td>
                 </tr>
                 <tr>
-                    <td><label>Game Name:</label></td>
+                    <td><label>Game Name: </label></td>
                     <td><input type="text" ng-model="result.Data.gameName" ng-blur="updateGameInfo()"/></td>
-                    <td><label>Game Description</label></td>
+                    <td width="10px"></td>
+                    <td><label>Game Description: </label></td>
                     <td><input type="text" ng-model="result.Data.description" ng-blur="updateGameInfo()"/></td>
                 </tr>
                 <br>
@@ -57,6 +59,17 @@
             </div>
         </div>
 
+        <div class="row text-center">
+            <div class="col-sm-12">
+                <h2>Answers</h2>
+                <!--<div ng-repeat="(keyy,enemy) in result.Data.answerList" track by keyy" class="animate-repeat">-->
+                    <asset-box entry-No="0" asset-type="answer" target-List="answerList"> </asset-box>
+                    <asset-box entry-No="1" asset-type="answer" target-List="answerList"> </asset-box>
+                    <asset-box entry-No="2" asset-type="answer" target-List="answerList"> </asset-box>
+                <!--</div>-->
+            </div> 
+       </div>
+        
         <div class="row text-center" >
             <div class="col-sm-12">
                 <h2>Enemies</h2>
@@ -72,11 +85,5 @@
             </div>
         </div>
 
-        <div class="row text-center">
-            <div class="col-sm-12">
-            <h2>Answers</h2>
-            <asset-box ng-repeat="(key,enemy) in result.Data.answerList " entry-No="{{key}}" asset-type="answer" target-List="answerList"> </asset-box>
-            </div>
-        </div>
     </div>
 </div>
