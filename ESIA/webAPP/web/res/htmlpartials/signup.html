@@ -8,10 +8,11 @@
                     <p style="font-size:10em; text-align: center;"><span class="glyphicon glyphicon-sunglasses"/></p>
                     <!--Sign Up Form-->
                       <form class="navbar-form " style="margin-right:15px;">
+                            <input type="text" ng-model="fullname" class="form-control" placeholder="Name"><br>
                             <input type="text" ng-model="nickname" class="form-control" placeholder="Nickname"><br>
                             <input type="password" ng-model="password" class="form-control" placeholder="Password"><br>
                             <input type="password" ng-model="passwordrepeat" class="form-control" placeholder="Confirm Password"><br><br>
-                            <center><button type="submit" ng-click="createUser(nickname,password,passwordrepeat)" class="btn btn-primary">Create Account</button></center>
+                            <center><button type="submit" ng-click="createUser(nickname,password,passwordrepeat, fullname)" class="btn btn-primary">Create Account</button></center>
                     </form> 
                       
                     </div>
