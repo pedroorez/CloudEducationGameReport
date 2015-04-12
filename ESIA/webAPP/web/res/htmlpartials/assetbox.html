@@ -1,12 +1,14 @@
 <div class='assetBox'>
     <input type="file" angular-File asset-type="{{attrs.assetType}}" target-List="{{attrs.targetList}}" style="display:none;"/>
     <center>
-        <button class="uploadButton btn btn-sm btn-success"> 
-            <span class="glyphicon glyphicon-open"/> UPLOAD </button>
-<!--        <button class="galleryButton btn btn-sm btn-primary"> 
-            <span class="glyphicon glyphicon-picture"/> GALLERY </button>-->
-        <button class="deleteButton btn btn-sm btn-danger" ng-show="attrs.assetType==='enemy'"> 
-            <span class="glyphicon glyphicon-remove"/> DELETE </button>
+        <div style="padding:5px">
+            <button class="uploadButton btn btn-sm btn-success"> 
+                <span class="glyphicon glyphicon-open"/> UPLOAD </button>
+    <!--        <button class="galleryButton btn btn-sm btn-primary"> 
+                <span class="glyphicon glyphicon-picture"/> GALLERY </button>-->
+            <button class="deleteButton btn btn-sm btn-danger" ng-show="attrs.assetType==='enemy'"> 
+                <span class="glyphicon glyphicon-remove"/> DELETE </button>
+        </div>
         <input ng-model="result.Data[attrs.targetList][attrs.entryNo].assetText" 
                type="text" placeholder="Asset Text"
                ng-show="attrs.assetType==='answer'"/>
@@ -16,6 +18,6 @@
                 ng-model="result.Data.enemyList[attrs.entryNo].rightans">
         </select>
         <br>
-        <img  class="imageAssetPreview" ng-src="{{result.Data[attrs.targetList][attrs.entryNo].imageFile.imgurl}}"/>
+        <img  style="padding:5px" class="imageAssetPreview" ng-src="{{result.Data[attrs.targetList][attrs.entryNo].imageFile.imgurl}}"/>
     </center>
 </div>
