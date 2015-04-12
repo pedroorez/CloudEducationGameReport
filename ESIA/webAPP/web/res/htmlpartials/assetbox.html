@@ -14,7 +14,7 @@
                ng-show="attrs.assetType==='answer'"/>
         <select style="width: 100%;"
                 ng-show="attrs.assetType==='enemy'"  
-                ng-options="ans.assetText for ans in result.Data.answerList"
+                ng-options="ans.assetText for ans in result.Data.answerList track by ans.id"
                 ng-model="result.Data.enemyList[attrs.entryNo].rightans">
         </select>
         <br>
