@@ -98,7 +98,7 @@ hidden { visibility: hidden; }
 
 
 .imageAssetPreview{
-	max-height:140px;
+	max-height:180px;
 	max-width: 190px;
         height: auto;
         width: auto;
