@@ -10,7 +10,7 @@ uploaderApp.service('DataManager', function($parse,services,$location,$q,$cookie
                 'backgroundAsset':[{}],
                 'playerAsset':[{}],
                 'answerList':[ ],
-                'enemyList':[ ] // { 'id':'1', 'filename':'', 'text':'Enemy 1', 'answerID':'1'}
+                'enemyList':[{}] // { 'id':'1', 'filename':'', 'text':'Enemy 1', 'answerID':'1'}
             };
     // fix the data structure
     fixDataStructure = function(){
@@ -101,6 +101,7 @@ uploaderApp.service('DataManager', function($parse,services,$location,$q,$cookie
                 Game.Data[targetList] = [];
             if(response.data !== null)
                 Game.Data[targetList][targetEntry] = response.data;
+            console.log(Game.Data)
         })
     }
     // log user
@@ -191,12 +192,20 @@ uploaderApp.directive('angularFile',function ($parse,DataManager) {
                 link: function (scope, element, attrs) {
                     element.bind('change', function(){
                         // upload and set a new asset using the file on this input file
-                        // this.setNewAsset = function(file,assetId,assetType,assetText,answerId,imageFileId, listtarge, entrytarget)
+                        // this.setNewAsset = function(file,assetId,assetType,assetText,
+                        //                             answerId,imageFileId, listtarge, entrytarget)
+                        
+                        key = parseInt(scope.attrs.entryNo) + 1
+                        
+                        if (scope.attrs.assetType === "answer")
+                            text = "Answer " + key
+                        else
+                            text = -1
                         
                         DataManager.updateAsset(element[0].files[0],
                                                 scope.result.Data[scope.attrs.targetList][scope.attrs.entryNo].id,
                                                 attrs.assetType,
-                                                -1,
+                                                text,
                                                 -1,
                                                 -1, 
                                                 scope.attrs.targetList,
