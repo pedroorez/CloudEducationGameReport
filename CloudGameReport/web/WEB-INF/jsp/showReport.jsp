@@ -27,10 +27,7 @@
 
             <!--Main Box Div-->
             <div class="container mainbox"  ng-controller="chartsController" style="text-align: center;">
-                <h1 class="center"> Report Charter </h1>
-                <!--<h4 class="center"> -- ${GameTypeName} | ${GameEntryName} -- </h4>
-                - ${GameEntry.gameType.gametypeName}
-                -->
+                <h1 class="center"> ${userData.fullName}'s Report Charter</h1>
                 <label> Game Entry Name </label>
                 <select ng-change="getEntryData()" ng-model="gameEntryID" class="selectpicker">
                     <option></option>
