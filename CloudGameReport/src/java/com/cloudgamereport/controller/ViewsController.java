@@ -29,10 +29,10 @@ public class ViewsController {
     // Servlet for Login
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String view_Login(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
-        
+        QuestionDAO DAO = null;
         try {
             // Ser Variables
-            QuestionDAO DAO = new QuestionDAO();
+            DAO = new QuestionDAO();
             User newuser = new User();
             int userID;
             
@@ -42,9 +42,6 @@ public class ViewsController {
             
             // Check password and set the an user ID
             userID = DAO.CheckUserPassword(newuser);
-            
-            //Close the factory
-            DAO.closeFactory();
             
             // Check if the user is valid.
             // If different than zero then the user is valid
@@ -59,9 +56,8 @@ public class ViewsController {
                 request.setAttribute("erromsg", "Sorry, wrong password. Try again or create a new account.");
                 return "index";
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
+        finally { DAO.closeFactory(); }
         
         // Goto index page
         return "index";
@@ -280,15 +276,16 @@ public class ViewsController {
         
         List<GameEntry> gamelist = null;
         QuestionDAO DAO= null;
-        
+        User current_user = null;
         try{
             DAO = new QuestionDAO();
             gamelist = DAO.getGameEntryListByClassID(classID);
+            current_user = DAO.getUserByID(userID);
         }catch(Exception e){}
-        
+        finally { DAO.closeFactory(); }
         request.setAttribute("GameList", gamelist);
         request.setAttribute("UserID", userID);
-        
+        request.setAttribute("userData", current_user);
         // go to showreport page
         return "showReport";
         
@@ -394,7 +391,9 @@ public class ViewsController {
                                     + "\"value\":\""+typeValue.getParamType()+"\" },";
                 
                 // get log list
-                logList = DAO.getGameValueEntryList(gameEntryID, typeValue.getGametypeValueID(), userID);
+                logList = DAO.getGameValueEntryList(gameEntryID, 
+                                                    typeValue.getGametypeValueID(), 
+                                                    userID);
                 if (logList != null){
                     for (int i =0; i < logList.size(); i++)
                     {   
