@@ -212,6 +212,7 @@ charter.controller("chartsController",function($scope,$compile,chartsManager,$ht
                         $('#erroplace').html("<hr><h3> No data found for this game </h3><hr>")
                     }
                     else{
+                        addChart();
                         $('#erroplace').addClass("hide");
                         $('#buttonplace').removeClass("hide");
                     }
