@@ -17,8 +17,8 @@ public class GameController : MonoBehaviour {
     // Game Configuration
 	public GameObject hazard;
 	public Vector2 spawnValues;
-	public float spawnWait = 1;
-	public float startWait = 1;
+	public int spawnWait = 3;
+	public int startWait = 3;
 	public int hazardCount = 10;
 
 	// Aux Variables
@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour {
 	IEnumerator SpawnWaves(){
 		while (true){
 			// Wait time between waves
-			yield return new WaitForSeconds(startWait*5);
+			yield return new WaitForSeconds(startWait);
 
 			for(int i=0; i< hazardCount; i++)
 			{
