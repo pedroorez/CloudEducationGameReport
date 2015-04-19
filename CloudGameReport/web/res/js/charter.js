@@ -179,17 +179,18 @@ charter.controller("chartsController",function($scope,$compile,chartsManager,$ht
     $scope.is_field_hidden = {};
     $scope.charts.list = [];
     $scope.charts.drawlist = [];
-
-    // set a watcher for the add chart button
-    i = 0;
-    $('#addchart').click(function(){
+    
+    addChart = function(){
         chartsManager.addChart();
         charttemplate = "<div google-chart chart-no=\""+i+"\"></div>";
         $('#charts_place').append($compile(charttemplate)($scope));
         i++;  
         console.log($scope.charts);
-
-    });
+    }
+    
+    // set a watcher for the add chart button
+    i = 0;
+    $('#addchart').click(addChart());
     
     $scope.getEntryData = function(){
         console.log("/CloudGameReport/generateJSONreport/"+$scope.gameEntryID+"/"+userID);
