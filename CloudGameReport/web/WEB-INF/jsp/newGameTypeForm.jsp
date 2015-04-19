@@ -63,12 +63,12 @@
                             '<table>'+
                             '<tr><td>Parameter Name: </td> <td><input name="paramName_'+i+'" type="text" required><br></td></tr>'+
                             '<tr><td>Parameter Identificator: </td> <td><input name="paramIdentificator_'+i+'" type="text" required><br></td></tr>'+
-                            '<tr >'+
+                            '<tr style="display:none" >'+
                             '    <td>Parameter Type :</td>'+
                             '    <td align="center">    '+
-                            '<select class="selectpicker" name="paramType_'+i+'">'+
+                            '<select  "class="selectpicker" name="paramType_'+i+'">'+
                             '        <option value="number">Number</option>'+
-                            '        <option value="string">String</option>'+
+                            //'        <option value="string">String</option>'+
                             '    </select>'+
                             '    </td></tr>'+
                             ' </table>';
