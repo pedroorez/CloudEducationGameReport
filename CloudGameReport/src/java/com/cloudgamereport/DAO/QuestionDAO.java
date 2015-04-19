@@ -26,27 +26,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.security.SecureRandom;
 
+import org.hibernate.SessionFactory;
 
 public class QuestionDAO {
 
     protected EntityManager entityManager;
+    private SessionFactory sessionFactory;
 
-    private final SessionFactory sessionFactory;
-
-    // Session Factory Creator
+    // Session Factory Creator Singleton
     public QuestionDAO() throws Exception {
-        // A SessionFactory is set up once for an application
-        sessionFactory = new Configuration()
-                .configure() // configures settings from hibernate.cfg.xml
-                .buildSessionFactory();
+        if(sessionFactory == null){
+           SFactory sfactory = new SFactory();
+           sessionFactory = sfactory.sessionFactory;       
+        }
     }
-  
-    // Session Factory Destroyer
-    public void closeFactory() {
-        sessionFactory.close();
-    }
-
-    
     
     /**************************************************************************/
     /************************ Services Only Functions *************************/
