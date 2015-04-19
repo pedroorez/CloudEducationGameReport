@@ -66,7 +66,7 @@ charter.directive("googleChart",function(chartsManager){
                     // hide what must be hidden
                     if ($scope.chart.charttype === "Table")
                     {
-                        $scope.is_field_hidden.X = true;
+                        $scope.is_field_hidden.X = false;
                         $scope.is_field_hidden.Y = true;
                         $scope.is_field_hidden.Weight = true;
                         $scope.is_field_hidden.OrderBy = true;
