@@ -294,6 +294,71 @@ public class ViewsController {
         
     }
     
+    /**************************************************************************************************/
+    
+    @RequestMapping(value = "/gameReport/{GameEntryID}", method = RequestMethod.GET)
+    public String gameReport(HttpServletRequest request, 
+                             @PathVariable int GameEntryID){
+        
+        GameEntry gameentry = null;
+        QuestionDAO DAO= null;
+        List<GameTypeValue> GameTypeValueList = null;
+        List<Subscription> SubbedUserList = null;
+        String reportParameters = "";
+        List<Gamelog> logList = null;
+        JSONObject jsonreportdata = new JSONObject();
+        JSONArray typeDataSet = new JSONArray();
+        String reportData = null;
+
+        try{
+            // get parameters
+            DAO = new QuestionDAO();
+            gameentry = DAO.getGameEntryByID(GameEntryID);
+            GameTypeValueList = DAO.getGameValuesByTypeID(gameentry.getGameType().getGametypeID());
+            SubbedUserList = DAO.getSubscriptionListByClassID(gameentry.getClasse().getClassID());
+            // loop trought all the typeValue
+            reportParameters += "[";
+            for (GameTypeValue typeValue : GameTypeValueList) {
+                typeDataSet = new JSONArray();
+                // set a parameters value on the json
+                reportParameters += "{ \"type\":\"column\", "
+                                    + "\"identifier\":\""+typeValue.getParamIdentificator()+"\", "
+                                    + "\"name\":\""+typeValue.getParamName()+"\","
+                                    + "\"value\":\""+typeValue.getParamType()+"\" },";
+                // create data for that parameters
+                for (Subscription subbedStudent : SubbedUserList){
+                    logList = DAO.getGameValueEntryList(GameEntryID, 
+                                                        typeValue.getGametypeValueID(),
+                                                        subbedStudent.getPlayerID().getUserID());
+                    JSONArray data = new JSONArray();
+                    data.put(subbedStudent.getPlayerID().getFullName());
+                    if (logList != null){
+                        for (int i =0; i < logList.size(); i++){
+                            Gamelog logentry = logList.get(i);
+                            data.put(Integer.parseInt(logentry.getDataValue()));
+                        }
+                    }
+                    typeDataSet.put(data);
+                }
+                jsonreportdata.put(typeValue.getParamIdentificator(),typeDataSet);
+            }
+            // close data writing
+            if(reportParameters.length() > 10)
+                reportParameters = reportParameters.substring(0, reportParameters.length()-1);
+            reportParameters += "]";
+            reportData = jsonreportdata.toString();
+        }
+        catch(Exception e){}
+        finally { DAO.closeFactory(); }
+        
+        request.setAttribute("gameentry", gameentry);
+        request.setAttribute("reportParameters", reportParameters);
+        request.setAttribute("reportData", reportData);
+        
+        // go to showreport page
+        return "showGameReport";
+    }    
+
     // function to generate the report of a centain game entry
     // it create a List of display entry that contain the data to be displayed
     // the loop get each data and fill the display entry list
