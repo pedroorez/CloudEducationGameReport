@@ -93,7 +93,7 @@
                                     <a href="../Unsubscribe/${ClassInfo.classID}/${SubscriptionItem.subscriptionID}">
                                         <button type="button" onclick="return confirm('Unsubscribe ${SubscriptionItem.playerID.fullName}?')" class="btn btn-default btn-danger">Unsubscribe</button></a>
                                 <a href="../generateReport/${ClassInfo.classID}/${SubscriptionItem.playerID.userID}">
-                                        <button type="button" class="btn btn-default btn-success">Report</button></a>
+                                        <button type="button" class="btn btn-default btn-success"> Student Report</button></a>
                                 </div>
                             </td>
                         </tr>
