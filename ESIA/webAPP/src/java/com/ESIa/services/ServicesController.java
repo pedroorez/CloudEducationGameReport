@@ -71,7 +71,8 @@ public class ServicesController {
     
     // Receive nickname and password and log the user
     @RequestMapping(value = "/GetGameList/{hash}/{mode}", method = RequestMethod.GET)
-    @ResponseBody List<Game> getfullgamelist(@PathVariable String mode, @PathVariable String hash) throws Exception {
+    @ResponseBody List<Game> getfullgamelist(@PathVariable String mode, 
+                                             @PathVariable String hash) throws Exception {
         GameDAO GDAO = new GameDAO();
         Hash userHash = GDAO.getHash(hash);
         int userID = userHash.getUser().getUserID();
@@ -101,7 +102,8 @@ public class ServicesController {
     
     // Receive nickname and password and log the user
     @RequestMapping(value = "/GetGameData/{hash}/{GameID}", method = RequestMethod.GET)
-    @ResponseBody Game GetGameData(@PathVariable int GameID, @PathVariable String hash) throws Exception {
+    @ResponseBody Game GetGameData(@PathVariable int GameID, 
+                                   @PathVariable String hash) throws Exception {
         if(GameID == -1) return new Game();
         GameDAO GDAO = new GameDAO();
         Game loadedGame = GDAO.getGameDataById(GameID);
@@ -152,7 +154,8 @@ public class ServicesController {
     
     // Delete a game
     @RequestMapping(value = "/deleteGame/{hash}/{gameID}", method = RequestMethod.GET)
-    @ResponseBody boolean deleteGame(@PathVariable int gameID, @PathVariable String hash) throws Exception {
+    @ResponseBody boolean deleteGame(@PathVariable int gameID, 
+                                     @PathVariable String hash) throws Exception {
         GameDAO GDAO = new GameDAO();
         Game game = GDAO.getGameDataById(gameID);
         User hashUser = GDAO.getHash(hash).getUser();

@@ -65,15 +65,14 @@
                         <table>
                             <tr>  <td>Game Name:</td> <td><input name="gameName" type="text" required><br></td></tr>
                             <tr>  <td>Game Reference: </td> <td><input name="gameReference" type="text" required></td> </tr>
+                            <tr>  <td>Game Type: </td> <td>
+                                     <select class="selectpicker" name="gameType">
+                                        <c:forEach var="GameType" items="${GameTypeList}">
+                                            <option value="${GameType.gametypeID}">(ID:${GameType.gametypeID}) ${GameType.gametypeName}</option>
+                                        </c:forEach>
+                                    </select>
+                                </td> </tr>
                         </table>
-
-                        <select class="selectpicker" name="gameType">
-                            <c:forEach var="GameType" items="${GameTypeList}">
-                                <option value="${GameType.gametypeID}">(ID:${GameType.gametypeID}) ${GameType.gametypeName}</option>
-                            </c:forEach>
-                        </select>
-
-                        <br>
 
                         <input type="hidden" name="classID" value="${ClassInfo.classID}">
                         <button type="submit" class="btn btn-default btn-success">Add Game</button>
@@ -89,11 +88,10 @@
                         <tr>
                             <td>${SubscriptionItem.playerID.fullName} </td>
                             <td> <div class="btn-group pull-right">
-
+                                    <a href="../generateReport/${ClassInfo.classID}/${SubscriptionItem.playerID.userID}">
+                                        <button type="button" class="btn btn-default btn-success"> Student Report</button></a>
                                     <a href="../Unsubscribe/${ClassInfo.classID}/${SubscriptionItem.subscriptionID}">
                                         <button type="button" onclick="return confirm('Unsubscribe ${SubscriptionItem.playerID.fullName}?')" class="btn btn-default btn-danger">Unsubscribe</button></a>
-                                <a href="../generateReport/${ClassInfo.classID}/${SubscriptionItem.playerID.userID}">
-                                        <button type="button" class="btn btn-default btn-success"> Student Report</button></a>
                                 </div>
                             </td>
                         </tr>
