@@ -57,7 +57,7 @@ public class ViewsController {
                 return "index";
             }
         } catch (Exception e) {}
-        finally { DAO.closeFactory(); }
+        
         
         // Goto index page
         return "index";
@@ -100,7 +100,7 @@ public class ViewsController {
             session.setAttribute("ClassesList", ClassesList);
         } 
         catch (Exception e) { e.printStackTrace(); } 
-        finally { DAO.closeFactory(); }
+        
 
         return "ClassManager";
     }
@@ -116,7 +116,7 @@ public class ViewsController {
             DAO.deleteClassByID(ID);
         } 
         catch (Exception e) { e.printStackTrace(); } 
-        finally { DAO.closeFactory(); }
+        
         
         return "redirect:/ClassesManager";
     }
@@ -133,7 +133,7 @@ public class ViewsController {
             DAO.deleteGameEntry(ID);
         } 
         catch (Exception e) { e.printStackTrace(); } 
-        finally { DAO.closeFactory(); }
+        
         
         // Go to the last Manager Instance Page
         return "redirect:/manageInstances/" + classID;
@@ -165,7 +165,7 @@ public class ViewsController {
             }
         } 
         catch (Exception e) { e.printStackTrace(); } 
-        finally { DAO.closeFactory(); }
+        
         
         // Return the class manager
         return "ClassManager";
@@ -197,7 +197,7 @@ public class ViewsController {
             DAO.createNewClasse(newClasse);
         } 
         catch (Exception e) { e.printStackTrace(); } 
-        finally { DAO.closeFactory(); }
+        
 
         return "redirect:/ClassesManager";
     }
@@ -226,7 +226,7 @@ public class ViewsController {
             gametypeList = DAO.getGameTypeList();
         }
         catch (Exception e) { e.printStackTrace(); } 
-        finally { DAO.closeFactory(); }
+        
         
         // save the data to the user
         request.setAttribute("ClassInfo", instanceClasse);
@@ -263,7 +263,7 @@ public class ViewsController {
             DAO.addGameEntry(newGameEntry); 
        }
         catch (Exception e) { e.printStackTrace(); } 
-        finally { DAO.closeFactory(); }
+        
 
         return "redirect:/manageInstances/" + request.getParameter("classID");
     }
@@ -282,7 +282,7 @@ public class ViewsController {
             gamelist = DAO.getGameEntryListByClassID(classID);
             current_user = DAO.getUserByID(userID);
         }catch(Exception e){}
-        finally { DAO.closeFactory(); }
+        
         request.setAttribute("GameList", gamelist);
         request.setAttribute("UserID", userID);
         request.setAttribute("userData", current_user);
@@ -346,7 +346,7 @@ public class ViewsController {
             reportData = jsonreportdata.toString();
         }
         catch(Exception e){}
-        finally { DAO.closeFactory(); }
+        
         
         request.setAttribute("gameentry", gameentry);
         request.setAttribute("reportParameters", reportParameters);
@@ -429,7 +429,7 @@ public class ViewsController {
             System.out.print("\n" +reportData+"\n\n");
         }
         catch (Exception e) { e.printStackTrace(); } 
-        finally { DAO.closeFactory(); }
+        
 
         String json = "{\"data\":"+reportData+", \"parameters\": "+reportParameters+"}";
         // go to showreport page
@@ -472,7 +472,7 @@ public class ViewsController {
             }
         }
         catch (Exception e) { e.printStackTrace(); } 
-        finally { DAO.closeFactory(); }
+        
         
         return "redirect:/manageInstances/" + request.getParameter("classID");
     }
@@ -489,7 +489,7 @@ public class ViewsController {
             
         }
         catch (Exception e) { e.printStackTrace(); } 
-        finally { DAO.closeFactory(); }
+        
         
         return "redirect:/manageInstances/" + classID;
     }
@@ -506,7 +506,7 @@ public class ViewsController {
             
         }
         catch (Exception e) { e.printStackTrace(); } 
-        finally { DAO.closeFactory(); }
+        
         
         return "redirect:/manageInstances/" + classID;
     }
