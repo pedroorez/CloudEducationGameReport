@@ -10,7 +10,8 @@ public class GameController : MonoBehaviour {
 	public GameObject PauseMenu;
     public GameObject PauseButton;
 	public GameObject EndOfMatchPanel;
-	public Text displayText;
+    public Text displayText;
+    public GameObject displayTextBox;
     public Text displayTextGameOver;
 	public int score;
 
@@ -65,7 +66,7 @@ public class GameController : MonoBehaviour {
 	// Update function, keep the score updated
 	void Update(){ displayTextGameOver.text = displayText.text = "Score: " + score.ToString(); }
 
-	public void AddPoints(){ score += 10; }
+	public void AddPoints(int value){ score += value; }
 
 	public void EndOfMatch() {
 		StopCoroutine ("SpawnWaves");
@@ -75,7 +76,8 @@ public class GameController : MonoBehaviour {
         // disable butons
 		GameLoader loader = gameObject.GetComponent<GameLoader> ();
 		loader.DisableButtons ();
-		displayText.enabled = false;
+        displayText.enabled = false;
+        displayTextBox.SetActive(false);
 	    // Save Match
         StartCoroutine(CGR_saveMatch());
     }

@@ -3,8 +3,7 @@ using System.Collections;
 
 public class DestroyAsteroid : MonoBehaviour {
 //	// Explosion animations
-//	public GameObject explosion;
-//	public GameObject playerExplosion;
+	public GameObject explosion;
 
 	// Enemy Internal Value
 	public int ansValue;
@@ -18,7 +17,7 @@ public class DestroyAsteroid : MonoBehaviour {
 		// if the asteroid toch the player
 		if (other.tag == "Player") {
 			// Instantiate an explosion for the player ship
-			// Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
+            Instantiate(explosion, other.transform.position, other.transform.rotation);
 			GameController.Controller.EndOfMatch();
 			Destroy(other.gameObject);
 			Destroy (gameObject);
@@ -29,12 +28,17 @@ public class DestroyAsteroid : MonoBehaviour {
 
 		//Check if the value of a bolt is the same of the 
 		DestroyByTime checker = other.GetComponent<DestroyByTime> ();
-		if (checker.optionValue == ansValue) {
-			// If correct add points to the controller and destroy the Enemy
-			GameController.Controller.AddPoints();
-			Destroy (gameObject);
-			Destroy (other.gameObject);
-		}
+        if (checker.optionValue == ansValue)
+        {
+            // If correct add points to the controller and destroy the Enemy
+            GameController.Controller.AddPoints(10);
+            Instantiate(explosion, gameObject.transform.position, gameObject.transform.rotation);
+            Destroy(gameObject);
+            Destroy(other.gameObject);
+        }
+        else {
+            GameController.Controller.AddPoints(-5);
+        }
 		Destroy(other.gameObject);
 	}
 
