@@ -1,7 +1,7 @@
 # Cloud Game Report 
 ___
 THIS IS A WORK IN PROGRESS
-If you desire to learn more, contact: pedroorez (at) poli.ufrj.br
+If you desire to learn more, contact: pedroorez (at) poli.ufrj.br, under supervision of sbVB (sbvillasboas@gmail.com). www.sbvb.com.br
 ___
 ## About:
 Cloud Game Report is a cloud based tool with the objective to compile results of Educational Games in a single platform creating the possibility of analysis not able before, such as reports of students, classes, etc.
