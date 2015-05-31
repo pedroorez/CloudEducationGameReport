@@ -5,7 +5,7 @@ using SimpleJSON;
 public class PersistData : MonoBehaviour {
 
 	// Domain reference
-    public static string host = "http://104.236.6.158:4242";
+    public static string host = "http://104.236.6.158:8080";
 //    public static string host = "http://localhost:8084";
     public string domain;
 
