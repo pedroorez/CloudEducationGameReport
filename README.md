@@ -1,8 +1,6 @@
 # Cloud Game Report 
 
-___
-If you desire to learn more, contact: pedroorez@poli.ufrj.br, under supervision of sbVB (sbvillasboas@gmail.com). www.sbvb.com.br
-___
+If you desire to learn more or contribute to this project, contact: pedroorez@poli.ufrj.br, under supervision of sbVB (sbvillasboas@gmail.com). www.sbvb.com.br
 
 # About:
 Cloud Game Report is a cloud based tool with the objective to compile results of Educational Games in a single platform creating the possibility of analysis not able before, such as reports of students, classes, etc.
@@ -18,7 +16,6 @@ The following games were made on Unity4.6. Each one also have a web application 
 
 * **QuizQuest (Mobile + Web):** Educational quiz based game with RPG-like components creating an addictive way of learning.
 
-___
 
 # Seting up Project:
 
@@ -36,5 +33,4 @@ I case you want to use another IDE you will need to reimport the JAR files witch
 
 Both Games were develop using Unity3D 4.6 beta. Since it uses the new UI system you will need any version from unity newer than the 4.6 version
 
-___
 
