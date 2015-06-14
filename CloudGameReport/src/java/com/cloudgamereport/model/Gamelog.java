@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.OnDelete;
 
 @Entity
 @Table(name = "Gamelog")
@@ -17,7 +18,8 @@ public class Gamelog implements Serializable {
     private int gamelogID;
     
     @ManyToOne
-    @JoinColumn(name = "subscriptionID")
+    @JoinColumn(name = "subscriptionID")    
+    @OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private Subscription subscription;
     
     @ManyToOne

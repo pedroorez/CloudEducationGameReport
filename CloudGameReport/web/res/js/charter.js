@@ -130,10 +130,11 @@ charter.directive("googleChart",function(chartsManager){
             $scope.chart.orderby = "0";
             $scope.chart.XAxisID = "0";
             $scope.chart.charttype = "AreaChart";
-            chartplace = $elem.find(".chartplace")[0];
+            $scope.chart.chartplace = $elem.find(".chartplace")[0];
             // draw function
             $scope.chart.draw =
                 function(){
+                    chartplace = $scope.chart.chartplace
                     googleChart = new google.visualization[$scope.chart.charttype](chartplace);
                     googleChart.draw(chartsManager.buildChartData($attr.chartNo),
                                      $scope.chart.options);
@@ -190,7 +191,7 @@ charter.controller("chartsController",function($scope,$compile,chartsManager,$ht
     
     // set a watcher for the add chart button
     i = 0;
-    $('#addchart').click(addChart());
+    $('#addchart').click(function(){addChart()});
     
     $scope.getEntryData = function(){
         console.log("/CloudGameReport/generateJSONreport/"+$scope.gameEntryID+"/"+userID);

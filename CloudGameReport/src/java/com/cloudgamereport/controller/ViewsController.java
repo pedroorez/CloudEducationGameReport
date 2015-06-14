@@ -174,18 +174,19 @@ public class ViewsController {
         List<Subscription> studentSubscription = null;
         List<Subscription> PendingSubscriptions = null;
         List<GameType> gametypeList = null;
+        int amount = 0;
         try {
             DAO = new QuestionDAO();
-            
             instanceClasse = DAO.getClassByID(classID);
             gameEntryList = DAO.getGameEntryListByClassID(classID);
             studentSubscription = DAO.getSubscriptionListByClassID(classID);
             PendingSubscriptions = DAO.getPendingSubscriptions(classID);
             gametypeList = DAO.getGameTypeList();
+            amount = studentSubscription.size();
         }
         catch (Exception e) {} 
         request.setAttribute("ClassInfo", instanceClasse);
-        request.setAttribute("StudentsSubscribed", studentSubscription.size());
+        request.setAttribute("StudentsSubscribed", amount );
         request.setAttribute("GameEntryList", gameEntryList);
         request.setAttribute("SubscriptionList", studentSubscription);
         request.setAttribute("PendingSubscripitions", PendingSubscriptions);

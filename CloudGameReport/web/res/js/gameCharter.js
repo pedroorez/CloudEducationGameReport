@@ -53,12 +53,15 @@ charter.directive("googleChart",function(chartsManager){
         link: function($scope, $elem, $attr){
             // set default parameters
             $scope.chart = $scope.charts.list.drawlist[$attr.chartNo];
+            $scope.chart.no = parseInt($attr.chartNo)
             $scope.chart.XAxisID = "0";
             $scope.chart.charttype = "AreaChart";
-            chartplace = $elem.find(".chartplace")[0];
+            $scope.chart.chartplace = $elem.find(".chartplace")[0];
             // draw function
             $scope.chart.draw =
                 function(){
+                    $attr.chartNo = $scope.chart.no
+                    chartplace = $scope.chart.chartplace
                     googleChart = new google.visualization[$scope.chart.charttype](chartplace);
                     googleChart.draw(chartsManager.buildChartData($attr.chartNo),
                                      $scope.chart.options);
