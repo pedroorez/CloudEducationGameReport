@@ -118,7 +118,6 @@ public class ServicesController {
             Subscription sub = new Subscription();
             sub=DAO.getSubscriptionByClassAndUser(Entrada.getClasse().getClassID(), Session.getUser().getUserID());
             JSONObject my_obj = new JSONObject(data);
-            if(GameTypeValueList.size() > my_obj.length()) return false;
             int matchID = DAO.getNextMatchID();
             for (GameTypeValue GameTypeValue : GameTypeValueList) {
                 String datafield = my_obj.get(GameTypeValue.getParamIdentificator()).toString();

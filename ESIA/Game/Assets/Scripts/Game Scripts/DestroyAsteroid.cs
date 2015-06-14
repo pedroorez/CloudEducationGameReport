@@ -32,12 +32,14 @@ public class DestroyAsteroid : MonoBehaviour {
         {
             // If correct add points to the controller and destroy the Enemy
             GameController.Controller.AddPoints(10);
+            GameController.Controller.R_ANS();
             Instantiate(explosion, gameObject.transform.position, gameObject.transform.rotation);
             Destroy(gameObject);
             Destroy(other.gameObject);
         }
         else {
             GameController.Controller.AddPoints(-5);
+            GameController.Controller.W_ANS();
         }
 		Destroy(other.gameObject);
 	}

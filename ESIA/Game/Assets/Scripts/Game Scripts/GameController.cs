@@ -14,6 +14,9 @@ public class GameController : MonoBehaviour {
     public GameObject displayTextBox;
     public Text displayTextGameOver;
 	public int score;
+    public int w_ans; 
+    public int r_ans;
+    public float gameplay_time;
 
     // Game Configuration
 	public GameObject hazard;
@@ -34,7 +37,10 @@ public class GameController : MonoBehaviour {
 	void Start(){
 		Controller = this;
 		score = 0;
-		gamedata = PersistData.singleton.CurrentGame;
+        r_ans = 0;
+        w_ans = 0;
+        gameplay_time = 0;
+        gamedata = PersistData.singleton.CurrentGame;
 		randomRange = gamedata["enemyList"].Count;
 		gameObject.GetComponent<GameLoader>().LoadAssetsFromFile();
 		StartCoroutine("SpawnWaves");
@@ -64,9 +70,11 @@ public class GameController : MonoBehaviour {
     //              Aux Functions
     //********************************************//
 	// Update function, keep the score updated
-	void Update(){ displayTextGameOver.text = displayText.text = "Score: " + score.ToString(); }
+    void Update() { displayTextGameOver.text = displayText.text = "Score: " + score.ToString(); gameplay_time += Time.deltaTime; }
 
 	public void AddPoints(int value){ score += value; }
+    public void W_ANS() { w_ans += 1; }
+    public void R_ANS() { r_ans += 1; }
 
 	public void EndOfMatch() {
 		StopCoroutine ("SpawnWaves");
@@ -106,7 +114,11 @@ public class GameController : MonoBehaviour {
     // SaveMatch Service Callback
     IEnumerator CGR_saveMatch()
     {
-        string data = "{\"points\":\"" + score + "\"}";
+        string data = "{\"points\":\"" + score + "\",";
+        data += "\"w_ans\":\"" + w_ans + "\",";
+        data += "\"r_ans\":\"" + r_ans + "\",";
+        data += "\"time\":\"" + (int)gameplay_time + "\"}";
+        Debug.Log(data);
         string url = PersistData.singleton.url_cgr_saveData +
                      PersistData.singleton.CGRkey + "/" + 
                      PersistData.singleton.CGR_GameEntry_ID +"/" + 

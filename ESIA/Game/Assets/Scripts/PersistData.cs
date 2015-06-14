@@ -28,7 +28,7 @@ public class PersistData : MonoBehaviour {
 	public string ESIAkey;
 
 	// ESIa key for CGR login
-	public string ESIa_CGR_GameID = "1";
+	public string ESIa_CGR_GameID = "39";
     public string CGR_GameEntry_ID;
 
 	// Current Game JSONNode 

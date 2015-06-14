@@ -6,7 +6,7 @@
     <title>Educational Space Invaders - Advance Edition</title>
 </header>
 <body style="padding-top: 50px; 
-             background-image: url('http://goo.gl/yaDTmz'); background-repeat: repeat;">
+             background-image: url('/ESIa/res/fundo.png'); background-repeat: repeat;">
              <!--background-image: url('http://goo.gl/yaDTmz'); background-repeat: repeat;">-->
 
 <!--Navbar-->
