@@ -158,12 +158,14 @@ public class Controller_LobbyMenu : MonoBehaviour {
 		Debug.Log(url);
 		yield return www;
         Debug.Log(www.text);
-        if (www.error == null && www.text.Equals("NO GAME TYPE FOUND")) 
+        if (www.error != null)
+            ToasterController.singleton.popMessage(":o \n 404, Server error");
+        else if (www.text.Equals("NO GAME TYPE FOUND")) 
         {
             Debug.Log("should popup");
             ToasterController.singleton.popMessage("This Game is not registered ");
         }
-        else if (www.error == null && !www.text.Equals("no shit happened") && !www.text.Equals("NOT HASH") && !www.text.Equals(""))
+        else if ( !www.text.Equals("no shit happened") && !www.text.Equals("NOT HASH") && !www.text.Equals(""))
         {
 			PersistData.singleton.CGRkey = www.text;
 			CanvasCGRMenuLogin.SetActive(false);
