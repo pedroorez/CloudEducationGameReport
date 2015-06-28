@@ -10,6 +10,7 @@ import com.ESIa.model.User;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Iterator;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -87,8 +88,42 @@ public class ServicesController {
     // get all games list
     @RequestMapping(value = "/GetAllGamesList/", method = RequestMethod.GET)
     @ResponseBody List<Game> getfullgamelist() throws Exception {
-        GameDAO GDAO = new GameDAO();
-        return GDAO.getFullGameList();
+
+        List<Game> gamelist = null;
+        
+        try{
+            GameDAO GDAO = new GameDAO();
+            gamelist = GDAO.getFullGameList();
+            
+            System.out.print("\n\n PEGANDO \n");
+
+            for (Iterator<Game> gameIterator = gamelist.iterator(); gameIterator.hasNext();)
+            {
+                Game d = gameIterator.next();
+                Game s = GetOpenGameData(d.getGameID());
+
+                System.out.print("PLAYER? " + s.getPlayerAsset());
+                
+                if(s.getPlayerAsset()     == null ||
+                   s.getBackgroundAsset() == null ||
+                   s.getEnemyList()       == null ||
+                   s.getAnswerList()      == null ||
+                   s.getPlayerAsset().size()     < 1 ||
+                   s.getBackgroundAsset().size() < 1 || 
+                   s.getEnemyList().size()       < 1 ||
+                   s.getAnswerList().size()      < 3    )
+                    {
+                        System.out.print("\n\n REMOVENDO \n");
+                        gameIterator.remove();
+                    }
+            }
+        } 
+        catch(Exception e){
+            System.out.print("TA DANDO RUIM AQUI");
+            e.printStackTrace();
+        }
+        
+        return gamelist;
     }
 
     
