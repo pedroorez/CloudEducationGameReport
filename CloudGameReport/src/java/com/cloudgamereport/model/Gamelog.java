@@ -28,6 +28,7 @@ public class Gamelog implements Serializable {
     
     @ManyToOne
     @JoinColumn(name = "gameentryID")
+    @OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private GameEntry gameEntryID;
     
     private int matchID;
