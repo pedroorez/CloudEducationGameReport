@@ -271,7 +271,8 @@ public class Controller_LobbyMenu : MonoBehaviour {
         CanvasLoadingPanel.SetActive(true);
         JSONNode downloadedGames = AssetManager.singleton.LoadGamesData();
         yield return downloadedGames;
-		if (downloadedGames == null){
+        if (downloadedGames == null || downloadedGames.Count == 0)
+        {
             showLobbyMenu(); 
             Debug.Log("should popup");
             ToasterController.singleton.popMessage("Sorry =( \n No Game Downloaded Yet!");
