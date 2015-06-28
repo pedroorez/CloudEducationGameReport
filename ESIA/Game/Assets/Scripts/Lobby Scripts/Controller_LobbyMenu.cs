@@ -6,7 +6,7 @@ using SimpleJSON;
 public class Controller_LobbyMenu : MonoBehaviour {
 
     // Loading Panel Reference
-    public GameObject CanvasLoadingPanel;
+    GameObject CanvasLoadingPanel;
 
 	// GameObjects References
     public GameObject CanvasIntro;
@@ -37,6 +37,7 @@ public class Controller_LobbyMenu : MonoBehaviour {
     //*********************************************//
     void Start() {
         Transition.singleton.FadeIn();
+        CanvasLoadingPanel = LoadingPanelSingleton.singleton.gameObject;
     }
 
 	//*********************************************//
@@ -57,11 +58,13 @@ public class Controller_LobbyMenu : MonoBehaviour {
 		CanvasCGRMenu.SetActive(true);
 		CanvasLobbyMenu.SetActive(false);
         string key = PlayerPrefs.GetString("CGR_KEY");
-        if (key.Length != 0){
+        if (key.Length != 0)
+        {
             PersistData.singleton.CGRkey = key;
             CanvasCGRMenuLogin.SetActive(false);
             CanvasCGRMenuOptions.SetActive(true);
         }
+        
 	
     }
     // Go Back to Intro
@@ -154,14 +157,24 @@ public class Controller_LobbyMenu : MonoBehaviour {
 		WWW www = new WWW(url);
 		Debug.Log(url);
 		yield return www;
-
-        if (www.error == null && !www.text.Equals("no shit happened"))
+        Debug.Log(www.text);
+        if (www.error == null && www.text.Equals("NO GAME TYPE FOUND")) 
+        {
+            Debug.Log("should popup");
+            ToasterController.singleton.popMessage("This Game is not registered ");
+        }
+        else if (www.error == null && !www.text.Equals("no shit happened") && !www.text.Equals("NOT HASH") && !www.text.Equals(""))
         {
 			PersistData.singleton.CGRkey = www.text;
 			CanvasCGRMenuLogin.SetActive(false);
 			CanvasCGRMenuOptions.SetActive(true);
             PlayerPrefs.SetString("CGR_KEY", www.text);
 		}
+        else
+        {
+            Debug.Log("should popup");
+            ToasterController.singleton.popMessage("Sorry =( \n Wrong Password");
+        }
         CanvasLoadingPanel.SetActive(false);
 	}
 	// AvailableClasses Callback
@@ -174,8 +187,17 @@ public class Controller_LobbyMenu : MonoBehaviour {
 		Debug.Log(url);
 		yield return www;
 		Debug.Log(www.text);
-		JSONNode classesList = JSON.Parse(www.text);
-		scrolllist.DrawOnList(classesList,"availableClasses");
+        if (www.text.Equals("[]"))
+        {
+            Debug.Log("should popup");
+            ToasterController.singleton.popMessage("Sorry =( \n No Available Classes for this game");
+            showCGRMenu();
+        }
+        else
+        {
+            JSONNode classesList = JSON.Parse(www.text);
+            scrolllist.DrawOnList(classesList, "availableClasses");
+        }
         CanvasLoadingPanel.SetActive(false);
     }
 	// Request Subscription to Class Callback
@@ -187,9 +209,19 @@ public class Controller_LobbyMenu : MonoBehaviour {
 		WWW www = new WWW(url);
 		Debug.Log(url);
 		yield return www;
-        JSONNode classesList = JSON.Parse(www.text);
-        scrolllist.DrawOnList(classesList, "SubscribedClasses");
+        if (www.text.Equals("[]"))
+        {
+            Debug.Log("should popup");
+            ToasterController.singleton.popMessage("Sorry =( \n No Subscribed Classes Found");
+            showCGRMenu();
+        }
+        else
+        {
+            JSONNode classesList = JSON.Parse(www.text);
+            scrolllist.DrawOnList(classesList, "SubscribedClasses");
+        }
         CanvasLoadingPanel.SetActive(false);
+
     }
 
 	//********************************************//
@@ -214,8 +246,22 @@ public class Controller_LobbyMenu : MonoBehaviour {
 		WWW www = new WWW(url);
 		Debug.Log(url);
 		yield return www;
-		JSONNode gamelist = JSON.Parse(www.text);
-		scrolllist.DrawOnList(gamelist,"fullOnlineList");
+        if (www.error != null)
+        {
+            showLobbyMenu(); 
+            ToasterController.singleton.popMessage(":O \n Server Error \n 404");
+        }
+        else if (www.text.Equals("[]"))
+        {
+            showLobbyMenu();
+            Debug.Log("should popup");
+            ToasterController.singleton.popMessage("Sorry =( \n No Game Found");
+        }
+        else
+        {
+            JSONNode gamelist = JSON.Parse(www.text);
+            scrolllist.DrawOnList(gamelist, "fullOnlineList");
+        }
         CanvasLoadingPanel.SetActive(false);
     }
     
@@ -224,11 +270,15 @@ public class Controller_LobbyMenu : MonoBehaviour {
         scrolllist.cleanList();
         CanvasLoadingPanel.SetActive(true);
         JSONNode downloadedGames = AssetManager.singleton.LoadGamesData();
-		yield return downloadedGames;
-        if (downloadedGames.Count > 0){
+        yield return downloadedGames;
+		if (downloadedGames == null){
+            showLobbyMenu(); 
+            Debug.Log("should popup");
+            ToasterController.singleton.popMessage("Sorry =( \n No Game Downloaded Yet!");
+        } else if (downloadedGames.Count > 0){
             CanvasLoadingPanel.SetActive(false);
             scrolllist.DrawOnList(downloadedGames, "downloadedList");
-        } else showLobbyMenu(); 
+        }        
     }
    
 }

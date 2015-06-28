@@ -46,6 +46,8 @@ public class ServicesController {
         try {
             DAO = new QuestionDAO();
             SessionHash session = DAO.getSessionByHash(sessionhash);
+            if (session == null)
+                return null;
             SubscriptionList = DAO.getListOfSubscription(session.getUser(),session.getGameType().getGametypeID());
         } catch (Exception e) {
         }
@@ -62,6 +64,8 @@ public class ServicesController {
         try {
             DAO = new QuestionDAO();
             SessionHash session = DAO.getSessionByHash(sessionhash);
+            if (session == null)
+                return null;
             GameEntryList = DAO.getListOfClassGames(session);
         } catch (Exception e) {}
         return GameEntryList;
@@ -77,6 +81,8 @@ public class ServicesController {
         try {
             DAO = new QuestionDAO();
             SessionHash session = DAO.getSessionByHash(sessionhash);
+            if (session == null)
+                return null;
             ClasseList = DAO.getListOfClassesByGameID(session.getGameType().getGametypeID());
         } catch (Exception e) {}
         return ClasseList;
@@ -93,6 +99,8 @@ public class ServicesController {
         try {
             DAO = new QuestionDAO();
             SessionHash session = DAO.getSessionByHash(sessionhash);
+            if (session == null)
+                return null;
             sub = DAO.getSubscriptionByClassAndUser(ClassID, session.getUser().getUserID());
             if(sub != null) return false;
             Result = DAO.subscribeToClass(session,ClassID);
@@ -111,6 +119,8 @@ public class ServicesController {
         try {
             DAO = new QuestionDAO();
             SessionHash Session = DAO.getSessionByHash(sessionhash);
+            if (Session == null)
+                return false;
             User Usuario = Session.getUser();
             if (Usuario == null) return false;
             GameEntry Entrada = DAO.getGameEntryByID(GameEntry);

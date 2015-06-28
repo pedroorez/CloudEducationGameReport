@@ -48,11 +48,15 @@ public class QuestionDAO {
     // Function that log user and return a Hashkey to be used for services
     public String logUser(String nickname, String cripted_password, int GameID) {
         User usuario = getUserByNickname(nickname);
-        GameType Typo = new GameType();
-        Typo.setGameTypeID(GameID);
+        GameType typo = null;
+        if (usuario == null)
+            return null;
+        typo = getGameTypeByID(GameID);
+        if (typo == null)
+            return "NO GAME TYPE FOUND";
         if (usuario.getPassword().equals(cripted_password)) 
         {   
-            String Hash = hashcreate(usuario,Typo);
+            String Hash = hashcreate(usuario,typo);
             return String.valueOf(Hash);
         } else return "NOT HASH";
     }
@@ -90,7 +94,10 @@ public class QuestionDAO {
         } 
         catch (HibernateException e) { e.printStackTrace(); } 
         finally { session.close(); }
-        return SHash.get(0);
+        if (SHash.isEmpty())
+            return null;
+        else
+            return SHash.get(0);
     }
 
     
@@ -128,9 +135,24 @@ public class QuestionDAO {
         } 
         catch (HibernateException e) { e.printStackTrace(); } 
         finally { session.close(); }
+        if (UserList.isEmpty())
+            return null;
         return UserList.get(0);
     }
 
+    // Get a user by its given UserID
+    public GameType getGameTypeByID(int userID) {
+        GameType typo = null;
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            typo = (GameType) session.get(GameType.class, userID);
+            session.flush();
+        }
+        catch (HibernateException e) { e.printStackTrace(); } 
+        finally { session.close(); }
+        return typo;
+    }
     
     // Get a user by its given UserID
     public User getUserByID(int userID) {

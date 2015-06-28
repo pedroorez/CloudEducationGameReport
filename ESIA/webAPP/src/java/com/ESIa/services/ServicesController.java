@@ -38,6 +38,8 @@ public class ServicesController {
         User loggedUser;
         try{
             loggedUser = GDAO.getUserByNickname(nickname);
+            if (loggedUser == null)
+                return null;
         }catch(Exception e){ return null; }
         if( loggedUser.getPassword().equals(password) ){
             hashgen hgen = new hashgen();

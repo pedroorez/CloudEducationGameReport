@@ -135,7 +135,7 @@ public class ScrollableList : MonoBehaviour
 				// Set newItem Texts
                 Textos[0].text = N[i]["classe"]["className"].Value;
                 Textos[1].text = "Professor: " + N[i]["classe"]["professor"]["fullName"].Value;
-                Textos[2].text = "Class Description: " + N[i]["classe"]["classDescription"].Value;
+                Textos[2].text = "Game name: " + N[i]["gameName"].Value;
 				newItem.GetComponentInChildren<Button>()
                     .onClick.AddListener(() => CGR_LoadGame(gameReference, gameEntry));
 			}
@@ -181,14 +181,15 @@ public class ScrollableList : MonoBehaviour
 	void CGR_subscribeToClass(string classid){
 		StartCoroutine(CGR_requestSubscription(classid));
 	}
-    // CGR Load Game usin reference
+    // CGR Load Game using reference
     void CGR_LoadGame(string gameReference, string gameEntry) {
         JSONNode gamedata = AssetManager.singleton.getDownloadedGameById(gameReference);
         if (gamedata == null) {
+            //ToasterController.singleton.popMessage("Trying to Download Game");
             Debug.Log("Game Not Found, Trying to Download Game");
             StartCoroutine(ESIa_DownloadGameData_forCGR(gameReference));
             return ;
-            }
+        }
         PersistData.singleton.CGR_GameEntry_ID = gameEntry;
         PersistData.singleton.CurrentGame = gamedata; // save gamedata
         Transition.singleton.FadeOutTo("BattleScene");		  // load gamescene 
@@ -216,6 +217,12 @@ public class ScrollableList : MonoBehaviour
 		Debug.Log(url);
 		yield return www;
 		Debug.Log(www.text);
+        if (www.text.Equals("false"))
+            ToasterController.singleton.popMessage("You've Already Requested a Subscription to this Class");
+        else if (www.text.Equals("true"))
+            ToasterController.singleton.popMessage("=) \n Subscription Requested");
+        yield return null;
+
 	}
     // Download ESIa for CGR request
     IEnumerator ESIa_DownloadGameData_forCGR(string gameid)
@@ -226,10 +233,17 @@ public class ScrollableList : MonoBehaviour
         Debug.Log(url);
         yield return www;
         JSONNode gamedata = JSON.Parse(www.text);
-        if (gamedata == null) yield return null;
-        yield return AssetManager.singleton.DownloadGame(gamedata, null);
-        PersistData.singleton.CurrentGame = gamedata; // save gamedata
-        Transition.singleton.FadeOutTo("BattleScene");		  // load gamescene 
+        if (gamedata == null)
+        { 
+            ToasterController.singleton.popMessage("=| \n No GameData found");
+            yield return null; 
+        }
+        else {
+            AssetManager.singleton.load_after_download = true;
+            LoadingPanelSingleton.singleton.gameObject.SetActive(true);
+            PersistData.singleton.CurrentGame = gamedata; // save gamedata
+            yield return AssetManager.singleton.DownloadGame(gamedata, null);
+        }
     }
 
     public void cleanList(){

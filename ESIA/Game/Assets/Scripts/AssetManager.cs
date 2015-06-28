@@ -25,8 +25,11 @@ public class AssetManager : MonoBehaviour {
     float perdown;
     string totalPercentageString;
     bool counterIsOver = false;    
+
     // root path for saving files
     string rootPath;
+    public bool load_after_download = false;
+    public bool downloadcomplete = false;
 	
     // Singleton
 	public static AssetManager singleton;
@@ -46,7 +49,6 @@ public class AssetManager : MonoBehaviour {
         rootPath = Application.persistentDataPath;
 		gameListPath = rootPath +"/"+ "GameList.txt";
 		domain = PersistData.singleton.domain;
-        
     }
 
 	// Download function
@@ -114,13 +116,17 @@ public class AssetManager : MonoBehaviour {
             downloading = false;
             from = 0;
             to = 0;
-            deleteButton.SetActive(true);
-            loadingPanel.SetActive(false);
+            if (deleteButton != null)
+            {
+                deleteButton.SetActive(true);
+                loadingPanel.SetActive(false);
+            }
+            downloadcomplete = true;
+
 
             Debug.Log("100% - GAME DATA DOWNLOADED");
         }
         else if (downloading){
-
             to = 100 - (totalQueueSize - downloadedFiles) * 100 / totalQueueSize;
             from = Mathf.Lerp(from, to, 0.1f);
             totalPercentageString = Mathf.Round(from).ToString() + "%";
@@ -128,6 +134,15 @@ public class AssetManager : MonoBehaviour {
             pertext[0].text = totalPercentageString;
             pertext[1].text = totalPercentageString;
         }
+
+        //load after download complete
+        if (load_after_download && downloadcomplete)
+        {
+            load_after_download = downloadcomplete = false;
+            Transition.singleton.FadeOutTo("BattleScene");		  // load gamescene 
+            LoadingPanelSingleton.singleton.gameObject.SetActive(false);
+        }
+
 	}
 
 	// Callback function to download a texture from a urlpath into a file mamed filename
@@ -219,10 +234,15 @@ public class AssetManager : MonoBehaviour {
     public JSONNode getDownloadedGameById(string id)
     {
         JSONNode fullgamelist = LoadGamesData();
-        for (int i = 0; i < fullgamelist.Count; i++)
-            if (fullgamelist[i]["gameID"].Value.Equals(id)) return fullgamelist[i]; 
-        
-        return null;
+        if (fullgamelist != null)
+        {
+            for (int i = 0; i < fullgamelist.Count; i++)
+                if (fullgamelist[i]["gameID"].Value.Equals(id)) 
+                    return fullgamelist[i];
+            return null;
+        }
+        else
+            return null;
     }
 
 }
