@@ -15,7 +15,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "gameEntries")
 @OnDelete(action = OnDeleteAction.CASCADE)
-public class GameEntry implements Serializable {
+public class Activity implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int gameEntryID;

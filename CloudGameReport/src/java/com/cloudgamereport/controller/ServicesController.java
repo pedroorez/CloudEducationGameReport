@@ -2,9 +2,10 @@ package com.cloudgamereport.controller;
 
 import com.cloudgamereport.DAO.QuestionDAO;
 import com.cloudgamereport.model.Classe;
-import com.cloudgamereport.model.GameEntry;
+import com.cloudgamereport.model.Activity;
 import com.cloudgamereport.model.GameTypeValue;
 import com.cloudgamereport.model.Gamelog;
+import com.cloudgamereport.model.Match;
 import com.cloudgamereport.model.SessionHash;
 import com.cloudgamereport.model.Subscription;
 import com.cloudgamereport.model.User;
@@ -58,9 +59,9 @@ public class ServicesController {
     // Search for the list of subscriptions that a user have available for a certain GameID
     @RequestMapping(value = "/ListOfSubscribedGameEntries/{sessionhash}", method = RequestMethod.GET)
     public @ResponseBody
-    List<GameEntry> ListOfSubscribedGameEntries(@PathVariable String sessionhash) {
+    List<Activity> ListOfSubscribedGameEntries(@PathVariable String sessionhash) {
         QuestionDAO DAO;
-        List<GameEntry> GameEntryList = new ArrayList<GameEntry>();
+        List<Activity> GameEntryList = new ArrayList<Activity>();
         try {
             DAO = new QuestionDAO();
             SessionHash session = DAO.getSessionByHash(sessionhash);
@@ -116,19 +117,29 @@ public class ServicesController {
         QuestionDAO DAO;
         Boolean result = false; // default anwser
         List<GameTypeValue> GameTypeValueList = null;
+        Match newMatch = new Match();
         try {
+            System.out.println("COMECOU!");
+
             DAO = new QuestionDAO();
             SessionHash Session = DAO.getSessionByHash(sessionhash);
             if (Session == null)
                 return false;
             User Usuario = Session.getUser();
             if (Usuario == null) return false;
-            GameEntry Entrada = DAO.getGameEntryByID(GameEntry);
+            Activity Entrada = DAO.getGameEntryByID(GameEntry);
             GameTypeValueList = DAO.getGameValuesByTypeID(Entrada.getGameType().getGametypeID());
             Subscription sub = new Subscription();
             sub=DAO.getSubscriptionByClassAndUser(Entrada.getClasse().getClassID(), Session.getUser().getUserID());
             JSONObject my_obj = new JSONObject(data);
-            int matchID = DAO.getNextMatchID();
+            System.out.println("quase no match!");
+
+            newMatch.setAtividade(Entrada);
+            newMatch.setJogador(sub);
+            newMatch.setID(DAO.saveMatch(newMatch));
+            
+             System.out.println("passou do match!");
+           
             for (GameTypeValue GameTypeValue : GameTypeValueList) {
                 String datafield = my_obj.get(GameTypeValue.getParamIdentificator()).toString();
                 Gamelog NewLog = new Gamelog();
@@ -136,7 +147,7 @@ public class ServicesController {
                 NewLog.setSubscription(sub);
                 NewLog.setGameTypeValue(GameTypeValue);
                 NewLog.setGameentryID(Entrada);
-                NewLog.setMatchID(matchID);
+                NewLog.setMatch(newMatch);
                 result = DAO.saveGamelog(NewLog);
             }
         } catch (Exception e) {  }

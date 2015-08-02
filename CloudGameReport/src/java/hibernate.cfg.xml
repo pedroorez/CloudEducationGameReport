@@ -14,7 +14,8 @@
     <mapping class="com.cloudgamereport.model.Subscription"/>
     <mapping class="com.cloudgamereport.model.Gamelog"/>
     <mapping class="com.cloudgamereport.model.Classe"/>
-    <mapping class="com.cloudgamereport.model.GameEntry"/>
+    <mapping class="com.cloudgamereport.model.Activity"/>
+    <mapping class="com.cloudgamereport.model.Match"/>
     <mapping class="com.cloudgamereport.model.GameType"/>
     <mapping class="com.cloudgamereport.model.GameTypeValue"/>
   </session-factory>

@@ -1,10 +1,11 @@
 package com.cloudgamereport.DAO;
 
 import com.cloudgamereport.model.Classe;
-import com.cloudgamereport.model.GameEntry;
+import com.cloudgamereport.model.Activity;
 import com.cloudgamereport.model.GameType;
 import com.cloudgamereport.model.GameTypeValue;
 import com.cloudgamereport.model.Gamelog;
+import com.cloudgamereport.model.Match;
 import com.cloudgamereport.model.SessionHash;
 import com.cloudgamereport.model.Subscription;
 import com.cloudgamereport.model.User;
@@ -83,21 +84,19 @@ public class QuestionDAO {
     // Get a USER by the HASH
     public SessionHash getSessionByHash(String Hash) {
         Session session = sessionFactory.openSession();
-        List<SessionHash> SHash = new ArrayList<SessionHash>();
+        SessionHash SHash = new SessionHash();
         try {
             session.beginTransaction();
-            Criteria criteria = session.createCriteria(SessionHash.class);
-            criteria.add(Restrictions.eq("sessionHash", Hash));
-            SHash = (List<SessionHash>) criteria.list();
+            SHash = (SessionHash) session.get(SessionHash.class, Hash);
             session.getTransaction().commit();
             session.flush();
         } 
         catch (HibernateException e) { e.printStackTrace(); } 
         finally { session.close(); }
-        if (SHash.isEmpty())
+        if (SHash.equals(""))
             return null;
         else
-            return SHash.get(0);
+            return SHash;
     }
 
     
@@ -170,12 +169,12 @@ public class QuestionDAO {
 
     
     // get a GameEntrty by the given user ID
-    public GameEntry getGameEntryByID(int entryID) {
-        GameEntry GameEntryData = null;
+    public Activity getGameEntryByID(int entryID) {
+        Activity GameEntryData = null;
         Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
-            GameEntryData = (GameEntry) session.get(GameEntry.class, entryID);
+            GameEntryData = (Activity) session.get(Activity.class, entryID);
             session.flush();
         }
         catch (HibernateException e) { e.printStackTrace(); } 
@@ -271,6 +270,20 @@ public class QuestionDAO {
         return id;
     }
 
+    // Create a new Match
+    public int saveMatch(Match newmatch) {
+        int matchid = -1;
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            matchid = (int) session.save(newmatch);
+            session.getTransaction().commit();
+            session.flush();
+        }
+        catch (HibernateException e) { e.printStackTrace(); } 
+        finally { session.close(); }
+        return matchid;
+    }
     
     // Create a new Classe
     public void createNewClasse(Classe newClass) {
@@ -287,7 +300,7 @@ public class QuestionDAO {
 
     
     // Add a new Game Entry
-    public void addGameEntry(GameEntry newGameEntry) {
+    public void addGameEntry(Activity newGameEntry) {
         Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
@@ -406,7 +419,7 @@ public class QuestionDAO {
         Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
-            session.delete(session.get(GameEntry.class, ID));
+            session.delete(session.get(Activity.class, ID));
             session.getTransaction().commit();
             session.flush();
         }
@@ -433,14 +446,14 @@ public class QuestionDAO {
 
     
     // get a List of gameEntry related to a class given a classID
-    public List<GameEntry> getGameEntryListByClassID(int ID) {
-        List<GameEntry> GameEntryList = null;
+    public List<Activity> getGameEntryListByClassID(int ID) {
+        List<Activity> GameEntryList = null;
         Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
-            Criteria criteria = session.createCriteria(GameEntry.class);
+            Criteria criteria = session.createCriteria(Activity.class);
             criteria.add(Restrictions.eq("classe.classID", ID));
-            GameEntryList = (List<GameEntry>) criteria.list();
+            GameEntryList = (List<Activity>) criteria.list();
             session.getTransaction().commit();
             session.flush();
         } 
@@ -489,29 +502,6 @@ public class QuestionDAO {
         return GameValueEntry;
     }
 
-    
-    // get the the nex matchID available
-    public int getNextMatchID() {
-        int matchID = 0;
-        List<Gamelog> GameValueEntry = null;
-        Session session = sessionFactory.openSession();
-        try {
-            session.beginTransaction();
-            Criteria criteria = session.createCriteria(Gamelog.class);
-            criteria.addOrder(Order.desc("matchID"))
-                    .setMaxResults(1)
-                    .uniqueResult();
-            GameValueEntry = (List<Gamelog>) criteria.list();
-            if (GameValueEntry.isEmpty()) matchID = 1;
-            else  matchID = GameValueEntry.get(0).getMatchID() + 1;
-            session.getTransaction().commit();
-            session.flush();
-        }
-        catch (HibernateException e) { e.printStackTrace(); } 
-        finally { session.close(); }
-        return matchID;
-    }
-
     // service to subscribe to class
     public Boolean subscribeToClass(SessionHash sessionhash, int ClassID) {
         Session session = sessionFactory.openSession();
@@ -535,8 +525,8 @@ public class QuestionDAO {
     }
 
     // Get list of subscribedClasses
-    public List<GameEntry> getListOfClassGames(SessionHash sessionhash) {
-        List<GameEntry> GameEntryList = null;
+    public List<Activity> getListOfClassGames(SessionHash sessionhash) {
+        List<Activity> GameEntryList = null;
         Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
@@ -544,9 +534,9 @@ public class QuestionDAO {
             ownerCriteria.setProjection(Property.forName("classe.classID"));
             ownerCriteria.add(Restrictions.eq("playerID.userID", sessionhash.getUser().getUserID()));
             ownerCriteria.add(Restrictions.eq("status", "Okay"));
-            Criteria criteria = session.createCriteria(GameEntry.class);
+            Criteria criteria = session.createCriteria(Activity.class);
             criteria.add(Property.forName("classe.classID").in(ownerCriteria));
-            GameEntryList = (List<GameEntry>) criteria.list();
+            GameEntryList = (List<Activity>) criteria.list();
             session.getTransaction().commit();
             session.flush();
         }

@@ -29,31 +29,37 @@ public class Gamelog implements Serializable {
     @ManyToOne
     @JoinColumn(name = "gameentryID")
     @OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
-    private GameEntry gameEntryID;
+    private Activity gameEntryID;
     
-    private int matchID;
+    @ManyToOne
+    @OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+    private Match match;
     private String dataValue;
 
-    
-    
-    
-    
-    
-    
     /************************************************/
-    public int getMatchID() {
-        return matchID;
-    }
 
-    public void setMatchID(int matchID) {
-        this.matchID = matchID;
-    }
 
-    public GameEntry getGameentryID() {
+    public Activity getGameEntryID() {
         return gameEntryID;
     }
 
-    public void setGameentryID(GameEntry gameentryID) {
+    public void setGameEntryID(Activity gameEntryID) {
+        this.gameEntryID = gameEntryID;
+    }
+
+    public Match getMatch() {
+        return match;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
+    }
+
+    public Activity getGameentryID() {
+        return gameEntryID;
+    }
+
+    public void setGameentryID(Activity gameentryID) {
         this.gameEntryID = gameentryID;
     }
 

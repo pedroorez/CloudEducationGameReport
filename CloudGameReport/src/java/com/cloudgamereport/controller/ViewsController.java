@@ -2,7 +2,7 @@ package com.cloudgamereport.controller;
 
 import com.cloudgamereport.DAO.QuestionDAO;
 import com.cloudgamereport.model.Classe;
-import com.cloudgamereport.model.GameEntry;
+import com.cloudgamereport.model.Activity;
 import com.cloudgamereport.model.GameType;
 import com.cloudgamereport.model.GameTypeValue;
 import com.cloudgamereport.model.Gamelog;
@@ -170,7 +170,7 @@ public class ViewsController {
                                 HttpServletResponse response, HttpSession session, ModelMap model) {
         QuestionDAO DAO = null;
         Classe instanceClasse = new Classe();
-        List<GameEntry> gameEntryList = null;
+        List<Activity> gameEntryList = null;
         List<Subscription> studentSubscription = null;
         List<Subscription> PendingSubscriptions = null;
         List<GameType> gametypeList = null;
@@ -200,7 +200,7 @@ public class ViewsController {
     public String addGame(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         // Initiate Values
         QuestionDAO DAO = null;
-        GameEntry newGameEntry = new GameEntry();
+        Activity newGameEntry = new Activity();
         GameType game = new GameType();
         Classe sala = new Classe();
         sala.setClassID(Integer.valueOf(request.getParameter("classID")));
@@ -223,7 +223,7 @@ public class ViewsController {
                                  @PathVariable int classID,
                                  @PathVariable int userID){
         
-        List<GameEntry> gamelist = null;
+        List<Activity> gamelist = null;
         QuestionDAO DAO= null;
         User current_user = null;
         try{
@@ -243,7 +243,7 @@ public class ViewsController {
     public String gameReport(HttpServletRequest request, 
                              @PathVariable int GameEntryID){
         
-        GameEntry gameentry = null;
+        Activity gameentry = null;
         QuestionDAO DAO= null;
         List<GameTypeValue> GameTypeValueList = null;
         List<Subscription> SubbedUserList = null;
@@ -302,7 +302,7 @@ public class ViewsController {
         QuestionDAO DAO = null;
         List<Gamelog> logList = null;
         List<GameTypeValue> GameTypeValueList = null;
-        GameEntry gameEntry = null;
+        Activity gameEntry = null;
         String reportParameters = "";
         String reportData = "\"\"";
         JSONArray jsonreportdata = new JSONArray();
@@ -330,7 +330,7 @@ public class ViewsController {
                             data = jsonreportdata.getJSONObject(i);
                         }catch(Exception e){data = new JSONObject();}
                         if(!isMatchInserted)
-                            data.accumulate("matchid", logentry.getMatchID());
+                            data.accumulate("matchid", logentry.getMatch().getID());
                         if(!isPlayerInserted)
                             data.accumulate("player", logentry.getSubscription().getPlayerID().getFullName());
                         data.accumulate(typeValue.getParamIdentificator(), logentry.getDataValue());
