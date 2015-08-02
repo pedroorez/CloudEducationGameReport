@@ -14,7 +14,7 @@ public class WallpaperParalax : MonoBehaviour {
         if(position > 1.0f)
             position -= 1.0f;
 
-        renderer.material.mainTextureOffset =
+        GetComponent<Renderer>().material.mainTextureOffset =
             new Vector2(position, 
                         position);
     }

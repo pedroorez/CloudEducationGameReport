@@ -7,7 +7,7 @@ public class Mover : MonoBehaviour {
 
 	void Start(){
 		//set a initial speed to the bolt
-		rigidbody2D.velocity = transform.up * speed;
+		GetComponent<Rigidbody2D>().velocity = transform.up * speed;
 	}
 
 }
